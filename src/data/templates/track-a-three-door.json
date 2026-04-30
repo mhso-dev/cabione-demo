@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "track": "A",
+  "templateId": "track-a-three-door",
+  "family": "3도어장",
+  "familyDisplayName": "3도어장",
+  "reviewStatus": "needs_review",
+  "consultationGradeOnly": true,
+  "dwgAutomationRequired": false,
+  "constraints": {
+    "dimensions": {
+      "width": {
+        "min": 900,
+        "max": 1800,
+        "step": 50,
+        "defaultValue": 1200,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "height": {
+        "min": 600,
+        "max": 2200,
+        "step": 10,
+        "defaultValue": 1800,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "depth": {
+        "min": 450,
+        "max": 650,
+        "step": 10,
+        "defaultValue": 550,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "options": {
+      "doorCount": {
+        "allowedValues": [
+          3
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "install": {
+        "allowedValues": [
+          "legs",
+          "wall"
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "sliding": {
+      "state": "unavailable",
+      "reason": "3도어장 초안 규칙에서는 여닫이 기준",
+      "reviewStatus": "needs_review"
+    }
+  },
+  "defaults": {
+    "dimensions": {
+      "width": 1200,
+      "height": 1800,
+      "depth": 550
+    },
+    "options": {
+      "doorCount": 3,
+      "install": "legs"
+    }
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "schema_version": "track-b-manifest.v1",
+  "sample_id": "상부장-230r",
+  "consultation_grade_only": true,
+  "source_policy": {
+    "rule": "Only values directly read from the DWG bytes/tool output may use direct_dwg_* provenance. Filename, template, visual, or domain assumptions must be needs_review; missing geometry/dimensions are blockers.",
+    "forbidden_provenance": "do_not_label_uncertain_values_as_direct_dwg"
+  },
+  "files": {
+    "dwg": {
+      "path": "samples/상부장_230R.dwg",
+      "sha256": {
+        "value": "11f5da2a2b034a47d4a0971b03119f09b6a368f9477294a88e7f6fcc212b1496",
+        "provenance": "direct_dwg_file_hash",
+        "review_status": "accepted",
+        "mechanically_certain": true,
+        "note": "SHA-256 computed from the DWG file bytes."
+      },
+      "signature": {
+        "value": "DWG AutoDesk AutoCAD 2018/2019/2020",
+        "provenance": "direct_dwg_file_signature",
+        "review_status": "accepted",
+        "mechanically_certain": true,
+        "note": "macOS file(1) signature read directly from the DWG file."
+      }
+    },
+    "pdf": {
+      "path": "samples/상부장_230R.pdf",
+      "sha256": {
+        "value": "733748aa2da90888588cff7565dc26e62915264ffba432d9cdaf787d66de92d7",
+        "provenance": "direct_filesystem_hash",
+        "review_status": "accepted",
+        "mechanically_certain": true,
+        "note": "Companion PDF hash; not DWG geometry evidence."
+      },
+      "signature": {
+        "value": "PDF document, version 1.7, 1 pages",
+        "provenance": "direct_filesystem_signature",
+        "review_status": "accepted",
+        "mechanically_certain": true,
+        "note": "Companion PDF file signature; not DWG geometry evidence."
+      }
+    },
+    "png": {
+      "path": "samples/상부장_230R_1.png",
+      "sha256": {
+        "value": "4f4c8b21ae1ab7aaaf0798f6a470576c1367efd764dc28bfee465963410d9a6a",
+        "provenance": "direct_filesystem_hash",
+        "review_status": "accepted",
+        "mechanically_certain": true,
+        "note": "Companion PNG hash; not DWG geometry evidence."
+      },
+      "signature": {
+        "value": "PNG image data, 3508 x 2481, 8-bit/color RGBA, non-interlaced",
+        "provenance": "direct_filesystem_signature",
+        "review_status": "accepted",
+        "mechanically_certain": true,
+        "note": "Companion PNG file signature; not DWG geometry evidence."
+      }
+    }
+  },
+  "pairing": {
+    "status": "needs_review",
+    "review_status": "needs_review",
+    "provenance": "filesystem_name_match",
+    "mechanically_certain": false,
+    "note": "DWG/PDF/PNG stems match on disk, but pairing semantics were not extracted from DWG metadata."
+  },
+  "classification": {
+    "family": {
+      "value": "wall_cabinet",
+      "provenance": "filename_or_template_inferred",
+      "review_status": "needs_review",
+      "mechanically_certain": false,
+      "note": "Family label comes from the sample filename only, not from DWG entity inspection."
+    },
+    "display_name_ko": {
+      "value": "상부장",
+      "provenance": "filename_or_template_inferred",
+      "review_status": "needs_review",
+      "mechanically_certain": false,
+      "note": "Korean family label comes from the sample filename only."
+    },
+    "sample_stem": {
+      "value": "상부장_230R",
+      "provenance": "filename_or_template_inferred",
+      "review_status": "needs_review",
+      "mechanically_certain": false,
+      "note": "Sample stem is a filename observation, not direct DWG evidence."
+    }
+  },
+  "dwg_inspection": {
+    "direct_evidence_available": [
+      "dwg_file_hash",
+      "dwg_file_signature"
+    ],
+    "geometry_extraction_status": "blocker",
+    "text_layer_dimension_extraction_status": "blocker",
+    "tool_probe": {
+      "libredwg": {
+        "commands": [
+          "dwgread",
+          "dwg2dxf",
+          "dwg2json"
+        ],
+        "available": false
+      },
+      "oda_file_converter": {
+        "commands": [
+          "ODAFileConverter",
+          "odaFileConverter",
+          "TeighaFileConverter"
+        ],
+        "available": false
+      },
+      "ezdxf": {
+        "commands": [
+          "ezdxf",
+          "python3 -m ezdxf"
+        ],
+        "available": false
+      }
+    },
+    "blockers": [
+      "LibreDWG command-line tools were not available in this environment.",
+      "ODA/Teigha file converter was not available in this environment.",
+      "ezdxf command/module was not available and cannot read native DWG without conversion.",
+      "No direct DWG geometry, layer, block, text, or dimension entities were extracted; those values must not be labeled as direct DWG evidence."
+    ]
+  },
+  "extracted_values": {
+    "dimensions_mm": {
+      "value": null,
+      "provenance": "not_extracted_from_dwg",
+      "review_status": "blocker",
+      "mechanically_certain": false,
+      "note": "No width/height/depth dimensions were directly extracted from DWG entities."
+    },
+    "door_count": {
+      "value": null,
+      "provenance": "not_extracted_from_dwg",
+      "review_status": "blocker",
+      "mechanically_certain": false,
+      "note": "Door count was not directly extracted from DWG entities."
+    },
+    "hardware_options": {
+      "value": [],
+      "provenance": "not_extracted_from_dwg",
+      "review_status": "blocker",
+      "mechanically_certain": false,
+      "note": "Hardware/options were not directly extracted from DWG entities."
+    },
+    "layer_names": {
+      "value": [],
+      "provenance": "not_extracted_from_dwg",
+      "review_status": "blocker",
+      "mechanically_certain": false,
+      "note": "Layer names were not directly extracted from DWG entities."
+    },
+    "block_names": {
+      "value": [],
+      "provenance": "not_extracted_from_dwg",
+      "review_status": "blocker",
+      "mechanically_certain": false,
+      "note": "Block names were not directly extracted from DWG entities."
+    }
+  },
+  "draft_template": "data/draft-templates/상부장-230r.draft-template.json"
+}

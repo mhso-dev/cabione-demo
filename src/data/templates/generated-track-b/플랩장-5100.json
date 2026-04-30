@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "track": "B",
+  "id": "플랩장-5100",
+  "displayName": "플랩장_5100",
+  "sourceAssets": {
+    "dwg": "samples/플랩장_5100.dwg",
+    "pdf": "samples/플랩장_5100.pdf",
+    "png": "samples/플랩장_5100_1.png"
+  },
+  "dwgInspection": {
+    "filePath": "samples/플랩장_5100.dwg",
+    "fileName": "플랩장_5100.dwg",
+    "baseName": "플랩장_5100",
+    "sizeBytes": 230784,
+    "sha256": "57a51494a90562fe5efea54b4a8ff199461ab45ba443ed431bbff23ed9f95488",
+    "directInspection": true,
+    "header": {
+      "signature": "AC1021",
+      "versionLabel": "AutoCAD 2007/2008/2009 DWG",
+      "sourceKind": "dwg_header",
+      "reviewStatus": "dwg_header_inspected"
+    }
+  },
+  "dwgExtractionStatus": "blocked_by_tooling",
+  "blocker": "No local DWG entity extraction tool was available during this run.",
+  "values": {
+    "familyHint": {
+      "value": "unknown",
+      "sourceKind": "filename_hint",
+      "reviewStatus": "needs_review",
+      "note": "Weak filename hint only; not accepted as DWG-derived evidence."
+    },
+    "dimensions": {
+      "width": {
+        "value": null,
+        "unit": "mm",
+        "sourceKind": "blocked_by_tooling",
+        "reviewStatus": "needs_review"
+      },
+      "height": {
+        "value": null,
+        "unit": "mm",
+        "sourceKind": "blocked_by_tooling",
+        "reviewStatus": "needs_review"
+      },
+      "depth": {
+        "value": null,
+        "unit": "mm",
+        "sourceKind": "blocked_by_tooling",
+        "reviewStatus": "needs_review"
+      }
+    }
+  },
+  "filenameOnlyInferenceForbidden": true,
+  "dwgDerivedValues": []
+}

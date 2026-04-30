@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>욕실가구 비규격 발주서</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="home-screen">
+  <div class="home-shell">
+    <div class="home-eyebrow">CUSTOM ORDER · 비규격 발주서</div>
+    <h1 class="home-title">맞춤 도면을<br>직접 <span class="accent">설계하세요</span></h1>
+    <p class="home-sub">기존 모델을 선택하거나 처음부터 직접 그려서 옵션을 자유롭게 추가할 수 있습니다.</p>
+
+    <div class="home-choices">
+      <button class="choice-card" data-action="template">
+        <div class="choice-num">01 / TEMPLATE</div>
+        <div class="choice-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="4" y="6" width="14" height="28" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="22" y="6" width="14" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="22" y="21" width="14" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>모델 정하기</h3>
+        <p>기존 도면 템플릿을 선택해 빠르게 시작합니다.</p>
+        <div class="arrow">→</div>
+      </button>
+
+      <button class="choice-card" data-action="custom">
+        <div class="choice-num">02 / CUSTOM</div>
+        <div class="choice-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="6" y="6" width="28" height="28" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M14 14L26 26M26 14L14 26" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <h3>직접 그리기</h3>
+        <p>빈 도면에서 치수를 조정하며 처음부터 만듭니다.</p>
+        <div class="arrow">→</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPLATE SCREEN -->
+<div class="screen" id="template-screen">
+  <header class="top-bar">
+    <button class="back-btn" data-back="home" aria-label="뒤로">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <h2>모델 선택</h2>
+    <div class="top-meta">SELECT TEMPLATE</div>
+  </header>
+  <div class="template-scroll">
+    <div class="template-grid" id="template-grid"></div>
+  </div>
+</div>
+
+<!-- EDITOR SCREEN -->
+<div class="screen" id="editor-screen">
+  <aside class="panel" id="left-panel">
+    <div class="panel-head">
+      <button class="back-btn" data-back="auto" aria-label="뒤로">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="product-meta">
+        <div class="pname" id="ed-pname">제품명</div>
+        <div class="pcode" id="ed-pcode">CODE</div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="panel-section">
+        <h4>치수 (Dimensions)</h4>
+        <div class="field-row">
+          <div class="field">
+            <label>가로 W</label>
+            <div class="field-input">
+              <input type="number" id="in-width" min="100" max="3000" step="10" />
+              <span class="unit">mm</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>세로 H</label>
+            <div class="field-input">
+              <input type="number" id="in-height" min="100" max="3000" step="10" />
+              <span class="unit">mm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h4>옵션 추가 (Add)</h4>
+        <div class="opt-list">
+          <div class="opt-add" data-add="shelf">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="18" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+              선반
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+          <div class="opt-add" data-add="guidebar">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="2" rx="1" fill="currentColor"/><circle cx="6" cy="12" r="1.2" fill="white"/><circle cx="18" cy="12" r="1.2" fill="white"/></svg>
+              가이드바
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+          <div class="opt-add" data-add="outlet1">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+              1구 콘센트
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+          <div class="opt-add" data-add="outlet2">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="12" r="2" fill="currentColor"/><circle cx="15" cy="12" r="2" fill="currentColor"/></svg>
+              2구 콘센트
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h4>LED 색온도</h4>
+        <div class="led-options">
+          <div class="led-pill" data-led="warm">
+            <div class="led-swatch"></div>
+            <div class="led-label">전구색</div>
+          </div>
+          <div class="led-pill" data-led="neutral">
+            <div class="led-swatch"></div>
+            <div class="led-label">주백색</div>
+          </div>
+          <div class="led-pill" data-led="day">
+            <div class="led-swatch"></div>
+            <div class="led-label">주광색</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h4>배치된 항목</h4>
+        <div class="placed-list" id="placed-list">
+          <div class="empty-hint">아직 추가된 옵션이 없습니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-foot">
+      <button class="btn-primary" id="btn-summary">발주서 미리보기</button>
+    </div>
+  </aside>
+
+  <main class="canvas-area">
+    <button class="panel-toggle" id="panel-toggle" aria-label="메뉴">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+    <div class="canvas-toolbar">
+      <div class="tb-info">SCALE 1 : <strong id="tb-scale">--</strong></div>
+      <div class="tb-info">·</div>
+      <div class="tb-info">UNIT <strong>mm</strong></div>
+      <div class="tb-spacer"></div>
+      <button class="tb-btn" id="btn-fit" title="화면에 맞추기">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        FIT
+      </button>
+    </div>
+    <div class="canvas-host">
+      <svg id="canvas"></svg>
+      <div class="canvas-watermark">
+        <span class="wm-line">CUSTOM ORDER</span>
+        <span class="wm-line wm-accent" id="wm-code">--</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div class="modal-backdrop" id="summary-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>발주서 미리보기</h3>
+      <button class="modal-close" id="modal-close">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="summary-body"></div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="btn-copy">텍스트 복사</button>
+      <button class="btn-primary" id="btn-print">인쇄/PDF 저장</button>
+    </div>
+  </div>
+</div>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

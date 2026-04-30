@@ -1,0 +1,17 @@
+{
+  "name": "cabione-custom-order-designer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cabione custom bathroom furniture order designer",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check src/main.js",
+    "typecheck": "npm run check",
+    "lint": "node tools/lint-basic.mjs",
+    "build": "npm run check && npm run lint && npm test"
+  },
+  "dependencies": {
+    "@node-projects/acad-ts": "^2.3.0"
+  }
+}

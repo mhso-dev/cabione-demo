@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cabione consultation project schema",
+  "type": "object",
+  "required": ["projectId", "templateId", "family", "dimensions", "options", "metadata"],
+  "properties": {
+    "projectId": { "type": "string" },
+    "templateId": { "type": "string" },
+    "family": { "type": "string" },
+    "dimensions": {
+      "type": "object",
+      "required": ["width", "height", "depth"],
+      "properties": {
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "depth": { "type": "number" }
+      }
+    },
+    "options": { "type": "object" },
+    "metadata": { "type": "object" }
+  }
+}

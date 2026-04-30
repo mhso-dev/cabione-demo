@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>욕실가구 비규격 발주서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ec;
+    --surface: #ffffff;
+    --surface-2: #fbfaf6;
+    --ink: #1a1815;
+    --ink-2: #4a4742;
+    --ink-3: #807d77;
+    --line: #e3ddd2;
+    --line-2: #d4cdc0;
+    --accent: #c54a1f;
+    --accent-2: #a93c14;
+    --accent-soft: #f7e4d8;
+    --canvas-bg: #fafaf6;
+    --grid: #ebe5d8;
+    --grid-strong: #ddd5c4;
+    --dim: #6b6862;
+    --dim-active: #c54a1f;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 24px rgba(28,22,15,0.08);
+    --shadow-lg: 0 12px 48px rgba(28,22,15,0.14);
+    --radius: 4px;
+    --radius-lg: 8px;
+    --font-sans: 'Pretendard', -apple-system, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+
+  button { font-family: inherit; cursor: pointer; }
+  input, select { font-family: inherit; }
+
+  .screen {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+  }
+  .screen.active { display: flex; }
+
+  /* ========== HOME SCREEN ========== */
+  #home-screen {
+    background:
+      radial-gradient(circle at 18% 20%, rgba(197,74,31,0.06) 0%, transparent 40%),
+      radial-gradient(circle at 80% 75%, rgba(28,22,15,0.05) 0%, transparent 50%),
+      var(--bg);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .home-shell {
+    width: 100%;
+    max-width: 720px;
+    text-align: center;
+  }
+
+  .home-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 18px;
+  }
+  .home-eyebrow::before {
+    content: ''; display: inline-block;
+    width: 24px; height: 1px; background: var(--ink-3);
+    vertical-align: middle; margin-right: 10px; transform: translateY(-1px);
+  }
+
+  .home-title {
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0 0 16px;
+  }
+  .home-title .accent { color: var(--accent); }
+
+  .home-sub {
+    color: var(--ink-2);
+    font-size: 15px;
+    max-width: 460px;
+    margin: 0 auto 48px;
+  }
+
+  .home-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .choice-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    text-align: left;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .choice-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--ink);
+    box-shadow: var(--shadow);
+  }
+  .choice-card .choice-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.1em;
+  }
+  .choice-card .choice-icon {
+    margin: 16px 0 20px;
+  }
+  .choice-card h3 {
+    font-size: 22px;
+    margin: 0 0 6px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .choice-card p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .choice-card .arrow {
+    position: absolute;
+    bottom: 22px; right: 22px;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .choice-card:hover .arrow {
+    background: var(--accent);
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 600px) {
+    .home-choices { grid-template-columns: 1fr; }
+    .choice-card { padding: 22px 20px; }
+  }
+
+  /* ========== TEMPLATE SCREEN ========== */
+  #template-screen { background: var(--bg); }
+
+  .top-bar {
+    height: 56px;
+    display: flex; align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    flex-shrink: 0;
+    gap: 12px;
+  }
+  .top-bar .back-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .top-bar .back-btn:hover { background: var(--bg); border-color: var(--ink); }
+  .top-bar h2 {
+    margin: 0; font-size: 15px; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .top-bar .top-meta {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+  }
+
+  .template-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 20px 80px;
+  }
+  .template-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .template-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .template-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--ink);
+  }
+  .template-thumb {
+    aspect-ratio: 4 / 3;
+    background: var(--canvas-bg);
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid var(--line);
+    padding: 20px;
+    position: relative;
+  }
+  .template-thumb svg { width: 100%; height: 100%; }
+  .template-info {
+    padding: 14px 16px 16px;
+  }
+  .template-info .code {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .template-info .name {
+    font-size: 15px; font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .template-info .dim {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-2);
+  }
+
+  /* ========== EDITOR SCREEN ========== */
+  #editor-screen {
+    flex-direction: row;
+    background: var(--bg);
+  }
+
+  .panel {
+    width: 320px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    z-index: 20;
+  }
+  .panel-head {
+    height: 56px;
+    flex-shrink: 0;
+    display: flex; align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    gap: 10px;
+  }
+  .panel-head .back-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+  }
+  .panel-head .product-meta {
+    flex: 1;
+    min-width: 0;
+  }
+  .panel-head .product-meta .pname {
+    font-size: 14px; font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .panel-head .product-meta .pcode {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+  }
+
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 80px;
+  }
+
+  .panel-section {
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .panel-section h4 {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 12px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .field {
+    display: flex; flex-direction: column;
+    gap: 4px;
+  }
+  .field label {
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .field-input {
+    display: flex; align-items: center;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0 10px;
+    transition: border-color 0.15s;
+  }
+  .field-input:focus-within { border-color: var(--ink); background: var(--surface); }
+  .field-input input {
+    flex: 1; min-width: 0;
+    border: none; background: transparent;
+    padding: 9px 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+  }
+  .field-input .unit {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  .opt-list {
+    display: flex; flex-direction: column;
+    gap: 6px;
+  }
+  .opt-add {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+  .opt-add:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .opt-add .opt-name {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .opt-add .opt-icon {
+    width: 22px; height: 22px;
+    color: var(--ink-2);
+    flex-shrink: 0;
+  }
+  .opt-add .opt-plus {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .opt-add:hover .opt-plus { background: var(--accent); }
+
+  .led-options {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+  .led-pill {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 6px;
+    padding: 12px 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .led-pill:hover { border-color: var(--ink-3); }
+  .led-pill.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .led-pill .led-swatch {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--line-2);
+  }
+  .led-pill[data-led="warm"] .led-swatch { background: #ffd9a8; }
+  .led-pill[data-led="neutral"] .led-swatch { background: #fef3d4; }
+  .led-pill[data-led="day"] .led-swatch { background: #e8f1ff; }
+  .led-pill .led-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  .placed-list {
+    display: flex; flex-direction: column;
+    gap: 4px;
+  }
+  .placed-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .placed-item:hover { background: var(--accent-soft); }
+  .placed-item.selected { border-color: var(--accent); background: var(--accent-soft); }
+  .placed-item .pi-name { flex: 1; font-weight: 500; }
+  .placed-item .pi-coords { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); }
+  .placed-item .pi-del {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--ink-3);
+    cursor: pointer;
+  }
+  .placed-item .pi-del:hover { background: var(--ink); color: white; }
+  .empty-hint {
+    color: var(--ink-3);
+    font-size: 12px;
+    text-align: center;
+    padding: 12px;
+    background: var(--surface-2);
+    border: 1px dashed var(--line-2);
+    border-radius: var(--radius);
+  }
+
+  .panel-foot {
+    padding: 14px 16px;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .btn-primary {
+    width: 100%;
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent); }
+
+  /* CANVAS AREA */
+  .canvas-area {
+    flex: 1;
+    position: relative;
+    background: var(--canvas-bg);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .canvas-toolbar {
+    height: 44px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    display: flex; align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .canvas-toolbar .tb-info {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .canvas-toolbar .tb-info strong { color: var(--ink); font-weight: 600; }
+  .canvas-toolbar .tb-spacer { flex: 1; }
+  .tb-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 6px 10px;
+    font-size: 12px;
+    color: var(--ink-2);
+    transition: all 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tb-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .tb-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .panel-toggle {
+    display: none;
+    position: absolute;
+    top: 8px; left: 8px;
+    width: 40px; height: 40px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    align-items: center; justify-content: center;
+    z-index: 10;
+  }
+
+  .canvas-host {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    touch-action: none;
+  }
+  #canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    user-select: none;
+  }
+
+  .canvas-watermark {
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    text-align: right;
+    line-height: 1.4;
+  }
+  .canvas-watermark .wm-line { display: block; }
+  .canvas-watermark .wm-accent { color: var(--accent); font-weight: 600; }
+
+  /* ========== MODAL ========== */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(20,16,10,0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    z-index: 100;
+  }
+  .modal-backdrop.active { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-head h3 {
+    margin: 0; font-size: 18px; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .modal-close {
+    background: transparent; border: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--ink-2);
+  }
+  .modal-close:hover { background: var(--bg); color: var(--ink); }
+  .modal-body { padding: 20px 24px; }
+  .modal-foot { padding: 16px 24px; border-top: 1px solid var(--line); display: flex; gap: 10px; }
+  .summary-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 13px;
+  }
+  .summary-row .lbl { color: var(--ink-2); }
+  .summary-row .val { font-family: var(--font-mono); }
+  .summary-grp h5 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.1em;
+    margin: 16px 0 4px;
+    text-transform: uppercase;
+  }
+  .summary-grp:first-child h5 { margin-top: 0; }
+
+  .btn-secondary {
+    flex: 1;
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 11px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .btn-secondary:hover { border-color: var(--ink); }
+  .modal-foot .btn-primary { flex: 1; padding: 11px; }
+
+  /* ========== MOBILE ========== */
+  @media (max-width: 768px) {
+    .panel-toggle { display: flex; }
+    .panel {
+      position: absolute; top: 0; bottom: 0; left: 0;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      width: 86%;
+      max-width: 320px;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+    }
+    .panel.open { transform: translateX(0); }
+    .canvas-toolbar { padding-left: 60px; }
+    .canvas-watermark { display: none; }
+    .top-bar { padding: 0 12px; }
+    .template-scroll { padding: 16px 12px 60px; }
+    .template-grid {
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 12px;
+    }
+    .template-info { padding: 10px 12px 12px; }
+    .template-info .name { font-size: 13px; }
+    .home-title { font-size: 36px; }
+    .home-sub { font-size: 13px; margin-bottom: 32px; }
+  }
+  @media (max-width: 380px) {
+    .led-options { grid-template-columns: 1fr; }
+  }
+
+  /* SVG element styles */
+  .svg-grid line { stroke: var(--grid); stroke-width: 0.5; }
+  .svg-grid-strong line { stroke: var(--grid-strong); stroke-width: 0.7; }
+  .cabinet-rect {
+    fill: var(--surface);
+    stroke: var(--ink);
+    stroke-width: 2;
+  }
+  .internal-line {
+    stroke: var(--ink-2);
+    stroke-width: 1;
+    stroke-dasharray: 4 3;
+  }
+  .dim-line { stroke: var(--dim); stroke-width: 0.7; }
+  .dim-tick { stroke: var(--dim); stroke-width: 0.7; }
+  .dim-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--dim);
+  }
+  .dim-text.active { fill: var(--dim-active); font-weight: 600; }
+  .dim-line.active { stroke: var(--dim-active); }
+
+  .item-shelf rect { fill: rgba(197,74,31,0.15); stroke: var(--accent); stroke-width: 1.5; }
+  .item-shelf.selected rect { fill: rgba(197,74,31,0.3); }
+  .item-guidebar rect { fill: rgba(28,22,15,0.6); stroke: var(--ink); stroke-width: 1; }
+  .item-outlet rect { fill: var(--surface); stroke: var(--ink); stroke-width: 1.5; }
+  .item-outlet circle { fill: var(--ink); }
+  .item.selected rect:not(.handle) { stroke-width: 2.5; }
+  .handle {
+    fill: var(--accent);
+    stroke: white;
+    stroke-width: 1.5;
+    cursor: ew-resize;
+  }
+  .corner-handle {
+    fill: var(--accent);
+    stroke: white;
+    stroke-width: 1.5;
+    cursor: nwse-resize;
+  }
+
+  .led-strip {
+    fill: var(--accent);
+  }
+  .led-strip-bg {
+    fill: var(--accent-soft);
+    stroke: var(--accent);
+    stroke-width: 1;
+    stroke-dasharray: 2 2;
+  }
+</style>
+</head>
+<body>
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="home-screen">
+  <div class="home-shell">
+    <div class="home-eyebrow">CUSTOM ORDER · 비규격 발주서</div>
+    <h1 class="home-title">맞춤 도면을<br>직접 <span class="accent">설계하세요</span></h1>
+    <p class="home-sub">기존 모델을 선택하거나 처음부터 직접 그려서 옵션을 자유롭게 추가할 수 있습니다.</p>
+
+    <div class="home-choices">
+      <button class="choice-card" data-action="template">
+        <div class="choice-num">01 / TEMPLATE</div>
+        <div class="choice-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="4" y="6" width="14" height="28" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="22" y="6" width="14" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="22" y="21" width="14" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>모델 정하기</h3>
+        <p>기존 도면 템플릿을 선택해 빠르게 시작합니다.</p>
+        <div class="arrow">→</div>
+      </button>
+
+      <button class="choice-card" data-action="custom">
+        <div class="choice-num">02 / CUSTOM</div>
+        <div class="choice-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="6" y="6" width="28" height="28" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M14 14L26 26M26 14L14 26" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <h3>직접 그리기</h3>
+        <p>빈 도면에서 치수를 조정하며 처음부터 만듭니다.</p>
+        <div class="arrow">→</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPLATE SCREEN -->
+<div class="screen" id="template-screen">
+  <header class="top-bar">
+    <button class="back-btn" data-back="home" aria-label="뒤로">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <h2>모델 선택</h2>
+    <div class="top-meta">SELECT TEMPLATE</div>
+  </header>
+  <div class="template-scroll">
+    <div class="template-grid" id="template-grid"></div>
+  </div>
+</div>
+
+<!-- EDITOR SCREEN -->
+<div class="screen" id="editor-screen">
+  <aside class="panel" id="left-panel">
+    <div class="panel-head">
+      <button class="back-btn" data-back="auto" aria-label="뒤로">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="product-meta">
+        <div class="pname" id="ed-pname">제품명</div>
+        <div class="pcode" id="ed-pcode">CODE</div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="panel-section">
+        <h4>치수 (Dimensions)</h4>
+        <div class="field-row">
+          <div class="field">
+            <label>가로 W</label>
+            <div class="field-input">
+              <input type="number" id="in-width" min="100" max="3000" step="10" />
+              <span class="unit">mm</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>세로 H</label>
+            <div class="field-input">
+              <input type="number" id="in-height" min="100" max="3000" step="10" />
+              <span class="unit">mm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h4>옵션 추가 (Add)</h4>
+        <div class="opt-list">
+          <div class="opt-add" data-add="shelf">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="18" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+              선반
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+          <div class="opt-add" data-add="guidebar">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="2" rx="1" fill="currentColor"/><circle cx="6" cy="12" r="1.2" fill="white"/><circle cx="18" cy="12" r="1.2" fill="white"/></svg>
+              가이드바
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+          <div class="opt-add" data-add="outlet1">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+              1구 콘센트
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+          <div class="opt-add" data-add="outlet2">
+            <span class="opt-name">
+              <svg class="opt-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="12" r="2" fill="currentColor"/><circle cx="15" cy="12" r="2" fill="currentColor"/></svg>
+              2구 콘센트
+            </span>
+            <span class="opt-plus">+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h4>LED 색온도</h4>
+        <div class="led-options">
+          <div class="led-pill" data-led="warm">
+            <div class="led-swatch"></div>
+            <div class="led-label">전구색</div>
+          </div>
+          <div class="led-pill" data-led="neutral">
+            <div class="led-swatch"></div>
+            <div class="led-label">주백색</div>
+          </div>
+          <div class="led-pill" data-led="day">
+            <div class="led-swatch"></div>
+            <div class="led-label">주광색</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h4>배치된 항목</h4>
+        <div class="placed-list" id="placed-list">
+          <div class="empty-hint">아직 추가된 옵션이 없습니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-foot">
+      <button class="btn-primary" id="btn-summary">발주서 미리보기</button>
+    </div>
+  </aside>
+
+  <main class="canvas-area">
+    <button class="panel-toggle" id="panel-toggle" aria-label="메뉴">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+    <div class="canvas-toolbar">
+      <div class="tb-info">SCALE 1 : <strong id="tb-scale">--</strong></div>
+      <div class="tb-info">·</div>
+      <div class="tb-info">UNIT <strong>mm</strong></div>
+      <div class="tb-spacer"></div>
+      <button class="tb-btn" id="btn-fit" title="화면에 맞추기">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        FIT
+      </button>
+    </div>
+    <div class="canvas-host">
+      <svg id="canvas"></svg>
+      <div class="canvas-watermark">
+        <span class="wm-line">CUSTOM ORDER</span>
+        <span class="wm-line wm-accent" id="wm-code">--</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div class="modal-backdrop" id="summary-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>발주서 미리보기</h3>
+      <button class="modal-close" id="modal-close">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="summary-body"></div>
+    <div class="modal-foot">
+      <button class="btn-secondary" id="btn-copy">텍스트 복사</button>
+      <button class="btn-primary" id="btn-print">인쇄/PDF 저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   STATE & CONFIG
+   ============================================================ */
+
+const MIN_W = 200, MAX_W = 2400, MIN_H = 200, MAX_H = 2400;
+const STEP = 10; // snapping step in mm
+
+// Templates: existing factory drawings. Customer can edit array to match real catalog.
+const TEMPLATES = [
+  {
+    code: 'BMC-A1',
+    name: '기본형 거울장',
+    defaultW: 600, defaultH: 700,
+    description: '단일 도어 + 내부 선반 1단',
+    internals: [
+      { type: 'horizontal', mode: 'percent', value: 0.5 } // shelf at 50%
+    ]
+  },
+  {
+    code: 'BMC-B1',
+    name: '슬라이딩 거울장',
+    defaultW: 800, defaultH: 700,
+    description: '슬라이딩 도어 2분할',
+    internals: [
+      { type: 'vertical', mode: 'percent', value: 0.5 }
+    ]
+  },
+  {
+    code: 'BMC-C1',
+    name: '오픈형 거울장',
+    defaultW: 700, defaultH: 800,
+    description: '상단 거울 + 하단 수납',
+    internals: [
+      { type: 'horizontal', mode: 'fixed-from-top', value: 250 }
+    ]
+  },
+  {
+    code: 'BLC-D1',
+    name: '하부장 (세면대)',
+    defaultW: 900, defaultH: 500,
+    description: '세면대 하부 수납장',
+    internals: [
+      { type: 'vertical', mode: 'percent', value: 0.5 },
+      { type: 'horizontal', mode: 'percent', value: 0.5 }
+    ]
+  },
+  {
+    code: 'BTC-E1',
+    name: '키큰장 (사이드)',
+    defaultW: 400, defaultH: 1800,
+    description: '슬림형 키큰 수납장',
+    internals: [
+      { type: 'horizontal', mode: 'percent', value: 0.33 },
+      { type: 'horizontal', mode: 'percent', value: 0.66 }
+    ]
+  },
+  {
+    code: 'BMC-F1',
+    name: '와이드 거울장',
+    defaultW: 1200, defaultH: 700,
+    description: '3분할 와이드 거울장',
+    internals: [
+      { type: 'vertical', mode: 'percent', value: 1/3 },
+      { type: 'vertical', mode: 'percent', value: 2/3 }
+    ]
+  }
+];
+
+// Option definitions: default size, min size, etc. (units in mm)
+const OPT_DEFS = {
+  shelf:    { name: '선반',       w: 0,   h: 18,  resizable: true,  minW: 100 }, // w=0 means fill cabinet inner width by default
+  guidebar: { name: '가이드바',    w: 200, h: 25,  resizable: false },
+  outlet1:  { name: '1구 콘센트',  w: 80,  h: 80,  resizable: false },
+  outlet2:  { name: '2구 콘센트',  w: 130, h: 80,  resizable: false }
+};
+
+const LED_NAMES = {
+  warm: '전구색 (3000K)',
+  neutral: '주백색 (4000K)',
+  day: '주광색 (6500K)'
+};
+
+const state = {
+  screen: 'home',
+  mode: null, // 'template' | 'custom'
+  template: null,
+  cabinetW: 600,
+  cabinetH: 700,
+  items: [],
+  led: null,
+  selectedId: null,
+  itemCounter: 0,
+  // editor view transform (computed each render)
+  scale: 1,
+  vbX: 0, vbY: 0, vbW: 0, vbH: 0,
+  // drag state
+  drag: null, // { id, mode: 'move'|'resize-l'|'resize-r'|'corner', startX, startY, origItem }
+  // canvas resize (for custom mode root rect)
+  cabinetDrag: null
+};
+
+/* ============================================================
+   ENTRY / NAV
+   ============================================================ */
+
+const screens = {
+  home: document.getElementById('home-screen'),
+  template: document.getElementById('template-screen'),
+  editor: document.getElementById('editor-screen')
+};
+
+function showScreen(name) {
+  Object.values(screens).forEach(el => el.classList.remove('active'));
+  screens[name].classList.add('active');
+  state.screen = name;
+  if (name === 'editor') {
+    // wait a frame for layout, then render
+    requestAnimationFrame(() => {
+      requestAnimationFrame(render);
+    });
+  }
+}
+
+document.querySelectorAll('[data-action]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const act = btn.dataset.action;
+    if (act === 'template') {
+      buildTemplateGrid();
+      showScreen('template');
+    } else if (act === 'custom') {
+      enterEditor({ custom: true });
+    }
+  });
+});
+
+document.querySelectorAll('[data-back]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.back;
+    if (target === 'home') {
+      showScreen('home');
+    } else if (target === 'auto') {
+      // From editor: go back to template if was template mode, else home
+      if (state.mode === 'template') {
+        showScreen('template');
+      } else {
+        showScreen('home');
+      }
+    }
+  });
+});
+
+/* ============================================================
+   TEMPLATE GRID
+   ============================================================ */
+
+function buildTemplateGrid() {
+  const grid = document.getElementById('template-grid');
+  grid.innerHTML = '';
+  TEMPLATES.forEach(tpl => {
+    const card = document.createElement('div');
+    card.className = 'template-card';
+    card.innerHTML = `
+      <div class="template-thumb">${renderTemplateThumb(tpl)}</div>
+      <div class="template-info">
+        <div class="code">${tpl.code}</div>
+        <div class="name">${tpl.name}</div>
+        <div class="dim">${tpl.defaultW} × ${tpl.defaultH} mm · ${tpl.description}</div>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      enterEditor({ template: tpl });
+    });
+    grid.appendChild(card);
+  });
+}
+
+function renderTemplateThumb(tpl) {
+  const w = tpl.defaultW, h = tpl.defaultH;
+  // fit into 200 x 150 viewBox with padding
+  const pad = 30;
+  const aspect = w / h;
+  const boxW = 220, boxH = 165;
+  let dw, dh;
+  if (aspect > (boxW - pad*2)/(boxH - pad*2)) {
+    dw = boxW - pad*2;
+    dh = dw / aspect;
+  } else {
+    dh = boxH - pad*2;
+    dw = dh * aspect;
+  }
+  const x = (boxW - dw)/2, y = (boxH - dh)/2;
+
+  let internals = '';
+  for (const ln of tpl.internals) {
+    if (ln.type === 'horizontal') {
+      const yy = y + (ln.mode === 'percent' ? dh * ln.value : (ln.mode === 'fixed-from-top' ? (ln.value / h) * dh : dh - (ln.value / h) * dh));
+      internals += `<line x1="${x}" y1="${yy}" x2="${x+dw}" y2="${yy}" stroke="#807d77" stroke-width="0.7" stroke-dasharray="3 2"/>`;
+    } else {
+      const xx = x + (ln.mode === 'percent' ? dw * ln.value : (ln.value / w) * dw);
+      internals += `<line x1="${xx}" y1="${y}" x2="${xx}" y2="${y+dh}" stroke="#807d77" stroke-width="0.7" stroke-dasharray="3 2"/>`;
+    }
+  }
+
+  return `<svg viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="xMidYMid meet">
+    <rect x="${x}" y="${y}" width="${dw}" height="${dh}" fill="#fbfaf6" stroke="#1a1815" stroke-width="1.5"/>
+    ${internals}
+    <text x="${x + dw/2}" y="${y - 8}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#807d77">${w}</text>
+    <text x="${x - 8}" y="${y + dh/2}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#807d77" transform="rotate(-90 ${x-8} ${y+dh/2})">${h}</text>
+  </svg>`;
+}
+
+/* ============================================================
+   ENTER EDITOR
+   ============================================================ */
+
+function enterEditor({ template, custom }) {
+  state.items = [];
+  state.led = null;
+  state.selectedId = null;
+  state.itemCounter = 0;
+
+  if (template) {
+    state.mode = 'template';
+    state.template = template;
+    state.cabinetW = template.defaultW;
+    state.cabinetH = template.defaultH;
+    document.getElementById('ed-pname').textContent = template.name;
+    document.getElementById('ed-pcode').textContent = template.code;
+    document.getElementById('wm-code').textContent = template.code;
+  } else {
+    state.mode = 'custom';
+    state.template = null;
+    state.cabinetW = 600;
+    state.cabinetH = 600;
+    document.getElementById('ed-pname').textContent = '직접 그리기';
+    document.getElementById('ed-pcode').textContent = 'CUSTOM';
+    document.getElementById('wm-code').textContent = 'CUSTOM';
+  }
+
+  document.getElementById('in-width').value = state.cabinetW;
+  document.getElementById('in-height').value = state.cabinetH;
+  refreshLEDPills();
+  refreshPlacedList();
+  showScreen('editor');
+}
+
+/* ============================================================
+   DIMENSION INPUT
+   ============================================================ */
+
+document.getElementById('in-width').addEventListener('input', e => {
+  let v = parseInt(e.target.value) || 0;
+  if (v < MIN_W) return; // allow user to keep typing
+  state.cabinetW = clamp(v, MIN_W, MAX_W);
+  clampAllItems();
+  render();
+});
+document.getElementById('in-height').addEventListener('input', e => {
+  let v = parseInt(e.target.value) || 0;
+  if (v < MIN_H) return;
+  state.cabinetH = clamp(v, MIN_H, MAX_H);
+  clampAllItems();
+  render();
+});
+document.getElementById('in-width').addEventListener('blur', e => {
+  state.cabinetW = clamp(parseInt(e.target.value)||MIN_W, MIN_W, MAX_W);
+  e.target.value = state.cabinetW;
+  clampAllItems();
+  render();
+});
+document.getElementById('in-height').addEventListener('blur', e => {
+  state.cabinetH = clamp(parseInt(e.target.value)||MIN_H, MIN_H, MAX_H);
+  e.target.value = state.cabinetH;
+  clampAllItems();
+  render();
+});
+
+/* ============================================================
+   ADD OPTIONS
+   ============================================================ */
+
+document.querySelectorAll('[data-add]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    addItem(btn.dataset.add);
+  });
+});
+
+function addItem(type) {
+  const def = OPT_DEFS[type];
+  state.itemCounter++;
+  const id = 'i' + state.itemCounter;
+
+  let w = def.w || (state.cabinetW * 0.8);
+  let h = def.h;
+
+  // if shelf, fill 80% of cabinet width by default and place near top
+  if (type === 'shelf') {
+    w = Math.min(state.cabinetW - 40, state.cabinetW * 0.85);
+    w = Math.round(w / STEP) * STEP;
+  }
+
+  // place near center, slightly offset by item count to avoid stacking
+  const offset = ((state.items.length) % 4) * 30;
+  const x = clamp(Math.round((state.cabinetW - w)/2/STEP)*STEP, 0, state.cabinetW - w);
+  let y = clamp(Math.round((state.cabinetH/3 + offset)/STEP)*STEP, 0, state.cabinetH - h);
+  if (type === 'shelf') {
+    y = clamp(Math.round((state.cabinetH * 0.4 + offset)/STEP)*STEP, 0, state.cabinetH - h);
+  }
+
+  state.items.push({ id, type, x, y, w, h });
+  state.selectedId = id;
+  refreshPlacedList();
+  render();
+  // open panel might be open on mobile, leave it
+}
+
+function refreshPlacedList() {
+  const wrap = document.getElementById('placed-list');
+  if (state.items.length === 0) {
+    wrap.innerHTML = '<div class="empty-hint">아직 추가된 옵션이 없습니다.</div>';
+    return;
+  }
+  wrap.innerHTML = '';
+  state.items.forEach(it => {
+    const def = OPT_DEFS[it.type];
+    const el = document.createElement('div');
+    el.className = 'placed-item' + (it.id === state.selectedId ? ' selected' : '');
+    el.innerHTML = `
+      <span class="pi-name">${def.name}</span>
+      <span class="pi-coords">${Math.round(it.x)},${Math.round(it.y)}</span>
+      <button class="pi-del" data-del="${it.id}" aria-label="삭제">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+    `;
+    el.addEventListener('click', e => {
+      if (e.target.closest('[data-del]')) return;
+      state.selectedId = it.id;
+      refreshPlacedList();
+      render();
+    });
+    wrap.appendChild(el);
+  });
+  wrap.querySelectorAll('[data-del]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const id = btn.dataset.del;
+      state.items = state.items.filter(x => x.id !== id);
+      if (state.selectedId === id) state.selectedId = null;
+      refreshPlacedList();
+      render();
+    });
+  });
+}
+
+/* ============================================================
+   LED
+   ============================================================ */
+
+document.querySelectorAll('.led-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const v = pill.dataset.led;
+    state.led = (state.led === v) ? null : v;
+    refreshLEDPills();
+    render();
+  });
+});
+
+function refreshLEDPills() {
+  document.querySelectorAll('.led-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.led === state.led);
+  });
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+function snapStep(v) { return Math.round(v / STEP) * STEP; }
+
+function clampItem(item) {
+  item.w = clamp(item.w, OPT_DEFS[item.type].minW || 20, state.cabinetW);
+  item.h = clamp(item.h, 1, state.cabinetH);
+  item.x = clamp(item.x, 0, state.cabinetW - item.w);
+  item.y = clamp(item.y, 0, state.cabinetH - item.h);
+}
+function clampAllItems() {
+  state.items.forEach(clampItem);
+}
+
+/* ============================================================
+   RENDERING
+   ============================================================ */
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('canvas');
+
+// margins around cabinet within viewBox (in mm) for dimensions and labels
+const PAD_TOP = 100, PAD_BOTTOM = 80, PAD_LEFT = 100, PAD_RIGHT = 80;
+
+function render() {
+  if (state.screen !== 'editor') return;
+  const host = document.querySelector('.canvas-host');
+  const hostW = host.clientWidth;
+  const hostH = host.clientHeight;
+  if (hostW === 0 || hostH === 0) return;
+
+  // viewBox in "mm" units, with padding on all sides
+  const vbW = state.cabinetW + PAD_LEFT + PAD_RIGHT;
+  const vbH = state.cabinetH + PAD_TOP + PAD_BOTTOM;
+  // scale so that vbW fits hostW and vbH fits hostH
+  const sx = hostW / vbW, sy = hostH / vbH;
+  const scale = Math.min(sx, sy);
+  // viewBox so cabinet origin (0,0) maps to (PAD_LEFT, PAD_TOP) in vb space
+  const vbX = -PAD_LEFT;
+  const vbY = -PAD_TOP;
+
+  state.scale = scale;
+  state.vbX = vbX; state.vbY = vbY; state.vbW = vbW; state.vbH = vbH;
+
+  // Display the viewbox in the dom: width/height = pixel size we want; viewBox = mm coords
+  // We center within hostW/hostH:
+  const drawW = vbW * scale;
+  const drawH = vbH * scale;
+  svg.setAttribute('width', drawW);
+  svg.setAttribute('height', drawH);
+  svg.setAttribute('viewBox', `${vbX} ${vbY} ${vbW} ${vbH}`);
+  svg.style.position = 'absolute';
+  svg.style.left = ((hostW - drawW)/2) + 'px';
+  svg.style.top = ((hostH - drawH)/2) + 'px';
+
+  // Update toolbar
+  // approximate scale ratio: 1mm displays as scale px, so scale = X means pixel/mm
+  // "scale 1:N" means 1 unit drawing = N units real. Here we show ratio so that real-world mm vs displayed mm is informative
+  // But more useful for user: show pixels-per-mm? Actually let's show e.g. "1 : 5" meaning 1 mm display = 5 mm real.
+  const pxPerMm = scale;
+  // Standard CAD: scale 1:N -> if display has Y mm per real X mm, ratio is X:Y. Most apps show scale as number e.g. 1:10
+  // We'll show ratio rounded
+  const ratio = Math.round(1 / pxPerMm * 3.78); // 3.78 px per mm at 96dpi
+  document.getElementById('tb-scale').textContent = ratio > 0 ? ratio : 1;
+
+  // Build SVG
+  let parts = [];
+
+  // Background grid (every 50 mm)
+  parts.push(buildGrid());
+
+  // Cabinet frame
+  parts.push(`<rect class="cabinet-rect" x="0" y="0" width="${state.cabinetW}" height="${state.cabinetH}"/>`);
+
+  // Internal template lines
+  if (state.mode === 'template' && state.template) {
+    for (const ln of state.template.internals) {
+      if (ln.type === 'horizontal') {
+        let y;
+        if (ln.mode === 'percent') y = state.cabinetH * ln.value;
+        else if (ln.mode === 'fixed-from-top') y = Math.min(ln.value, state.cabinetH);
+        else y = state.cabinetH - Math.min(ln.value, state.cabinetH);
+        parts.push(`<line class="internal-line" x1="0" y1="${y}" x2="${state.cabinetW}" y2="${y}"/>`);
+      } else {
+        let x;
+        if (ln.mode === 'percent') x = state.cabinetW * ln.value;
+        else x = Math.min(ln.value, state.cabinetW);
+        parts.push(`<line class="internal-line" x1="${x}" y1="0" x2="${x}" y2="${state.cabinetH}"/>`);
+      }
+    }
+  }
+
+  // Items
+  for (const item of state.items) {
+    parts.push(buildItem(item, item.id === state.selectedId));
+  }
+
+  // LED indicator
+  if (state.led) {
+    parts.push(buildLEDIndicator(state.led));
+  }
+
+  // Outer dimensions (always)
+  parts.push(buildOuterDims());
+
+  // Custom mode: corner handles for resizing cabinet itself
+  if (state.mode === 'custom') {
+    parts.push(buildCornerHandles());
+  }
+
+  // Selected item: live dimensions to edges
+  if (state.selectedId) {
+    const item = state.items.find(i => i.id === state.selectedId);
+    if (item) parts.push(buildItemDims(item));
+  }
+
+  svg.innerHTML = parts.join('');
+
+  // Attach drag handlers to items
+  state.items.forEach(it => {
+    const el = svg.querySelector(`[data-item="${it.id}"]`);
+    if (el) attachItemPointer(el, it.id);
+  });
+  // Resize handles for shelves
+  svg.querySelectorAll('[data-handle]').forEach(h => {
+    attachHandlePointer(h);
+  });
+  // Custom corner handles
+  if (state.mode === 'custom') {
+    svg.querySelectorAll('[data-corner]').forEach(h => attachCornerPointer(h));
+  }
+
+  // Click empty area deselects
+  svg.addEventListener('pointerdown', svgEmptyDown);
+}
+
+function buildGrid() {
+  const w = state.cabinetW, h = state.cabinetH;
+  const step = 50;
+  let gridLines = '';
+  let strongLines = '';
+  // horizontal lines (extending across full vb width including pads)
+  const minX = state.vbX, maxX = state.vbX + state.vbW;
+  const minY = state.vbY, maxY = state.vbY + state.vbH;
+  // vertical
+  const startX = Math.floor(minX / step) * step;
+  for (let x = startX; x <= maxX; x += step) {
+    if (x === 0 || x === w) {
+      strongLines += `<line x1="${x}" y1="${minY}" x2="${x}" y2="${maxY}"/>`;
+    } else {
+      gridLines += `<line x1="${x}" y1="${minY}" x2="${x}" y2="${maxY}"/>`;
+    }
+  }
+  const startY = Math.floor(minY / step) * step;
+  for (let y = startY; y <= maxY; y += step) {
+    if (y === 0 || y === h) {
+      strongLines += `<line x1="${minX}" y1="${y}" x2="${maxX}" y2="${y}"/>`;
+    } else {
+      gridLines += `<line x1="${minX}" y1="${y}" x2="${maxX}" y2="${y}"/>`;
+    }
+  }
+  return `<g class="svg-grid">${gridLines}</g>`;
+}
+
+function buildItem(item, selected) {
+  const def = OPT_DEFS[item.type];
+  const cls = `item item-${item.type === 'outlet1' || item.type === 'outlet2' ? 'outlet' : item.type}` + (selected ? ' selected' : '');
+
+  if (item.type === 'shelf') {
+    let extra = '';
+    if (selected && def.resizable) {
+      const hs = 8;
+      extra += `<rect class="handle" data-handle="resize-l" data-id="${item.id}" x="${item.x - hs/2}" y="${item.y + item.h/2 - hs/2}" width="${hs}" height="${hs}" rx="1.5"/>`;
+      extra += `<rect class="handle" data-handle="resize-r" data-id="${item.id}" x="${item.x + item.w - hs/2}" y="${item.y + item.h/2 - hs/2}" width="${hs}" height="${hs}" rx="1.5"/>`;
+    }
+    return `<g class="${cls}" data-item="${item.id}">
+      <rect x="${item.x}" y="${item.y}" width="${item.w}" height="${item.h}" rx="1"/>
+      ${extra}
+    </g>`;
+  }
+  if (item.type === 'guidebar') {
+    return `<g class="${cls}" data-item="${item.id}">
+      <rect x="${item.x}" y="${item.y}" width="${item.w}" height="${item.h}" rx="2"/>
+      <circle cx="${item.x + 8}" cy="${item.y + item.h/2}" r="3" fill="#fbfaf6"/>
+      <circle cx="${item.x + item.w - 8}" cy="${item.y + item.h/2}" r="3" fill="#fbfaf6"/>
+    </g>`;
+  }
+  if (item.type === 'outlet1') {
+    return `<g class="${cls}" data-item="${item.id}">
+      <rect x="${item.x}" y="${item.y}" width="${item.w}" height="${item.h}" rx="2"/>
+      <circle cx="${item.x + item.w/2}" cy="${item.y + item.h/2}" r="${Math.min(item.w,item.h)*0.18}"/>
+      <text x="${item.x + item.w/2}" y="${item.y + item.h - 6}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1a1815">1구</text>
+    </g>`;
+  }
+  if (item.type === 'outlet2') {
+    return `<g class="${cls}" data-item="${item.id}">
+      <rect x="${item.x}" y="${item.y}" width="${item.w}" height="${item.h}" rx="2"/>
+      <circle cx="${item.x + item.w*0.3}" cy="${item.y + item.h/2 - 2}" r="${Math.min(item.w,item.h)*0.14}"/>
+      <circle cx="${item.x + item.w*0.7}" cy="${item.y + item.h/2 - 2}" r="${Math.min(item.w,item.h)*0.14}"/>
+      <text x="${item.x + item.w/2}" y="${item.y + item.h - 6}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#1a1815">2구</text>
+    </g>`;
+  }
+  return '';
+}
+
+function buildLEDIndicator(led) {
+  // Strip along bottom inside cabinet, with label below
+  const stripY = state.cabinetH - 8;
+  const labelY = state.cabinetH + 32;
+  const colorMap = { warm: '#ff9a3c', neutral: '#ffe9a8', day: '#cfe2ff' };
+  const c = colorMap[led];
+  const label = LED_NAMES[led];
+  return `
+    <g class="led-strip-group">
+      <rect class="led-strip-bg" x="2" y="${stripY}" width="${state.cabinetW - 4}" height="6" rx="2"/>
+      <line x1="6" y1="${stripY+3}" x2="${state.cabinetW-6}" y2="${stripY+3}" stroke="${c}" stroke-width="3" stroke-dasharray="4 3"/>
+      <text x="${state.cabinetW/2}" y="${labelY}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#c54a1f" font-weight="600">LED ${label}</text>
+    </g>
+  `;
+}
+
+function buildOuterDims() {
+  const w = state.cabinetW, h = state.cabinetH;
+  const offTop = 36, offLeft = 36, offBottom = 36;
+  const tickLen = 6;
+
+  // Top width dimension
+  const topY = -offTop;
+  const lWidth = `
+    <line class="dim-line" x1="0" y1="${topY}" x2="${w}" y2="${topY}"/>
+    <line class="dim-tick" x1="0" y1="${topY-tickLen}" x2="0" y2="${topY+tickLen}"/>
+    <line class="dim-tick" x1="${w}" y1="${topY-tickLen}" x2="${w}" y2="${topY+tickLen}"/>
+    <line class="dim-line" x1="0" y1="${topY-tickLen-2}" x2="0" y2="-2"/>
+    <line class="dim-line" x1="${w}" y1="${topY-tickLen-2}" x2="${w}" y2="-2"/>
+    <text class="dim-text" x="${w/2}" y="${topY - 6}" text-anchor="middle">${w}</text>
+  `;
+
+  // Left height dimension
+  const leftX = -offLeft;
+  const lHeight = `
+    <line class="dim-line" x1="${leftX}" y1="0" x2="${leftX}" y2="${h}"/>
+    <line class="dim-tick" x1="${leftX-tickLen}" y1="0" x2="${leftX+tickLen}" y2="0"/>
+    <line class="dim-tick" x1="${leftX-tickLen}" y1="${h}" x2="${leftX+tickLen}" y2="${h}"/>
+    <line class="dim-line" x1="${leftX-tickLen-2}" y1="0" x2="-2" y2="0"/>
+    <line class="dim-line" x1="${leftX-tickLen-2}" y1="${h}" x2="-2" y2="${h}"/>
+    <text class="dim-text" x="${leftX - 8}" y="${h/2}" text-anchor="middle" transform="rotate(-90 ${leftX-8} ${h/2})">${h}</text>
+  `;
+
+  return lWidth + lHeight;
+}
+
+function buildItemDims(item) {
+  // Dimensions from item to nearest edges (left/right horizontal, top/bottom vertical)
+  // Plus item own dimensions (w x h shown next to item)
+  const w = state.cabinetW, h = state.cabinetH;
+  const distLeft = item.x;
+  const distRight = w - item.x - item.w;
+  const distTop = item.y;
+  const distBottom = h - item.y - item.h;
+
+  let out = '';
+  // Horizontal: along top edge of item
+  const yMid = item.y + item.h / 2;
+  out += `<line class="dim-line active" x1="0" y1="${yMid}" x2="${item.x}" y2="${yMid}" stroke-dasharray="2 2"/>`;
+  out += `<line class="dim-line active" x1="${item.x + item.w}" y1="${yMid}" x2="${w}" y2="${yMid}" stroke-dasharray="2 2"/>`;
+  if (distLeft > 30) out += `<text class="dim-text active" x="${item.x/2}" y="${yMid - 6}" text-anchor="middle">${Math.round(distLeft)}</text>`;
+  if (distRight > 30) out += `<text class="dim-text active" x="${item.x + item.w + distRight/2}" y="${yMid - 6}" text-anchor="middle">${Math.round(distRight)}</text>`;
+
+  // Vertical: along left edge of item
+  const xMid = item.x + item.w / 2;
+  out += `<line class="dim-line active" x1="${xMid}" y1="0" x2="${xMid}" y2="${item.y}" stroke-dasharray="2 2"/>`;
+  out += `<line class="dim-line active" x1="${xMid}" y1="${item.y + item.h}" x2="${xMid}" y2="${h}" stroke-dasharray="2 2"/>`;
+  if (distTop > 30) out += `<text class="dim-text active" x="${xMid + 6}" y="${item.y/2 + 4}" text-anchor="start">${Math.round(distTop)}</text>`;
+  if (distBottom > 30) out += `<text class="dim-text active" x="${xMid + 6}" y="${item.y + item.h + distBottom/2 + 4}" text-anchor="start">${Math.round(distBottom)}</text>`;
+
+  // Item own size label
+  if (item.type === 'shelf') {
+    out += `<text class="dim-text active" x="${xMid}" y="${item.y - 6}" text-anchor="middle" font-weight="600">${Math.round(item.w)} × ${Math.round(item.h)}</text>`;
+  } else {
+    out += `<text class="dim-text active" x="${item.x + item.w + 6}" y="${item.y + item.h + 12}" font-weight="600">${Math.round(item.w)}×${Math.round(item.h)}</text>`;
+  }
+
+  return out;
+}
+
+function buildCornerHandles() {
+  // four corners of the cabinet for resizing in custom mode
+  const hs = 12;
+  const corners = [
+    { id: 'tl', x: 0, y: 0 },
+    { id: 'tr', x: state.cabinetW, y: 0 },
+    { id: 'bl', x: 0, y: state.cabinetH },
+    { id: 'br', x: state.cabinetW, y: state.cabinetH }
+  ];
+  return corners.map(c => `<rect class="corner-handle" data-corner="${c.id}" x="${c.x - hs/2}" y="${c.y - hs/2}" width="${hs}" height="${hs}" rx="2"/>`).join('');
+}
+
+/* ============================================================
+   POINTER EVENTS
+   ============================================================ */
+
+function svgClientToMM(clientX, clientY) {
+  const rect = svg.getBoundingClientRect();
+  // Scale: viewBox vbW maps to rect.width
+  const mmX = state.vbX + (clientX - rect.left) * (state.vbW / rect.width);
+  const mmY = state.vbY + (clientY - rect.top) * (state.vbH / rect.height);
+  return { x: mmX, y: mmY };
+}
+
+function svgEmptyDown(e) {
+  // If clicked on item or handle, ignore
+  if (e.target.closest('[data-item]') || e.target.closest('[data-handle]') || e.target.closest('[data-corner]')) return;
+  state.selectedId = null;
+  refreshPlacedList();
+  render();
+}
+
+function attachItemPointer(el, id) {
+  el.style.cursor = 'move';
+  el.addEventListener('pointerdown', e => {
+    e.stopPropagation();
+    el.setPointerCapture(e.pointerId);
+    const item = state.items.find(x => x.id === id);
+    if (!item) return;
+    state.selectedId = id;
+    const start = svgClientToMM(e.clientX, e.clientY);
+    state.drag = {
+      id, mode: 'move',
+      startX: start.x, startY: start.y,
+      origX: item.x, origY: item.y
+    };
+    refreshPlacedList();
+    render();
+    // re-attach since DOM rebuilt
+    rebindAfterRender(el, id);
+  });
+}
+
+function rebindAfterRender(_oldEl, id) {
+  // After render(), DOM nodes were replaced. We need the new element to receive pointer events.
+  // We use document-level move/up to keep tracking.
+  const onMove = e => {
+    if (!state.drag) return;
+    const cur = svgClientToMM(e.clientX, e.clientY);
+    const item = state.items.find(x => x.id === state.drag.id);
+    if (!item) return;
+
+    if (state.drag.mode === 'move') {
+      let nx = state.drag.origX + (cur.x - state.drag.startX);
+      let ny = state.drag.origY + (cur.y - state.drag.startY);
+      nx = snapStep(nx);
+      ny = snapStep(ny);
+      nx = clamp(nx, 0, state.cabinetW - item.w);
+      ny = clamp(ny, 0, state.cabinetH - item.h);
+      item.x = nx;
+      item.y = ny;
+    } else if (state.drag.mode === 'resize-l') {
+      const dx = cur.x - state.drag.startX;
+      let newX = state.drag.origX + dx;
+      let newW = state.drag.origW - dx;
+      newX = snapStep(newX);
+      newW = state.drag.origX + state.drag.origW - newX;
+      const minW = OPT_DEFS[item.type].minW || 50;
+      if (newW < minW) {
+        newW = minW;
+        newX = state.drag.origX + state.drag.origW - newW;
+      }
+      if (newX < 0) {
+        newW = newW + newX;
+        newX = 0;
+      }
+      item.x = newX; item.w = newW;
+    } else if (state.drag.mode === 'resize-r') {
+      const dx = cur.x - state.drag.startX;
+      let newW = state.drag.origW + dx;
+      newW = snapStep(newW);
+      const minW = OPT_DEFS[item.type].minW || 50;
+      if (newW < minW) newW = minW;
+      if (item.x + newW > state.cabinetW) newW = state.cabinetW - item.x;
+      item.w = newW;
+    }
+    render();
+  };
+  const onUp = e => {
+    if (state.drag) {
+      const item = state.items.find(x => x.id === state.drag.id);
+      if (item) clampItem(item);
+    }
+    state.drag = null;
+    refreshPlacedList();
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+    document.removeEventListener('pointercancel', onUp);
+    render();
+  };
+  document.addEventListener('pointermove', onMove);
+  document.addEventListener('pointerup', onUp);
+  document.addEventListener('pointercancel', onUp);
+}
+
+function attachHandlePointer(el) {
+  el.addEventListener('pointerdown', e => {
+    e.stopPropagation();
+    el.setPointerCapture(e.pointerId);
+    const id = el.dataset.id;
+    const mode = el.dataset.handle;
+    const item = state.items.find(x => x.id === id);
+    if (!item) return;
+    state.selectedId = id;
+    const start = svgClientToMM(e.clientX, e.clientY);
+    state.drag = {
+      id, mode,
+      startX: start.x, startY: start.y,
+      origX: item.x, origY: item.y,
+      origW: item.w, origH: item.h
+    };
+    rebindAfterRender(el, id);
+  });
+}
+
+function attachCornerPointer(el) {
+  el.addEventListener('pointerdown', e => {
+    e.stopPropagation();
+    el.setPointerCapture(e.pointerId);
+    const corner = el.dataset.corner;
+    const start = svgClientToMM(e.clientX, e.clientY);
+    state.cabinetDrag = {
+      corner,
+      startX: start.x, startY: start.y,
+      origW: state.cabinetW, origH: state.cabinetH
+    };
+    const onMove = ev => {
+      if (!state.cabinetDrag) return;
+      const cur = svgClientToMM(ev.clientX, ev.clientY);
+      const dx = cur.x - state.cabinetDrag.startX;
+      const dy = cur.y - state.cabinetDrag.startY;
+      let nW = state.cabinetDrag.origW;
+      let nH = state.cabinetDrag.origH;
+      if (corner === 'br' || corner === 'tr') nW = state.cabinetDrag.origW + dx;
+      if (corner === 'bl' || corner === 'tl') nW = state.cabinetDrag.origW - dx;
+      if (corner === 'br' || corner === 'bl') nH = state.cabinetDrag.origH + dy;
+      if (corner === 'tr' || corner === 'tl') nH = state.cabinetDrag.origH - dy;
+      nW = snapStep(clamp(nW, MIN_W, MAX_W));
+      nH = snapStep(clamp(nH, MIN_H, MAX_H));
+      state.cabinetW = nW;
+      state.cabinetH = nH;
+      document.getElementById('in-width').value = nW;
+      document.getElementById('in-height').value = nH;
+      clampAllItems();
+      render();
+    };
+    const onUp = () => {
+      state.cabinetDrag = null;
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onUp);
+    };
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    document.addEventListener('pointercancel', onUp);
+  });
+}
+
+/* ============================================================
+   MOBILE PANEL TOGGLE & FIT
+   ============================================================ */
+
+document.getElementById('panel-toggle').addEventListener('click', () => {
+  document.getElementById('left-panel').classList.toggle('open');
+});
+
+// click outside panel on mobile to close
+document.addEventListener('click', e => {
+  if (window.innerWidth > 768) return;
+  const panel = document.getElementById('left-panel');
+  if (!panel.classList.contains('open')) return;
+  if (e.target.closest('#left-panel') || e.target.closest('#panel-toggle')) return;
+  panel.classList.remove('open');
+});
+
+document.getElementById('btn-fit').addEventListener('click', () => {
+  render();
+});
+
+window.addEventListener('resize', () => {
+  if (state.screen === 'editor') render();
+});
+
+/* ============================================================
+   SUMMARY / ORDER
+   ============================================================ */
+
+document.getElementById('btn-summary').addEventListener('click', () => {
+  const body = document.getElementById('summary-body');
+  const lines = [];
+  lines.push(`<div class="summary-grp">
+    <h5>Product</h5>
+    <div class="summary-row"><span class="lbl">제품명</span><span class="val">${state.template ? state.template.name : '직접 그리기 (Custom)'}</span></div>
+    <div class="summary-row"><span class="lbl">제품코드</span><span class="val">${state.template ? state.template.code : 'CUSTOM'}</span></div>
+    <div class="summary-row"><span class="lbl">치수 (W × H)</span><span class="val">${state.cabinetW} × ${state.cabinetH} mm</span></div>
+  </div>`);
+
+  if (state.items.length) {
+    lines.push(`<div class="summary-grp"><h5>Options</h5>`);
+    state.items.forEach((it, idx) => {
+      const def = OPT_DEFS[it.type];
+      const sizeStr = it.type === 'shelf' ? `${Math.round(it.w)} mm` : `${Math.round(it.w)} × ${Math.round(it.h)} mm`;
+      lines.push(`<div class="summary-row">
+        <span class="lbl">${idx+1}. ${def.name}</span>
+        <span class="val">위치 (${Math.round(it.x)}, ${Math.round(it.y)}) · 크기 ${sizeStr}</span>
+      </div>`);
+    });
+    lines.push(`</div>`);
+  }
+
+  if (state.led) {
+    lines.push(`<div class="summary-grp">
+      <h5>LED</h5>
+      <div class="summary-row"><span class="lbl">색온도</span><span class="val">${LED_NAMES[state.led]}</span></div>
+    </div>`);
+  }
+
+  body.innerHTML = lines.join('');
+  document.getElementById('summary-modal').classList.add('active');
+});
+
+document.getElementById('modal-close').addEventListener('click', () => {
+  document.getElementById('summary-modal').classList.remove('active');
+});
+
+document.getElementById('summary-modal').addEventListener('click', e => {
+  if (e.target.id === 'summary-modal') {
+    document.getElementById('summary-modal').classList.remove('active');
+  }
+});
+
+document.getElementById('btn-copy').addEventListener('click', () => {
+  let txt = '[비규격 발주서]\n';
+  txt += `제품: ${state.template ? state.template.name + ' (' + state.template.code + ')' : '직접 그리기 (CUSTOM)'}\n`;
+  txt += `치수: ${state.cabinetW} × ${state.cabinetH} mm\n`;
+  if (state.items.length) {
+    txt += `\n[옵션]\n`;
+    state.items.forEach((it, idx) => {
+      const def = OPT_DEFS[it.type];
+      const sizeStr = it.type === 'shelf' ? `${Math.round(it.w)}mm` : `${Math.round(it.w)}×${Math.round(it.h)}mm`;
+      txt += `${idx+1}. ${def.name} - 위치(${Math.round(it.x)},${Math.round(it.y)}), 크기 ${sizeStr}\n`;
+    });
+  }
+  if (state.led) txt += `\nLED: ${LED_NAMES[state.led]}\n`;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById('btn-copy');
+    const old = btn.textContent;
+    btn.textContent = '복사됨 ✓';
+    setTimeout(() => { btn.textContent = old; }, 1400);
+  });
+});
+
+document.getElementById('btn-print').addEventListener('click', () => {
+  window.print();
+});
+
+/* ============================================================
+   PRINT CSS (inline)
+   ============================================================ */
+const printStyle = document.createElement('style');
+printStyle.textContent = `
+@media print {
+  html, body { overflow: visible !important; height: auto !important; background: white; }
+  .panel-foot, .panel, .top-bar, .canvas-toolbar, .home-shell, .modal-foot, .modal-head .modal-close, .panel-toggle, .canvas-watermark { display: none !important; }
+  .modal-backdrop { position: static !important; background: transparent !important; backdrop-filter: none !important; padding: 0 !important; }
+  .modal { max-width: none !important; max-height: none !important; box-shadow: none !important; }
+}
+`;
+document.head.appendChild(printStyle);
+
+/* ============================================================
+   INIT
+   ============================================================ */
+showScreen('home');
+</script>
+</body>
+</html>

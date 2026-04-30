@@ -1,0 +1,1750 @@
+{
+  "schemaVersion": 1,
+  "track": "B",
+  "id": "슬라이징장-4001",
+  "displayName": "슬라이징장_4001",
+  "sourceAssets": {
+    "dwg": "samples/슬라이징장_4001.dwg",
+    "pdf": "samples/슬라이징장_4001.pdf",
+    "png": "samples/슬라이징장_4001_1.png"
+  },
+  "dwgInspection": {
+    "filePath": "samples/슬라이징장_4001.dwg",
+    "fileName": "슬라이징장_4001.dwg",
+    "baseName": "슬라이징장_4001",
+    "sizeBytes": 227712,
+    "sha256": "f26a52a69cf9137476bcd11a61bdf3060fcde74875cbfbc21c7a589e830e25bf",
+    "directInspection": true,
+    "header": {
+      "signature": "AC1021",
+      "versionLabel": "AutoCAD 2007/2008/2009 DWG",
+      "sourceKind": "dwg_header",
+      "reviewStatus": "dwg_header_inspected"
+    },
+    "semanticExtraction": {
+      "status": "entity_extracted",
+      "directInspection": true,
+      "reader": {
+        "package": "@node-projects/acad-ts",
+        "mode": "direct_dwg_binary_parse"
+      },
+      "warnings": [
+        "DWG VisualStyle payload is only partially mapped; preserving base object data for Realistic with flags 2 and 0 payload entries.",
+        "DWG VisualStyle payload is only partially mapped; preserving base object data for 3dWireframe with flags 0 and 0 payload entries.",
+        "DWG VisualStyle payload is only partially mapped; preserving base object data for 2dWireframe with flags 0 and 0 payload entries.",
+        "Unlisted object with DXF name SUN has been read as an UnknownNonGraphicalObject",
+        "Unlisted object with DXF name ACDB_TEXTOBJECTCONTEXTDATA_CLASS has been read as an UnknownNonGraphicalObject",
+        "Entry not found *A2|691 for dictionary ACDB_ANNOTATIONSCALES|690",
+        "Entry not found *A2|696 for dictionary ACDB_ANNOTATIONSCALES|695",
+        "Entry not found *A2|908 for dictionary ACDB_ANNOTATIONSCALES|907",
+        "Entry not found *A2|913 for dictionary ACDB_ANNOTATIONSCALES|912",
+        "XRecord reference not found 340|70"
+      ],
+      "document": {
+        "version": 27,
+        "codePage": "kcs5601",
+        "measurementUnits": 1,
+        "insUnits": 0,
+        "textSize": 2.5
+      },
+      "layers": [
+        "0",
+        "Defpoints",
+        "거울",
+        "S-DIM",
+        "TEX",
+        "FUR",
+        "도어",
+        "TEX @ 1",
+        "도어 @ 1"
+      ],
+      "textStyles": [
+        "STANDARD",
+        "카비원"
+      ],
+      "layouts": [
+        "Model",
+        "배치1"
+      ],
+      "blockRecords": [
+        {
+          "name": "_ArchTick",
+          "entityCount": 1
+        },
+        {
+          "name": "*D10396",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10397",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10398",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10399",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10400",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10401",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10402",
+          "entityCount": 11
+        },
+        {
+          "name": "*D10403",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10404",
+          "entityCount": 11
+        },
+        {
+          "name": "*D10405",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10406",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10407",
+          "entityCount": 11
+        },
+        {
+          "name": "*D10408",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10409",
+          "entityCount": 11
+        },
+        {
+          "name": "*D10410",
+          "entityCount": 9
+        },
+        {
+          "name": "*D10411",
+          "entityCount": 11
+        },
+        {
+          "name": "*D10412",
+          "entityCount": 9
+        },
+        {
+          "name": "*MODEL_SPACE",
+          "entityCount": 554
+        },
+        {
+          "name": "*PAPER_SPACE",
+          "entityCount": 0
+        }
+      ],
+      "entityCounts": {
+        "Arc": 73,
+        "Circle": 1,
+        "DimensionLinear": 17,
+        "Line": 443,
+        "LwPolyline": 16,
+        "TextEntity": 4
+      },
+      "entityCount": 554,
+      "bounds": {
+        "minX": -37342.571,
+        "minY": -564547.492,
+        "maxX": 0,
+        "maxY": 0,
+        "width": 37342.571,
+        "height": 564547.492,
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      "texts": [
+        {
+          "type": "TextEntity",
+          "handle": 684,
+          "layer": "TEX @ 1",
+          "value": "3T 은경",
+          "position": {
+            "x": -36249.193,
+            "y": -564121.207,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "TextEntity",
+          "handle": 692,
+          "layer": "TEX @ 1",
+          "value": "3T 은경",
+          "position": {
+            "x": -36820.59,
+            "y": -564121.207,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "TextEntity",
+          "handle": 904,
+          "layer": "도어 @ 1",
+          "value": "아웃도어",
+          "position": {
+            "x": -36254.025,
+            "y": -564213.335,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "TextEntity",
+          "handle": 909,
+          "layer": "도어 @ 1",
+          "value": "인도어",
+          "position": {
+            "x": -36803.993,
+            "y": -564213.335,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        }
+      ],
+      "viewLabels": [],
+      "dimensions": {
+        "count": 17,
+        "extractedCount": 17,
+        "entries": [
+          {
+            "type": "DimensionLinear",
+            "handle": 621,
+            "layer": "S-DIM",
+            "text": "185",
+            "value": 185,
+            "valueSource": "dimension_text",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -33373.348,
+              "y": -563741.395,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -33190.298,
+              "y": -563755.495,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -33190.298,
+              "y": -563495.813,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -33281.823,
+              "y": -563467,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 640,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 776.997,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "vertical",
+            "firstPoint": {
+              "x": -33190.298,
+              "y": -563755.495,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -33190.298,
+              "y": -564532.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -33014.789,
+              "y": -564532.492,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -33042.789,
+              "y": -564143.994,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 671,
+            "layer": "S-DIM",
+            "text": "795",
+            "value": 795,
+            "valueSource": "dimension_text",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "vertical",
+            "firstPoint": {
+              "x": -33376.083,
+              "y": -563740.195,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -33375.523,
+              "y": -564546.792,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -33576.122,
+              "y": -564546.792,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -33604.821,
+              "y": -564143.494,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 710,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 600,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -37050.298,
+              "y": -563749.647,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -36450.298,
+              "y": -563749.647,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -36450.298,
+              "y": -563599.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -36750.298,
+              "y": -563570.948,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 723,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 600,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -36450.298,
+              "y": -563749.647,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -35850.298,
+              "y": -563749.647,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -35850.298,
+              "y": -563599.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -36150.298,
+              "y": -563570.948,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 736,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 1200,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -37050.298,
+              "y": -563749.647,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -35850.298,
+              "y": -563749.647,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -35850.298,
+              "y": -563499.652,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -36450.298,
+              "y": -563470.839,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 750,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 40,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "vertical",
+            "firstPoint": {
+              "x": -35173.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -35173.928,
+              "y": -563795.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -35352.508,
+              "y": -563795.492,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -35381.207,
+              "y": -563775.492,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 765,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 697,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "vertical",
+            "firstPoint": {
+              "x": -35173.928,
+              "y": -563795.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -35173.928,
+              "y": -564492.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -35352.508,
+              "y": -564492.492,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -35381.207,
+              "y": -564143.992,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 778,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 40,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "vertical",
+            "firstPoint": {
+              "x": -35173.928,
+              "y": -564492.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -35173.928,
+              "y": -564532.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -35352.508,
+              "y": -564532.492,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -35381.207,
+              "y": -564512.492,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 793,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 777,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "vertical",
+            "firstPoint": {
+              "x": -35173.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -35173.928,
+              "y": -564532.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -35452.503,
+              "y": -564532.492,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -35480.503,
+              "y": -564143.992,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 806,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 795,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "vertical",
+            "firstPoint": {
+              "x": -37035.298,
+              "y": -563749.647,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -37035.298,
+              "y": -564544.647,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -37313.872,
+              "y": -564544.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -37342.571,
+              "y": -564147.147,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 820,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 15,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -35188.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -35173.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -35173.928,
+              "y": -563594.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -35181.428,
+              "y": -563565.834,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 835,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 577.5,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -35173.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -34596.428,
+              "y": -563755.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -34596.428,
+              "y": -563594.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -34885.178,
+              "y": -563566.29,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 848,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 15,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -34596.428,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -34581.428,
+              "y": -563755.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -34581.428,
+              "y": -563594.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -34588.928,
+              "y": -563565.834,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 863,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 577.5,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -34581.428,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -34003.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -34003.928,
+              "y": -563594.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -34292.678,
+              "y": -563566.29,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 876,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 15,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -34003.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -33988.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -33988.928,
+              "y": -563594.647,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -33996.428,
+              "y": -563565.834,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          },
+          {
+            "type": "DimensionLinear",
+            "handle": 891,
+            "layer": "S-DIM",
+            "text": "",
+            "value": 1200,
+            "valueSource": "dimension_geometry",
+            "unitAssumption": "drawing_unit_mm",
+            "orientation": "horizontal",
+            "firstPoint": {
+              "x": -35188.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "secondPoint": {
+              "x": -33988.928,
+              "y": -563755.492,
+              "z": 0
+            },
+            "definitionPoint": {
+              "x": -33988.928,
+              "y": -563494.652,
+              "z": 0
+            },
+            "textMiddlePoint": {
+              "x": -34588.928,
+              "y": -563465.839,
+              "z": 0
+            },
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "mechanically_certain"
+          }
+        ],
+        "numericValues": [
+          15,
+          40,
+          185,
+          578,
+          600,
+          697,
+          777,
+          795,
+          1200
+        ],
+        "roleCandidates": {
+          "width": [
+            1200,
+            600,
+            578,
+            185
+          ],
+          "height": [
+            795,
+            777,
+            697
+          ],
+          "depth": [
+            795,
+            777,
+            697,
+            578,
+            185
+          ],
+          "all": [
+            1200,
+            795,
+            777,
+            697,
+            600,
+            578,
+            185
+          ],
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "needs_review",
+          "note": "Candidates are mechanically extracted dimensions, but assigning cabinet roles requires review when multiple views are present."
+        },
+        "evidenceNote": "Dimension entity values are read directly from DWG entities. Width/height/depth role assignment remains a candidate unless separately reviewed."
+      },
+      "productSelectionSignals": [
+        {
+          "kind": "sliding_or_inner_outer_door_labels",
+          "value": [
+            "아웃도어",
+            "인도어"
+          ],
+          "note": "DWG text includes inner/out-door labels useful for product-family selection.",
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "kind": "mirror_material_labels",
+          "value": [
+            "3T 은경"
+          ],
+          "note": "DWG text includes mirror/material labels.",
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "kind": "dimension_entities",
+          "value": {
+            "count": 17,
+            "candidates": {
+              "width": [
+                1200,
+                600,
+                578,
+                185
+              ],
+              "height": [
+                795,
+                777,
+                697
+              ],
+              "depth": [
+                795,
+                777,
+                697,
+                578,
+                185
+              ],
+              "all": [
+                1200,
+                795,
+                777,
+                697,
+                600,
+                578,
+                185
+              ],
+              "sourceKind": "dwg_entity",
+              "reviewStatus": "needs_review",
+              "note": "Candidates are mechanically extracted dimensions, but assigning cabinet roles requires review when multiple views are present."
+            }
+          },
+          "note": "DWG dimension entities provide candidate width/height/depth values for selection defaults.",
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        }
+      ]
+    }
+  },
+  "dwgExtractionStatus": "entity_extracted",
+  "blocker": null,
+  "values": {
+    "familyHint": {
+      "value": "슬라이징장",
+      "sourceKind": "filename_hint",
+      "reviewStatus": "needs_review",
+      "note": "Weak filename hint only; not accepted as direct DWG entity evidence."
+    },
+    "dimensions": {
+      "width": {
+        "value": 1200,
+        "unit": "mm",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "mechanicallyCertain": false,
+        "note": "Top width candidate from direct DWG dimension entities. Candidate role assignment remains needs_review."
+      },
+      "height": {
+        "value": 795,
+        "unit": "mm",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "mechanicallyCertain": false,
+        "note": "Top height candidate from direct DWG dimension entities. Candidate role assignment remains needs_review."
+      },
+      "depth": {
+        "value": 795,
+        "unit": "mm",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "mechanicallyCertain": false,
+        "note": "Top depth candidate from direct DWG dimension entities. Candidate role assignment remains needs_review."
+      }
+    },
+    "productSelectionSignals": [
+      {
+        "kind": "sliding_or_inner_outer_door_labels",
+        "value": [
+          "아웃도어",
+          "인도어"
+        ],
+        "note": "DWG text includes inner/out-door labels useful for product-family selection.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "mirror_material_labels",
+        "value": [
+          "3T 은경"
+        ],
+        "note": "DWG text includes mirror/material labels.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "dimension_entities",
+        "value": {
+          "count": 17,
+          "candidates": {
+            "width": [
+              1200,
+              600,
+              578,
+              185
+            ],
+            "height": [
+              795,
+              777,
+              697
+            ],
+            "depth": [
+              795,
+              777,
+              697,
+              578,
+              185
+            ],
+            "all": [
+              1200,
+              795,
+              777,
+              697,
+              600,
+              578,
+              185
+            ],
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "needs_review",
+            "note": "Candidates are mechanically extracted dimensions, but assigning cabinet roles requires review when multiple views are present."
+          }
+        },
+        "note": "DWG dimension entities provide candidate width/height/depth values for selection defaults.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      }
+    ]
+  },
+  "drawingInfo": {
+    "sourceKind": "dwg_entity",
+    "reviewStatus": "mechanically_certain",
+    "entityCounts": {
+      "Arc": 73,
+      "Circle": 1,
+      "DimensionLinear": 17,
+      "Line": 443,
+      "LwPolyline": 16,
+      "TextEntity": 4
+    },
+    "layers": [
+      "0",
+      "Defpoints",
+      "거울",
+      "S-DIM",
+      "TEX",
+      "FUR",
+      "도어",
+      "TEX @ 1",
+      "도어 @ 1"
+    ],
+    "texts": [
+      {
+        "type": "TextEntity",
+        "handle": 684,
+        "layer": "TEX @ 1",
+        "value": "3T 은경",
+        "position": {
+          "x": -36249.193,
+          "y": -564121.207,
+          "z": 0
+        },
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "type": "TextEntity",
+        "handle": 692,
+        "layer": "TEX @ 1",
+        "value": "3T 은경",
+        "position": {
+          "x": -36820.59,
+          "y": -564121.207,
+          "z": 0
+        },
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "type": "TextEntity",
+        "handle": 904,
+        "layer": "도어 @ 1",
+        "value": "아웃도어",
+        "position": {
+          "x": -36254.025,
+          "y": -564213.335,
+          "z": 0
+        },
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "type": "TextEntity",
+        "handle": 909,
+        "layer": "도어 @ 1",
+        "value": "인도어",
+        "position": {
+          "x": -36803.993,
+          "y": -564213.335,
+          "z": 0
+        },
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      }
+    ],
+    "dimensions": {
+      "count": 17,
+      "extractedCount": 17,
+      "entries": [
+        {
+          "type": "DimensionLinear",
+          "handle": 621,
+          "layer": "S-DIM",
+          "text": "185",
+          "value": 185,
+          "valueSource": "dimension_text",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -33373.348,
+            "y": -563741.395,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -33190.298,
+            "y": -563755.495,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -33190.298,
+            "y": -563495.813,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -33281.823,
+            "y": -563467,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 640,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 776.997,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "vertical",
+          "firstPoint": {
+            "x": -33190.298,
+            "y": -563755.495,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -33190.298,
+            "y": -564532.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -33014.789,
+            "y": -564532.492,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -33042.789,
+            "y": -564143.994,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 671,
+          "layer": "S-DIM",
+          "text": "795",
+          "value": 795,
+          "valueSource": "dimension_text",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "vertical",
+          "firstPoint": {
+            "x": -33376.083,
+            "y": -563740.195,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -33375.523,
+            "y": -564546.792,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -33576.122,
+            "y": -564546.792,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -33604.821,
+            "y": -564143.494,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 710,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 600,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -37050.298,
+            "y": -563749.647,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -36450.298,
+            "y": -563749.647,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -36450.298,
+            "y": -563599.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -36750.298,
+            "y": -563570.948,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 723,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 600,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -36450.298,
+            "y": -563749.647,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -35850.298,
+            "y": -563749.647,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -35850.298,
+            "y": -563599.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -36150.298,
+            "y": -563570.948,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 736,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 1200,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -37050.298,
+            "y": -563749.647,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -35850.298,
+            "y": -563749.647,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -35850.298,
+            "y": -563499.652,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -36450.298,
+            "y": -563470.839,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 750,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 40,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "vertical",
+          "firstPoint": {
+            "x": -35173.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -35173.928,
+            "y": -563795.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -35352.508,
+            "y": -563795.492,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -35381.207,
+            "y": -563775.492,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 765,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 697,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "vertical",
+          "firstPoint": {
+            "x": -35173.928,
+            "y": -563795.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -35173.928,
+            "y": -564492.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -35352.508,
+            "y": -564492.492,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -35381.207,
+            "y": -564143.992,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 778,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 40,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "vertical",
+          "firstPoint": {
+            "x": -35173.928,
+            "y": -564492.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -35173.928,
+            "y": -564532.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -35352.508,
+            "y": -564532.492,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -35381.207,
+            "y": -564512.492,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 793,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 777,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "vertical",
+          "firstPoint": {
+            "x": -35173.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -35173.928,
+            "y": -564532.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -35452.503,
+            "y": -564532.492,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -35480.503,
+            "y": -564143.992,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 806,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 795,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "vertical",
+          "firstPoint": {
+            "x": -37035.298,
+            "y": -563749.647,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -37035.298,
+            "y": -564544.647,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -37313.872,
+            "y": -564544.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -37342.571,
+            "y": -564147.147,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 820,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 15,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -35188.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -35173.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -35173.928,
+            "y": -563594.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -35181.428,
+            "y": -563565.834,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 835,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 577.5,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -35173.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -34596.428,
+            "y": -563755.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -34596.428,
+            "y": -563594.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -34885.178,
+            "y": -563566.29,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 848,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 15,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -34596.428,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -34581.428,
+            "y": -563755.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -34581.428,
+            "y": -563594.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -34588.928,
+            "y": -563565.834,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 863,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 577.5,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -34581.428,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -34003.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -34003.928,
+            "y": -563594.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -34292.678,
+            "y": -563566.29,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 876,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 15,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -34003.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -33988.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -33988.928,
+            "y": -563594.647,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -33996.428,
+            "y": -563565.834,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "type": "DimensionLinear",
+          "handle": 891,
+          "layer": "S-DIM",
+          "text": "",
+          "value": 1200,
+          "valueSource": "dimension_geometry",
+          "unitAssumption": "drawing_unit_mm",
+          "orientation": "horizontal",
+          "firstPoint": {
+            "x": -35188.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "secondPoint": {
+            "x": -33988.928,
+            "y": -563755.492,
+            "z": 0
+          },
+          "definitionPoint": {
+            "x": -33988.928,
+            "y": -563494.652,
+            "z": 0
+          },
+          "textMiddlePoint": {
+            "x": -34588.928,
+            "y": -563465.839,
+            "z": 0
+          },
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        }
+      ],
+      "numericValues": [
+        15,
+        40,
+        185,
+        578,
+        600,
+        697,
+        777,
+        795,
+        1200
+      ],
+      "roleCandidates": {
+        "width": [
+          1200,
+          600,
+          578,
+          185
+        ],
+        "height": [
+          795,
+          777,
+          697
+        ],
+        "depth": [
+          795,
+          777,
+          697,
+          578,
+          185
+        ],
+        "all": [
+          1200,
+          795,
+          777,
+          697,
+          600,
+          578,
+          185
+        ],
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "note": "Candidates are mechanically extracted dimensions, but assigning cabinet roles requires review when multiple views are present."
+      },
+      "evidenceNote": "Dimension entity values are read directly from DWG entities. Width/height/depth role assignment remains a candidate unless separately reviewed."
+    },
+    "bounds": {
+      "minX": -37342.571,
+      "minY": -564547.492,
+      "maxX": 0,
+      "maxY": 0,
+      "width": 37342.571,
+      "height": 564547.492,
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain"
+    },
+    "viewLabels": [],
+    "productSelectionSignals": [
+      {
+        "kind": "sliding_or_inner_outer_door_labels",
+        "value": [
+          "아웃도어",
+          "인도어"
+        ],
+        "note": "DWG text includes inner/out-door labels useful for product-family selection.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "mirror_material_labels",
+        "value": [
+          "3T 은경"
+        ],
+        "note": "DWG text includes mirror/material labels.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "dimension_entities",
+        "value": {
+          "count": 17,
+          "candidates": {
+            "width": [
+              1200,
+              600,
+              578,
+              185
+            ],
+            "height": [
+              795,
+              777,
+              697
+            ],
+            "depth": [
+              795,
+              777,
+              697,
+              578,
+              185
+            ],
+            "all": [
+              1200,
+              795,
+              777,
+              697,
+              600,
+              578,
+              185
+            ],
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "needs_review",
+            "note": "Candidates are mechanically extracted dimensions, but assigning cabinet roles requires review when multiple views are present."
+          }
+        },
+        "note": "DWG dimension entities provide candidate width/height/depth values for selection defaults.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      }
+    ]
+  },
+  "filenameOnlyInferenceForbidden": true,
+  "dwgDerivedValues": [
+    {
+      "field": "drawingInfo.entityCounts",
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain"
+    },
+    {
+      "field": "drawingInfo.dimensions.entries",
+      "count": 17,
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain"
+    },
+    {
+      "field": "drawingInfo.texts",
+      "count": 4,
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain"
+    },
+    {
+      "field": "drawingInfo.bounds",
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain"
+    }
+  ]
+}

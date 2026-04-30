@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "track": "B",
+  "id": "하부장-8008-다리",
+  "displayName": "하부장_8008 다리",
+  "sourceAssets": {
+    "dwg": "samples/하부장_8008 다리.dwg",
+    "pdf": "samples/하부장_8008 다리.pdf",
+    "png": "samples/하부장_8008 다리_1.png"
+  },
+  "dwgInspection": {
+    "filePath": "samples/하부장_8008 다리.dwg",
+    "fileName": "하부장_8008 다리.dwg",
+    "baseName": "하부장_8008 다리",
+    "sizeBytes": 224342,
+    "sha256": "a52d601fa3b3585c658625a7b756459b32fd59487a018b522cad3fc04c88b37a",
+    "directInspection": true,
+    "header": {
+      "signature": "AC1032",
+      "versionLabel": "AutoCAD 2018/2019/2020 DWG",
+      "sourceKind": "dwg_header",
+      "reviewStatus": "dwg_header_inspected"
+    }
+  },
+  "dwgExtractionStatus": "blocked_by_tooling",
+  "blocker": "No local DWG entity extraction tool was available during this run.",
+  "values": {
+    "familyHint": {
+      "value": "unknown",
+      "sourceKind": "filename_hint",
+      "reviewStatus": "needs_review",
+      "note": "Weak filename hint only; not accepted as DWG-derived evidence."
+    },
+    "dimensions": {
+      "width": {
+        "value": null,
+        "unit": "mm",
+        "sourceKind": "blocked_by_tooling",
+        "reviewStatus": "needs_review"
+      },
+      "height": {
+        "value": null,
+        "unit": "mm",
+        "sourceKind": "blocked_by_tooling",
+        "reviewStatus": "needs_review"
+      },
+      "depth": {
+        "value": null,
+        "unit": "mm",
+        "sourceKind": "blocked_by_tooling",
+        "reviewStatus": "needs_review"
+      }
+    }
+  },
+  "filenameOnlyInferenceForbidden": true,
+  "dwgDerivedValues": []
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "track": "A",
+  "templateId": "track-a-sliding-cabinet",
+  "family": "슬라이징장",
+  "familyDisplayName": "슬라이징장",
+  "reviewStatus": "needs_review",
+  "consultationGradeOnly": true,
+  "dwgAutomationRequired": false,
+  "constraints": {
+    "dimensions": {
+      "width": {
+        "min": 900,
+        "max": 2400,
+        "step": 50,
+        "defaultValue": 1600,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "height": {
+        "min": 1800,
+        "max": 2400,
+        "step": 10,
+        "defaultValue": 2100,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "depth": {
+        "min": 450,
+        "max": 700,
+        "step": 10,
+        "defaultValue": 600,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "options": {
+      "panelCount": {
+        "allowedValues": [
+          2,
+          3
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "sliding": {
+        "allowedValues": [
+          true
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "rail": {
+        "allowedValues": [
+          "top-bottom"
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "sliding": {
+      "state": "required",
+      "reason": "슬라이징장 초안 규칙상 슬라이딩 필수",
+      "reviewStatus": "needs_review"
+    }
+  },
+  "defaults": {
+    "dimensions": {
+      "width": 1600,
+      "height": 2100,
+      "depth": 600
+    },
+    "options": {
+      "panelCount": 2,
+      "sliding": true,
+      "rail": "top-bottom"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "track": "A",
+  "templateId": "track-a-flap-cabinet",
+  "family": "플랩장",
+  "familyDisplayName": "플랩장",
+  "reviewStatus": "needs_review",
+  "consultationGradeOnly": true,
+  "dwgAutomationRequired": false,
+  "constraints": {
+    "dimensions": {
+      "width": {
+        "min": 450,
+        "max": 1800,
+        "step": 50,
+        "defaultValue": 900,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "height": {
+        "min": 250,
+        "max": 700,
+        "step": 10,
+        "defaultValue": 400,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "depth": {
+        "min": 250,
+        "max": 500,
+        "step": 10,
+        "defaultValue": 350,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "options": {
+      "flapCount": {
+        "allowedValues": [
+          1,
+          2
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "hinge": {
+        "allowedValues": [
+          "up"
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "sliding": {
+      "state": "unavailable",
+      "reason": "플랩장 초안 규칙에서는 플랩 도어 기준",
+      "reviewStatus": "needs_review"
+    }
+  },
+  "defaults": {
+    "dimensions": {
+      "width": 900,
+      "height": 400,
+      "depth": 350
+    },
+    "options": {
+      "flapCount": 1,
+      "hinge": "up"
+    }
+  }
+}

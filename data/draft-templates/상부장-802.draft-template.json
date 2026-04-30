@@ -1,0 +1,132 @@
+{
+  "schema_version": "track-b-draft-template.v1",
+  "template_id": "상부장-802",
+  "sample_id": "상부장-802",
+  "source_manifest": "data/cad-manifests/상부장-802.manifest.json",
+  "consultation_grade_only": true,
+  "production_cad_ready": false,
+  "provenance_policy": {
+    "rule": "Only values directly read from the DWG bytes/tool output may use direct_dwg_* provenance. Filename, template, visual, or domain assumptions must be needs_review; missing geometry/dimensions are blockers.",
+    "forbidden_provenance": "do_not_label_uncertain_values_as_direct_dwg"
+  },
+  "family": {
+    "value": "wall_cabinet",
+    "provenance": "filename_or_template_inferred",
+    "review_status": "needs_review",
+    "mechanically_certain": false,
+    "note": "Family label comes from the sample filename only, not from DWG entity inspection."
+  },
+  "label_ko": {
+    "value": "상부장_802",
+    "provenance": "filename_or_template_inferred",
+    "review_status": "needs_review",
+    "mechanically_certain": false,
+    "note": "Template label is based on the filename for UI selection and needs human review."
+  },
+  "constraints": {
+    "width_mm": {
+      "min": {
+        "value": 300,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft width_mm minimum is a consultation template assumption, not directly extracted from this DWG."
+      },
+      "max": {
+        "value": 1200,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft width_mm maximum is a consultation template assumption, not directly extracted from this DWG."
+      },
+      "default": {
+        "value": 600,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft width_mm default is a consultation template assumption, not directly extracted from this DWG."
+      }
+    },
+    "height_mm": {
+      "min": {
+        "value": 400,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft height_mm minimum is a consultation template assumption, not directly extracted from this DWG."
+      },
+      "max": {
+        "value": 900,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft height_mm maximum is a consultation template assumption, not directly extracted from this DWG."
+      },
+      "default": {
+        "value": 700,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft height_mm default is a consultation template assumption, not directly extracted from this DWG."
+      }
+    },
+    "depth_mm": {
+      "min": {
+        "value": 250,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft depth_mm minimum is a consultation template assumption, not directly extracted from this DWG."
+      },
+      "max": {
+        "value": 450,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft depth_mm maximum is a consultation template assumption, not directly extracted from this DWG."
+      },
+      "default": {
+        "value": 320,
+        "provenance": "filename_or_template_inferred",
+        "review_status": "needs_review",
+        "mechanically_certain": false,
+        "note": "Draft depth_mm default is a consultation template assumption, not directly extracted from this DWG."
+      }
+    }
+  },
+  "options": {
+    "installation": {
+      "value": [
+        "legs",
+        "wall_hung",
+        "unspecified"
+      ],
+      "provenance": "filename_or_template_inferred",
+      "review_status": "needs_review",
+      "mechanically_certain": false,
+      "note": "Installation options are draft consultation choices and were not directly extracted from DWG."
+    },
+    "doors": {
+      "value": "family_default_placeholder",
+      "provenance": "filename_or_template_inferred",
+      "review_status": "needs_review",
+      "mechanically_certain": false,
+      "note": "Door behavior is a draft rule placeholder and was not directly extracted from DWG."
+    },
+    "sliding": {
+      "value": "not_applicable_or_unverified",
+      "provenance": "filename_or_template_inferred",
+      "review_status": "needs_review",
+      "mechanically_certain": false,
+      "note": "Sliding behavior is inferred from family/filename and needs review."
+    }
+  },
+  "review": {
+    "status": "needs_review",
+    "reasons": [
+      "Draft constraints and options are not mechanically certain.",
+      "No DWG entity geometry/text/layer extraction is available for this template.",
+      "Safe for consultation-grade 2D schematic MVP only; not production CAD."
+    ]
+  }
+}

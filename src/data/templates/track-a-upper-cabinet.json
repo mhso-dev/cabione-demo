@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "track": "A",
+  "templateId": "track-a-upper-cabinet",
+  "family": "상부장",
+  "familyDisplayName": "상부장",
+  "reviewStatus": "needs_review",
+  "consultationGradeOnly": true,
+  "dwgAutomationRequired": false,
+  "constraints": {
+    "dimensions": {
+      "width": {
+        "min": 300,
+        "max": 1800,
+        "step": 50,
+        "defaultValue": 800,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "height": {
+        "min": 300,
+        "max": 900,
+        "step": 10,
+        "defaultValue": 700,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "depth": {
+        "min": 250,
+        "max": 450,
+        "step": 10,
+        "defaultValue": 350,
+        "unit": "mm",
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "options": {
+      "doorCount": {
+        "allowedValues": [
+          1,
+          2,
+          3
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      },
+      "install": {
+        "allowedValues": [
+          "wall"
+        ],
+        "sourceKind": "common_logic",
+        "reviewStatus": "needs_review"
+      }
+    },
+    "sliding": {
+      "state": "unavailable",
+      "reason": "상부장 초안 규칙에서는 슬라이딩 미사용",
+      "reviewStatus": "needs_review"
+    }
+  },
+  "defaults": {
+    "dimensions": {
+      "width": 800,
+      "height": 700,
+      "depth": 350
+    },
+    "options": {
+      "doorCount": 1,
+      "install": "wall"
+    }
+  }
+}

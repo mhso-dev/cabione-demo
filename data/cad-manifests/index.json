@@ -1,0 +1,521 @@
+{
+  "schemaVersion": 1,
+  "track": "B",
+  "generatedAt": "2026-04-29T22:09:25.472Z",
+  "sampleCount": 18,
+  "filenameOnlyInferenceForbidden": true,
+  "toolProbe": {
+    "checkedAt": "2026-04-29T22:09:24.875Z",
+    "tools": {
+      "dwgread": {
+        "available": false
+      },
+      "dwg2dxf": {
+        "available": false
+      },
+      "dwglayers": {
+        "available": false
+      },
+      "dwggrep": {
+        "available": false
+      },
+      "ODAFileConverter": {
+        "available": false
+      },
+      "qcad": {
+        "available": false
+      }
+    },
+    "semanticExtractionAvailable": true,
+    "directBytesInspection": true,
+    "directDwgReader": {
+      "package": "@node-projects/acad-ts",
+      "available": true,
+      "mode": "direct_dwg_binary_parse"
+    }
+  },
+  "entries": [
+    {
+      "id": "3도어장-2104",
+      "displayName": "3도어장_2104",
+      "evidencePath": "data/cad-evidence/3도어장-2104.json",
+      "templatePath": "data/draft-templates/3도어장-2104.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 96,
+      "dimensionCount": 25,
+      "textCount": 3
+    },
+    {
+      "id": "3도어장-4104",
+      "displayName": "3도어장_4104",
+      "evidencePath": "data/cad-evidence/3도어장-4104.json",
+      "templatePath": "data/draft-templates/3도어장-4104.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 105,
+      "dimensionCount": 28,
+      "textCount": 4
+    },
+    {
+      "id": "상부장-200",
+      "displayName": "상부장_200",
+      "evidencePath": "data/cad-evidence/상부장-200.json",
+      "templatePath": "data/draft-templates/상부장-200.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 64,
+      "dimensionCount": 18,
+      "textCount": 0
+    },
+    {
+      "id": "상부장-230r",
+      "displayName": "상부장_230R",
+      "evidencePath": "data/cad-evidence/상부장-230r.json",
+      "templatePath": "data/draft-templates/상부장-230r.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 81,
+      "dimensionCount": 13,
+      "textCount": 1
+    },
+    {
+      "id": "상부장-802",
+      "displayName": "상부장_802",
+      "evidencePath": "data/cad-evidence/상부장-802.json",
+      "templatePath": "data/draft-templates/상부장-802.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 57,
+      "dimensionCount": 16,
+      "textCount": 0
+    },
+    {
+      "id": "상부장-808",
+      "displayName": "상부장_808",
+      "evidencePath": "data/cad-evidence/상부장-808.json",
+      "templatePath": "data/draft-templates/상부장-808.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 79,
+      "dimensionCount": 16,
+      "textCount": 1
+    },
+    {
+      "id": "슬라이징장-4001",
+      "displayName": "슬라이징장_4001",
+      "evidencePath": "data/cad-evidence/슬라이징장-4001.json",
+      "templatePath": "data/draft-templates/슬라이징장-4001.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 554,
+      "dimensionCount": 17,
+      "textCount": 4
+    },
+    {
+      "id": "슬라이징장-4003",
+      "displayName": "슬라이징장_4003",
+      "evidencePath": "data/cad-evidence/슬라이징장-4003.json",
+      "templatePath": "data/draft-templates/슬라이징장-4003.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 542,
+      "dimensionCount": 23,
+      "textCount": 4
+    },
+    {
+      "id": "슬라이징장-4103",
+      "displayName": "슬라이징장_4103",
+      "evidencePath": "data/cad-evidence/슬라이징장-4103.json",
+      "templatePath": "data/draft-templates/슬라이징장-4103.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 541,
+      "dimensionCount": 24,
+      "textCount": 4
+    },
+    {
+      "id": "플랩장-5100",
+      "displayName": "플랩장_5100",
+      "evidencePath": "data/cad-evidence/플랩장-5100.json",
+      "templatePath": "data/draft-templates/플랩장-5100.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 66,
+      "dimensionCount": 20,
+      "textCount": 1
+    },
+    {
+      "id": "하부장-2000",
+      "displayName": "하부장_2000",
+      "evidencePath": "data/cad-evidence/하부장-2000.json",
+      "templatePath": "data/draft-templates/하부장-2000.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 130,
+      "dimensionCount": 32,
+      "textCount": 5
+    },
+    {
+      "id": "하부장-2100",
+      "displayName": "하부장_2100",
+      "evidencePath": "data/cad-evidence/하부장-2100.json",
+      "templatePath": "data/draft-templates/하부장-2100.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 72,
+      "dimensionCount": 24,
+      "textCount": 1
+    },
+    {
+      "id": "하부장-50a",
+      "displayName": "하부장_50A",
+      "evidencePath": "data/cad-evidence/하부장-50a.json",
+      "templatePath": "data/draft-templates/하부장-50a.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 77,
+      "dimensionCount": 28,
+      "textCount": 4
+    },
+    {
+      "id": "하부장-8008-다리",
+      "displayName": "하부장_8008 다리",
+      "evidencePath": "data/cad-evidence/하부장-8008-다리.json",
+      "templatePath": "data/draft-templates/하부장-8008-다리.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 149,
+      "dimensionCount": 31,
+      "textCount": 6
+    },
+    {
+      "id": "하부장-8008-벽걸이",
+      "displayName": "하부장_8008 벽걸이",
+      "evidencePath": "data/cad-evidence/하부장-8008-벽걸이.json",
+      "templatePath": "data/draft-templates/하부장-8008-벽걸이.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 99,
+      "dimensionCount": 26,
+      "textCount": 6
+    },
+    {
+      "id": "하부장-8100",
+      "displayName": "하부장_8100",
+      "evidencePath": "data/cad-evidence/하부장-8100.json",
+      "templatePath": "data/draft-templates/하부장-8100.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 143,
+      "dimensionCount": 25,
+      "textCount": 4
+    },
+    {
+      "id": "하부장-w1200-4도어-다리",
+      "displayName": "하부장_W1200_4도어 다리",
+      "evidencePath": "data/cad-evidence/하부장-w1200-4도어-다리.json",
+      "templatePath": "data/draft-templates/하부장-w1200-4도어-다리.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 146,
+      "dimensionCount": 36,
+      "textCount": 4
+    },
+    {
+      "id": "하부장-w1200-4도어-벽걸이",
+      "displayName": "하부장_W1200_4도어 벽걸이",
+      "evidencePath": "data/cad-evidence/하부장-w1200-4도어-벽걸이.json",
+      "templatePath": "data/draft-templates/하부장-w1200-4도어-벽걸이.json",
+      "dwgExtractionStatus": "entity_extracted",
+      "directInspection": true,
+      "entityCount": 92,
+      "dimensionCount": 32,
+      "textCount": 4
+    }
+  ],
+  "templates": [
+    {
+      "templateId": "track-a-base-cabinet",
+      "familyDisplayName": "하부장",
+      "family": "하부장",
+      "reviewStatus": "needs_review",
+      "consultationGradeOnly": true,
+      "productionCadReady": false,
+      "constraints": {
+        "width": {
+          "min": 300,
+          "max": 2400,
+          "step": 50,
+          "default": 800,
+          "review_status": "needs_review"
+        },
+        "height": {
+          "min": 600,
+          "max": 900,
+          "step": 10,
+          "default": 720,
+          "review_status": "needs_review"
+        },
+        "depth": {
+          "min": 450,
+          "max": 700,
+          "step": 10,
+          "default": 580,
+          "review_status": "needs_review"
+        }
+      },
+      "defaults": {
+        "dimensions": {
+          "width": 800,
+          "height": 720,
+          "depth": 580
+        },
+        "options": {
+          "doorCount": 2,
+          "sliding": false
+        }
+      }
+    },
+    {
+      "templateId": "track-a-wall-cabinet",
+      "familyDisplayName": "상부장",
+      "family": "상부장",
+      "reviewStatus": "needs_review",
+      "consultationGradeOnly": true,
+      "productionCadReady": false,
+      "constraints": {
+        "width": {
+          "min": 300,
+          "max": 1800,
+          "step": 50,
+          "default": 800,
+          "review_status": "needs_review"
+        },
+        "height": {
+          "min": 300,
+          "max": 900,
+          "step": 10,
+          "default": 700,
+          "review_status": "needs_review"
+        },
+        "depth": {
+          "min": 250,
+          "max": 450,
+          "step": 10,
+          "default": 350,
+          "review_status": "needs_review"
+        }
+      },
+      "defaults": {
+        "dimensions": {
+          "width": 800,
+          "height": 700,
+          "depth": 350
+        },
+        "options": {
+          "doorCount": 2,
+          "sliding": false
+        }
+      }
+    },
+    {
+      "templateId": "track-a-sliding-cabinet",
+      "familyDisplayName": "슬라이징장",
+      "family": "슬라이징장",
+      "reviewStatus": "needs_review",
+      "consultationGradeOnly": true,
+      "productionCadReady": false,
+      "constraints": {
+        "width": {
+          "min": 900,
+          "max": 2400,
+          "step": 50,
+          "default": 1600,
+          "review_status": "needs_review"
+        },
+        "height": {
+          "min": 1800,
+          "max": 2400,
+          "step": 10,
+          "default": 2100,
+          "review_status": "needs_review"
+        },
+        "depth": {
+          "min": 450,
+          "max": 700,
+          "step": 10,
+          "default": 600,
+          "review_status": "needs_review"
+        }
+      },
+      "defaults": {
+        "dimensions": {
+          "width": 1600,
+          "height": 2100,
+          "depth": 600
+        },
+        "options": {
+          "panelCount": 2,
+          "sliding": true
+        }
+      }
+    },
+    {
+      "templateId": "track-a-three-door-cabinet",
+      "familyDisplayName": "3도어장",
+      "family": "3도어장",
+      "reviewStatus": "needs_review",
+      "consultationGradeOnly": true,
+      "productionCadReady": false,
+      "constraints": {
+        "width": {
+          "min": 900,
+          "max": 1800,
+          "step": 50,
+          "default": 1200,
+          "review_status": "needs_review"
+        },
+        "height": {
+          "min": 600,
+          "max": 2200,
+          "step": 10,
+          "default": 1800,
+          "review_status": "needs_review"
+        },
+        "depth": {
+          "min": 450,
+          "max": 650,
+          "step": 10,
+          "default": 550,
+          "review_status": "needs_review"
+        }
+      },
+      "defaults": {
+        "dimensions": {
+          "width": 1200,
+          "height": 1800,
+          "depth": 550
+        },
+        "options": {
+          "doorCount": 3,
+          "sliding": false
+        }
+      }
+    },
+    {
+      "templateId": "track-a-flap-cabinet",
+      "familyDisplayName": "플랩장",
+      "family": "플랩장",
+      "reviewStatus": "needs_review",
+      "consultationGradeOnly": true,
+      "productionCadReady": false,
+      "constraints": {
+        "width": {
+          "min": 450,
+          "max": 1800,
+          "step": 50,
+          "default": 900,
+          "review_status": "needs_review"
+        },
+        "height": {
+          "min": 250,
+          "max": 700,
+          "step": 10,
+          "default": 400,
+          "review_status": "needs_review"
+        },
+        "depth": {
+          "min": 250,
+          "max": 500,
+          "step": 10,
+          "default": 350,
+          "review_status": "needs_review"
+        }
+      },
+      "defaults": {
+        "dimensions": {
+          "width": 900,
+          "height": 400,
+          "depth": 350
+        },
+        "options": {
+          "flapCount": 1,
+          "sliding": false
+        }
+      }
+    }
+  ],
+  "schema_version": "track-b-index.v1",
+  "sample_count": 18,
+  "manifests": [
+    "data/cad-evidence/3도어장-2104.json",
+    "data/cad-evidence/3도어장-4104.json",
+    "data/cad-evidence/상부장-200.json",
+    "data/cad-evidence/상부장-230r.json",
+    "data/cad-evidence/상부장-802.json",
+    "data/cad-evidence/상부장-808.json",
+    "data/cad-evidence/슬라이징장-4001.json",
+    "data/cad-evidence/슬라이징장-4003.json",
+    "data/cad-evidence/슬라이징장-4103.json",
+    "data/cad-evidence/플랩장-5100.json",
+    "data/cad-evidence/하부장-2000.json",
+    "data/cad-evidence/하부장-2100.json",
+    "data/cad-evidence/하부장-50a.json",
+    "data/cad-evidence/하부장-8008-다리.json",
+    "data/cad-evidence/하부장-8008-벽걸이.json",
+    "data/cad-evidence/하부장-8100.json",
+    "data/cad-evidence/하부장-w1200-4도어-다리.json",
+    "data/cad-evidence/하부장-w1200-4도어-벽걸이.json"
+  ],
+  "draft_templates": [
+    "data/draft-templates/3도어장-2104.json",
+    "data/draft-templates/3도어장-4104.json",
+    "data/draft-templates/상부장-200.json",
+    "data/draft-templates/상부장-230r.json",
+    "data/draft-templates/상부장-802.json",
+    "data/draft-templates/상부장-808.json",
+    "data/draft-templates/슬라이징장-4001.json",
+    "data/draft-templates/슬라이징장-4003.json",
+    "data/draft-templates/슬라이징장-4103.json",
+    "data/draft-templates/플랩장-5100.json",
+    "data/draft-templates/하부장-2000.json",
+    "data/draft-templates/하부장-2100.json",
+    "data/draft-templates/하부장-50a.json",
+    "data/draft-templates/하부장-8008-다리.json",
+    "data/draft-templates/하부장-8008-벽걸이.json",
+    "data/draft-templates/하부장-8100.json",
+    "data/draft-templates/하부장-w1200-4도어-다리.json",
+    "data/draft-templates/하부장-w1200-4도어-벽걸이.json"
+  ],
+  "family_templates": {
+    "base_cabinet": [
+      "data/draft-templates/하부장-2000.json",
+      "data/draft-templates/하부장-2100.json",
+      "data/draft-templates/하부장-50a.json",
+      "data/draft-templates/하부장-8008-다리.json",
+      "data/draft-templates/하부장-8008-벽걸이.json",
+      "data/draft-templates/하부장-8100.json",
+      "data/draft-templates/하부장-w1200-4도어-다리.json",
+      "data/draft-templates/하부장-w1200-4도어-벽걸이.json"
+    ],
+    "wall_cabinet": [
+      "data/draft-templates/상부장-200.json",
+      "data/draft-templates/상부장-230r.json",
+      "data/draft-templates/상부장-802.json",
+      "data/draft-templates/상부장-808.json"
+    ],
+    "sliding_cabinet": [
+      "data/draft-templates/슬라이징장-4001.json",
+      "data/draft-templates/슬라이징장-4003.json",
+      "data/draft-templates/슬라이징장-4103.json"
+    ],
+    "three_door_cabinet": [
+      "data/draft-templates/3도어장-2104.json",
+      "data/draft-templates/3도어장-4104.json"
+    ],
+    "flap_cabinet": [
+      "data/draft-templates/플랩장-5100.json"
+    ]
+  }
+}

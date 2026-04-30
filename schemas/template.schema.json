@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cabione consultation template schema",
+  "type": "object",
+  "required": ["schemaVersion", "templateId", "familyId", "familyDisplayName", "reviewStatus", "defaults", "constraints"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "templateId": { "type": "string" },
+    "sampleId": { "type": "string" },
+    "familyId": { "type": "string" },
+    "familyDisplayName": { "type": "string" },
+    "displayName": { "type": "string" },
+    "reviewStatus": { "enum": ["needs_review", "accepted", "blocker"] },
+    "consultationGradeOnly": { "const": true },
+    "defaults": { "type": "object" },
+    "constraints": { "type": "object" },
+    "sourceEvidence": { "type": "object" }
+  }
+}

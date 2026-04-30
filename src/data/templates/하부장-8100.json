@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "templateId": "하부장-8100",
+  "sampleId": "하부장-8100",
+  "familyId": "base_cabinet",
+  "familyDisplayName": "하부장",
+  "displayName": "하부장_8100",
+  "reviewStatus": "needs_review",
+  "consultationGradeOnly": true,
+  "productionCadReady": false,
+  "uiReady": true,
+  "defaults": {
+    "dimensions": {
+      "width": 620,
+      "height": 800,
+      "depth": 570
+    },
+    "options": {
+      "doorCount": 2,
+      "mountType": "legged",
+      "flapCount": 0,
+      "sliding": false,
+      "slidingPanelCount": 0
+    }
+  },
+  "visualAnnotations": {
+    "hingePositionNotation": {
+      "value": "side_marks_indicate_hinge_positions",
+      "displayName": "측면 표시는 경첩 위치",
+      "sourceKind": "user_labeled_reference",
+      "reviewStatus": "needs_review",
+      "mechanicallyCertain": false,
+      "referenceImage": "KakaoTalk_Photo_2026-04-29-18-32-13.png",
+      "note": "사용자 제공 KakaoTalk 이미지에서 측면 표시가 경첩 위치라고 확인됨. DWG entity 추출값은 아니므로 needs_review로 유지합니다."
+    },
+    "doorOpeningDirectionNotation": {
+      "value": "dashed_diagonal_lines_indicate_door_opening_direction",
+      "displayName": "점선/사선은 문 열림 방향",
+      "sourceKind": "user_labeled_reference_and_png_visual_review",
+      "reviewStatus": "needs_review",
+      "mechanicallyCertain": false,
+      "referenceImage": "KakaoTalk_Photo_2026-04-29-18-32-13.png",
+      "note": "사용자 확인과 샘플 PNG 육안 검토 기준으로 문짝 내부 점선/사선을 열림 방향 표기로 반영합니다. DWG entity 직접 추출값은 아닙니다."
+    }
+  },
+  "constraints": {
+    "reviewStatus": "needs_review",
+    "sourceKind": "common_logic_with_sample_file_hints",
+    "mechanicallyCertain": false,
+    "note": "상담용 초안 constraint입니다. DWG entity에서 기계적으로 추출된 제조 constraint가 아니므로 needs_review입니다.",
+    "dimensions": {
+      "width": {
+        "min": 400,
+        "max": 1500,
+        "step": 10,
+        "default": 800,
+        "reviewStatus": "needs_review",
+        "sourceKind": "common_logic",
+        "mechanicallyCertain": false
+      },
+      "height": {
+        "min": 350,
+        "max": 900,
+        "step": 10,
+        "default": 720,
+        "reviewStatus": "needs_review",
+        "sourceKind": "common_logic",
+        "mechanicallyCertain": false
+      },
+      "depth": {
+        "min": 350,
+        "max": 600,
+        "step": 10,
+        "default": 560,
+        "reviewStatus": "needs_review",
+        "sourceKind": "common_logic",
+        "mechanicallyCertain": false
+      }
+    },
+    "options": {
+      "doorCount": {
+        "min": 1,
+        "max": 5
+      },
+      "mountType": [
+        "legged",
+        "wall_mounted"
+      ],
+      "sliding": "unavailable",
+      "reviewStatus": "needs_review",
+      "sourceKind": "common_logic_with_filename_hint",
+      "mechanicallyCertain": false
+    }
+  },
+  "sourceFiles": {
+    "dwg": "samples/하부장_8100.dwg",
+    "pdf": "samples/하부장_8100.pdf",
+    "png": "samples/하부장_8100_1.png"
+  },
+  "sampleReferences": {
+    "dwg": {
+      "path": "samples/하부장_8100.dwg",
+      "directInspection": true,
+      "sha256": "8a2639a7e927b6ffda09280c202485633c3ff244203009ed448ff605bb8062bd",
+      "signature": "AC1021",
+      "versionLabel": "AutoCAD 2007/2008/2009 DWG",
+      "dwgExtractionStatus": "entity_extracted",
+      "entityCount": 143,
+      "dimensionCount": 25,
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain"
+    },
+    "pdf": {
+      "path": "samples/하부장_8100.pdf",
+      "sourceKind": "pdf_visual",
+      "reviewStatus": "needs_review"
+    },
+    "png": {
+      "path": "samples/하부장_8100_1.png",
+      "sourceKind": "png_visual",
+      "reviewStatus": "needs_review",
+      "imageSize": {
+        "width": 3508,
+        "height": 2481
+      }
+    },
+    "hingeLegend": {
+      "path": "KakaoTalk_Photo_2026-04-29-18-32-13.png",
+      "sourceKind": "user_labeled_reference",
+      "reviewStatus": "needs_review",
+      "note": "측면 표시가 경첩 위치라는 사용자 제공 reference."
+    },
+    "openingDirectionLegend": {
+      "path": "KakaoTalk_Photo_2026-04-29-18-32-13.png",
+      "sourceKind": "user_labeled_reference_and_png_visual_review",
+      "reviewStatus": "needs_review",
+      "note": "점선/사선 표시가 문 열림 방향이라는 사용자 제공 reference 및 샘플 PNG 육안 확인."
+    }
+  },
+  "sourceEvidence": {
+    "manifest": "data/cad-evidence/하부장-8100.json",
+    "dwgExtractionStatus": "entity_extracted",
+    "toolProbe": {
+      "checkedAt": "2026-04-29T22:09:24.875Z",
+      "tools": {
+        "dwgread": {
+          "available": false
+        },
+        "dwg2dxf": {
+          "available": false
+        },
+        "dwglayers": {
+          "available": false
+        },
+        "dwggrep": {
+          "available": false
+        },
+        "ODAFileConverter": {
+          "available": false
+        },
+        "qcad": {
+          "available": false
+        }
+      },
+      "semanticExtractionAvailable": true,
+      "directBytesInspection": true,
+      "directDwgReader": {
+        "package": "@node-projects/acad-ts",
+        "available": true,
+        "mode": "direct_dwg_binary_parse"
+      }
+    },
+    "inferredDefaults": [
+      {
+        "field": "dimensions.width",
+        "value": 620,
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "note": "DWG dimension entity에서 추출한 폭 후보를 상담용 기본값으로 반영했습니다. 역할 매핑은 needs_review입니다."
+      },
+      {
+        "field": "dimensions.height",
+        "value": 800,
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "note": "DWG dimension entity에서 추출한 높이 후보를 상담용 기본값으로 반영했습니다. 역할 매핑은 needs_review입니다."
+      },
+      {
+        "field": "dimensions.depth",
+        "value": 570,
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "note": "DWG dimension entity에서 추출한 깊이 후보를 상담용 기본값으로 반영했습니다. 역할 매핑은 needs_review입니다."
+      }
+    ]
+  },
+  "drawingInfo": {
+    "entityCounts": {
+      "Arc": 8,
+      "Circle": 2,
+      "DimensionLinear": 25,
+      "Line": 100,
+      "LwPolyline": 3,
+      "MText": 1,
+      "MultiLeader": 1,
+      "TextEntity": 3
+    },
+    "dimensions": {
+      "width": [
+        620,
+        600,
+        570,
+        450,
+        430
+      ],
+      "height": [
+        800,
+        780,
+        660,
+        630,
+        460,
+        120
+      ],
+      "depth": [
+        800,
+        780,
+        660,
+        630,
+        570,
+        460,
+        450,
+        430,
+        120
+      ],
+      "all": [
+        800,
+        780,
+        660,
+        630,
+        620,
+        600,
+        570,
+        460,
+        450,
+        430,
+        120
+      ],
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "needs_review",
+      "note": "Candidates are mechanically extracted dimensions, but assigning cabinet roles requires review when multiple views are present."
+    },
+    "texts": [
+      "FRONT VIEW",
+      "INNER VIEW",
+      "SIDE VIEW",
+      "6013 세면기"
+    ],
+    "viewLabels": [
+      "FRONT VIEW",
+      "INNER VIEW",
+      "SIDE VIEW"
+    ],
+    "productSelectionSignals": [
+      {
+        "kind": "multi_view_labels",
+        "value": [
+          "FRONT VIEW",
+          "INNER VIEW",
+          "SIDE VIEW"
+        ],
+        "note": "DWG contains explicit FRONT/INNER/SIDE VIEW labels.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "dimension_entities",
+        "value": {
+          "count": 25,
+          "candidates": {
+            "width": [
+              620,
+              600,
+              570,
+              450,
+              430
+            ],
+            "height": [
+              800,
+              780,
+              660,
+              630,
+              460,
+              120
+            ],
+            "depth": [
+              800,
+              780,
+              660,
+              630,
+              570,
+              460,
+              450,
+              430,
+              120
+            ],
+            "all": [
+              800,
+              780,
+              660,
+              630,
+              620,
+              600,
+              570,
+              460,
+              450,
+              430,
+              120
+            ],
+            "sourceKind": "dwg_entity",
+            "reviewStatus": "needs_review",
+            "note": "Candidates are mechanically extracted dimensions, but assigning cabinet roles requires review when multiple views are present."
+          }
+        },
+        "note": "DWG dimension entities provide candidate width/height/depth values for selection defaults.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      }
+    ],
+    "sourceKind": "dwg_entity",
+    "reviewStatus": "mechanically_certain"
+  }
+}
