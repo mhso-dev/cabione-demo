@@ -141,7 +141,7 @@
     "manifest": "data/cad-evidence/하부장-w1200-4도어-다리.json",
     "dwgExtractionStatus": "entity_extracted",
     "toolProbe": {
-      "checkedAt": "2026-04-29T22:09:24.875Z",
+      "checkedAt": "2026-04-30T00:37:47.109Z",
       "tools": {
         "dwgread": {
           "available": false
@@ -200,8 +200,88 @@
       },
       {
         "field": "options.mountType",
-        "sourceKind": "filename_hint",
-        "reviewStatus": "needs_review"
+        "value": "legged",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "note": "DWG line entity에서 반복되는 짧은 대칭 사선 지지대 쌍을 감지해 다리형 상담 기본값으로 반영했습니다. 의미 판정은 needs_review입니다.",
+        "evidence": {
+          "legLikePairCount": 8,
+          "legLikeSegmentCount": 16,
+          "candidates": [
+            {
+              "segmentHandles": [
+                187,
+                188
+              ],
+              "centerX": 934383.709,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                193,
+                194
+              ],
+              "centerX": 933379.064,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                348,
+                349
+              ],
+              "centerX": 936074.132,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                354,
+                355
+              ],
+              "centerX": 935069.488,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                360,
+                361
+              ],
+              "centerX": 936795.759,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                366,
+                367
+              ],
+              "centerX": 937035.892,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                583,
+                584
+              ],
+              "centerX": 933876.631,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                620,
+                621
+              ],
+              "centerX": 935567.054,
+              "centerY": -539558.327,
+              "gap": 50
+            }
+          ]
+        }
       }
     ]
   },
@@ -280,6 +360,87 @@
       "INNER VIEW",
       "SIDE VIEW"
     ],
+    "supportGeometry": {
+      "legLikeSegmentCount": 16,
+      "legLikePairCount": 8,
+      "candidates": [
+        {
+          "segmentHandles": [
+            187,
+            188
+          ],
+          "centerX": 934383.709,
+          "centerY": -539558.327,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            193,
+            194
+          ],
+          "centerX": 933379.064,
+          "centerY": -539558.327,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            348,
+            349
+          ],
+          "centerX": 936074.132,
+          "centerY": -539558.327,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            354,
+            355
+          ],
+          "centerX": 935069.488,
+          "centerY": -539558.327,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            360,
+            361
+          ],
+          "centerX": 936795.759,
+          "centerY": -539558.327,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            366,
+            367
+          ],
+          "centerX": 937035.892,
+          "centerY": -539558.327,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            583,
+            584
+          ],
+          "centerX": 933876.631,
+          "centerY": -539558.327,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            620,
+            621
+          ],
+          "centerX": 935567.054,
+          "centerY": -539558.327,
+          "gap": 50
+        }
+      ],
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "needs_review",
+      "note": "Repeated mirrored short slanted line pairs were detected from DWG entities. This is direct geometry evidence for leg-like supports, but semantic assignment remains needs_review."
+    },
     "productSelectionSignals": [
       {
         "kind": "multi_view_labels",
@@ -289,6 +450,90 @@
           "SIDE VIEW"
         ],
         "note": "DWG contains explicit FRONT/INNER/SIDE VIEW labels.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "leg_support_geometry",
+        "value": {
+          "legLikePairCount": 8,
+          "legLikeSegmentCount": 16,
+          "candidates": [
+            {
+              "segmentHandles": [
+                187,
+                188
+              ],
+              "centerX": 934383.709,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                193,
+                194
+              ],
+              "centerX": 933379.064,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                348,
+                349
+              ],
+              "centerX": 936074.132,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                354,
+                355
+              ],
+              "centerX": 935069.488,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                360,
+                361
+              ],
+              "centerX": 936795.759,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                366,
+                367
+              ],
+              "centerX": 937035.892,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                583,
+                584
+              ],
+              "centerX": 933876.631,
+              "centerY": -539558.327,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                620,
+                621
+              ],
+              "centerX": 935567.054,
+              "centerY": -539558.327,
+              "gap": 50
+            }
+          ]
+        },
+        "note": "DWG line entities include repeated short mirrored slanted support pairs consistent with cabinet legs.",
         "sourceKind": "dwg_entity",
         "reviewStatus": "mechanically_certain"
       },

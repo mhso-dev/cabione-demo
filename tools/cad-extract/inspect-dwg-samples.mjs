@@ -162,7 +162,7 @@ async function createRuntimeTemplate(blockedTemplate, assets, inspection, toolPr
   const familyId = familyIdFromSampleName(displayName);
   const familyDisplayName = familyLabelFromSampleName(displayName);
   const rule = runtimeFamilyRules()[familyId];
-  const inferred = inferSampleDefaults(displayName, rule.defaults, familyId, blockedTemplate.drawingInfo?.dimensions?.roleCandidates, rule.constraints);
+  const inferred = inferSampleDefaults(displayName, rule.defaults, familyId, blockedTemplate.drawingInfo, rule.constraints);
   return {
     schemaVersion: 1,
     templateId: blockedTemplate.id,
@@ -256,6 +256,7 @@ async function createRuntimeTemplate(blockedTemplate, assets, inspection, toolPr
       dimensions: blockedTemplate.drawingInfo.dimensions.roleCandidates,
       texts: blockedTemplate.drawingInfo.texts.map((item) => item.value),
       viewLabels: blockedTemplate.drawingInfo.viewLabels.map((item) => item.value),
+      supportGeometry: blockedTemplate.drawingInfo.supportGeometry,
       productSelectionSignals: blockedTemplate.drawingInfo.productSelectionSignals,
       sourceKind: 'dwg_entity',
       reviewStatus: 'mechanically_certain',
@@ -294,10 +295,12 @@ function runtimeFamilyRules() {
   };
 }
 
-function inferSampleDefaults(displayName, defaults, familyId, dimensionCandidates = null, constraints = {}) {
+function inferSampleDefaults(displayName, defaults, familyId, drawingInfo = null, constraints = {}) {
   const dimensions = { ...defaults.dimensions };
   const options = { ...defaults.options };
   const provenance = [];
+  const dimensionCandidates = drawingInfo?.dimensions?.roleCandidates;
+  const legSupportSignal = drawingInfo?.productSelectionSignals?.find((item) => item.kind === 'leg_support_geometry');
   const widthCandidate = chooseConstrainedCandidate(dimensionCandidates?.width, constraints.width);
   if (Number.isFinite(widthCandidate)) {
     dimensions.width = widthCandidate;
@@ -324,11 +327,22 @@ function inferSampleDefaults(displayName, defaults, familyId, dimensionCandidate
     options.doorCount = Number(doorMatch[1]);
     provenance.push({ field: 'options.doorCount', sourceKind: 'filename_hint', reviewStatus: 'needs_review', note: '파일명의 도어 수 힌트를 상담용 기본값으로만 반영했습니다.' });
   }
+  if (legSupportSignal) {
+    options.mountType = 'legged';
+    provenance.push({
+      field: 'options.mountType',
+      value: 'legged',
+      sourceKind: 'dwg_entity',
+      reviewStatus: 'needs_review',
+      note: 'DWG line entity에서 반복되는 짧은 대칭 사선 지지대 쌍을 감지해 다리형 상담 기본값으로 반영했습니다. 의미 판정은 needs_review입니다.',
+      evidence: legSupportSignal.value,
+    });
+  }
   if (displayName.includes('벽걸이')) {
     options.mountType = 'wall_mounted';
     provenance.push({ field: 'options.mountType', sourceKind: 'filename_hint', reviewStatus: 'needs_review' });
   }
-  if (displayName.includes('다리')) {
+  if (!legSupportSignal && displayName.includes('다리')) {
     options.mountType = 'legged';
     provenance.push({ field: 'options.mountType', sourceKind: 'filename_hint', reviewStatus: 'needs_review' });
   }

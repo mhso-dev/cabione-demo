@@ -276,6 +276,34 @@ test('CAD evidence/template data covers all 18 sample products without filename-
   }
 });
 
+test('DWG line geometry identifies leg-support templates without filename-only claims', () => {
+  const templates = loadMvpTemplates();
+  const withLegGeometry = templates.filter((template) =>
+    template.drawingInfo?.productSelectionSignals?.some((signal) => signal.kind === 'leg_support_geometry'));
+  const names = withLegGeometry.map((template) => template.displayName).sort();
+
+  assert.deepEqual(names, ['하부장_2000', '하부장_8008 다리', '하부장_8100', '하부장_W1200_4도어 다리'].sort());
+  for (const template of withLegGeometry) {
+    assert.equal(template.defaults?.options?.mountType, 'legged', `${template.displayName} should default to legged from DWG support geometry`);
+    const provenance = template.sourceEvidence?.inferredDefaults?.find((item) => item.field === 'options.mountType');
+    assert.equal(provenance?.sourceKind, 'dwg_entity', `${template.displayName} leg-support provenance must be DWG entity geometry`);
+    assert.equal(provenance?.reviewStatus, 'needs_review', `${template.displayName} leg-support semantic assignment must remain needs_review`);
+    assert.ok(provenance?.evidence?.legLikePairCount >= 6, `${template.displayName} must expose repeated support-pair evidence`);
+  }
+
+  const wallMountedSampleNames = templates
+    .filter((template) => /벽걸이/.test(template.displayName))
+    .map((template) => template.displayName);
+  for (const name of wallMountedSampleNames) {
+    const template = templates.find((item) => item.displayName === name);
+    assert.equal(
+      template.drawingInfo?.productSelectionSignals?.some((signal) => signal.kind === 'leg_support_geometry'),
+      false,
+      `${name} must not be marked legged by filename when DWG support geometry is absent`,
+    );
+  }
+});
+
 test('shared validation blocks invalid dimensions and impossible option combinations', async () => {
   const templates = await loadConsultationTemplates();
   const { validateProject, createProject, updateProject } = await loadValidationApi();

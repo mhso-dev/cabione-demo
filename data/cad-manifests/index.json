@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "track": "B",
-  "generatedAt": "2026-04-29T22:09:25.472Z",
+  "generatedAt": "2026-04-30T00:37:47.533Z",
   "sampleCount": 18,
   "filenameOnlyInferenceForbidden": true,
   "toolProbe": {
-    "checkedAt": "2026-04-29T22:09:24.875Z",
+    "checkedAt": "2026-04-30T00:37:47.109Z",
     "tools": {
       "dwgread": {
         "available": false

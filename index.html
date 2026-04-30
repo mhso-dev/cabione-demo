@@ -98,6 +98,77 @@
         </div>
       </div>
 
+      <div class="panel-section hinge-panel" id="hinge-panel" hidden>
+        <h4>도어 / 경첩</h4>
+        <p class="panel-note">여닫이 도어의 경첩 방향과 상·하 경첩 높이를 조절합니다. DWG 직접 지시값이 아닌 상담용 조정값입니다.</p>
+        <div class="field-row">
+          <div class="field">
+            <label>도어</label>
+            <div class="field-input">
+              <select id="hinge-door"></select>
+            </div>
+          </div>
+          <div class="field">
+            <label>경첩 방향</label>
+            <div class="field-input">
+              <select id="hinge-side">
+                <option value="left">좌측</option>
+                <option value="right">우측</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field-row hinge-offset-row">
+          <div class="field">
+            <label>상부 경첩</label>
+            <div class="field-input">
+              <input type="number" id="hinge-top" min="20" step="10" />
+              <span class="unit">mm</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>하부 경첩</label>
+            <div class="field-input">
+              <input type="number" id="hinge-bottom" min="20" step="10" />
+              <span class="unit">mm</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-secondary" id="hinge-reset" type="button">기본 경첩 배치로 복원</button>
+      </div>
+
+      <div class="panel-section color-panel">
+        <h4>색상 / 마감</h4>
+        <div class="field-row">
+          <div class="field">
+            <label>외부 색상</label>
+            <div class="color-control">
+              <select id="color-exterior-preset">
+                <option value="#fbfaf6">웜 화이트</option>
+                <option value="#f2eee7">아이보리</option>
+                <option value="#d7c5ad">오크 베이지</option>
+                <option value="#8f8171">월넛 그레이</option>
+                <option value="#2b2a28">매트 블랙</option>
+              </select>
+              <input type="color" id="color-exterior" value="#fbfaf6" aria-label="외부 색상 직접 선택" />
+            </div>
+          </div>
+          <div class="field">
+            <label>내부 색상</label>
+            <div class="color-control">
+              <select id="color-interior-preset">
+                <option value="#f7efe2">내부 아이보리</option>
+                <option value="#ffffff">화이트</option>
+                <option value="#e9dcc8">베이지</option>
+                <option value="#c9b89f">오크</option>
+                <option value="#4a4742">딥 그레이</option>
+              </select>
+              <input type="color" id="color-interior" value="#f7efe2" aria-label="내부 색상 직접 선택" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="panel-section">
         <h4>옵션 추가 (Add)</h4>
         <div class="opt-list">

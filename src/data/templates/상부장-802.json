@@ -140,7 +140,7 @@
     "manifest": "data/cad-evidence/상부장-802.json",
     "dwgExtractionStatus": "entity_extracted",
     "toolProbe": {
-      "checkedAt": "2026-04-29T22:09:24.875Z",
+      "checkedAt": "2026-04-30T00:37:47.109Z",
       "tools": {
         "dwgread": {
           "available": false
@@ -234,6 +234,14 @@
     },
     "texts": [],
     "viewLabels": [],
+    "supportGeometry": {
+      "legLikeSegmentCount": 0,
+      "legLikePairCount": 0,
+      "candidates": [],
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain",
+      "note": "No repeated mirrored short slanted support-pair geometry detected in DWG entities."
+    },
     "productSelectionSignals": [
       {
         "kind": "dimension_entities",

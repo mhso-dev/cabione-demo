@@ -1,3 +1,5 @@
+import templateManifest from './data/templateManifest.json' with { type: 'json' };
+
 /* ============================================================
    STATE & CONFIG
    ============================================================ */
@@ -5,66 +7,8 @@
 const MIN_W = 200, MAX_W = 2400, MIN_H = 200, MAX_H = 2400;
 const STEP = 10; // snapping step in mm
 
-// Templates: existing factory drawings. Customer can edit array to match real catalog.
-const TEMPLATES = [
-  {
-    code: 'BMC-A1',
-    name: '기본형 거울장',
-    defaultW: 600, defaultH: 700,
-    description: '단일 도어 + 내부 선반 1단',
-    internals: [
-      { type: 'horizontal', mode: 'percent', value: 0.5 } // shelf at 50%
-    ]
-  },
-  {
-    code: 'BMC-B1',
-    name: '슬라이딩 거울장',
-    defaultW: 800, defaultH: 700,
-    description: '슬라이딩 도어 2분할',
-    internals: [
-      { type: 'vertical', mode: 'percent', value: 0.5 }
-    ]
-  },
-  {
-    code: 'BMC-C1',
-    name: '오픈형 거울장',
-    defaultW: 700, defaultH: 800,
-    description: '상단 거울 + 하단 수납',
-    internals: [
-      { type: 'horizontal', mode: 'fixed-from-top', value: 250 }
-    ]
-  },
-  {
-    code: 'BLC-D1',
-    name: '하부장 (세면대)',
-    defaultW: 900, defaultH: 500,
-    description: '세면대 하부 수납장',
-    internals: [
-      { type: 'vertical', mode: 'percent', value: 0.5 },
-      { type: 'horizontal', mode: 'percent', value: 0.5 }
-    ]
-  },
-  {
-    code: 'BTC-E1',
-    name: '키큰장 (사이드)',
-    defaultW: 400, defaultH: 1800,
-    description: '슬림형 키큰 수납장',
-    internals: [
-      { type: 'horizontal', mode: 'percent', value: 0.33 },
-      { type: 'horizontal', mode: 'percent', value: 0.66 }
-    ]
-  },
-  {
-    code: 'BMC-F1',
-    name: '와이드 거울장',
-    defaultW: 1200, defaultH: 700,
-    description: '3분할 와이드 거울장',
-    internals: [
-      { type: 'vertical', mode: 'percent', value: 1/3 },
-      { type: 'vertical', mode: 'percent', value: 2/3 }
-    ]
-  }
-];
+let templateLoadPromise = null;
+let dwgSampleTemplates = [];
 
 // Option definitions: default size, min size, etc. (units in mm)
 const OPT_DEFS = {
@@ -80,14 +24,25 @@ const LED_NAMES = {
   day: '주광색 (6500K)'
 };
 
+const DEFAULT_FINISH_COLORS = {
+  exterior: '#fbfaf6',
+  interior: '#f7efe2',
+};
+
 const state = {
   screen: 'home',
   mode: null, // 'template' | 'custom'
   template: null,
   cabinetW: 600,
   cabinetH: 700,
+  cabinetD: 300,
   items: [],
   led: null,
+  finishColors: { ...DEFAULT_FINISH_COLORS },
+  hingeConfig: {
+    selectedDoor: 1,
+    doors: [],
+  },
   selectedId: null,
   itemCounter: 0,
   // editor view transform (computed each render)
@@ -155,23 +110,136 @@ document.querySelectorAll('[data-back]').forEach(btn => {
 
 function buildTemplateGrid() {
   const grid = document.getElementById('template-grid');
-  grid.innerHTML = '';
-  TEMPLATES.forEach(tpl => {
-    const card = document.createElement('div');
-    card.className = 'template-card';
-    card.innerHTML = `
-      <div class="template-thumb">${renderTemplateThumb(tpl)}</div>
-      <div class="template-info">
-        <div class="code">${tpl.code}</div>
-        <div class="name">${tpl.name}</div>
-        <div class="dim">${tpl.defaultW} × ${tpl.defaultH} mm · ${tpl.description}</div>
-      </div>
-    `;
-    card.addEventListener('click', () => {
-      enterEditor({ template: tpl });
+  grid.innerHTML = '<div class="template-loading">DWG 샘플 템플릿을 불러오는 중입니다.</div>';
+  loadDwgSampleTemplates()
+    .then(templates => {
+      grid.innerHTML = '';
+      templates.forEach(tpl => {
+        const card = document.createElement('div');
+        card.className = 'template-card';
+        card.dataset.family = tpl.family;
+        card.dataset.templateId = tpl.code;
+        card.dataset.legSupport = tpl.legSupportEvidence ? 'true' : 'false';
+        card.dataset.legRender = shouldRenderLegSupports(tpl) ? 'true' : 'false';
+        card.innerHTML = `
+          <div class="template-thumb">${renderTemplateThumb(tpl)}</div>
+          <div class="template-info">
+            <div class="code">${escapeHtml(tpl.code)}</div>
+            <div class="name">${escapeHtml(tpl.name)}</div>
+            <div class="template-meta">
+              <span>${escapeHtml(tpl.family)}</span>
+              <span>${escapeHtml(tpl.reviewStatus)}</span>
+              ${shouldRenderLegSupports(tpl) ? `<span>${tpl.legSupportEvidence ? 'DWG 다리감지' : '다리형 초안'}</span>` : ''}
+            </div>
+            <div class="dim">${escapeHtml(tpl.defaultW)} × ${escapeHtml(tpl.defaultH)} × ${escapeHtml(tpl.defaultD)} mm · ${escapeHtml(tpl.description)}</div>
+            <div class="template-evidence">DWG entity ${escapeHtml(tpl.entityCount)} · 치수 ${escapeHtml(tpl.dimensionCount)} · ${escapeHtml(tpl.dwgExtractionStatus)}</div>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          enterEditor({ template: tpl });
+        });
+        grid.appendChild(card);
+      });
+    })
+    .catch(error => {
+      grid.innerHTML = `<div class="template-loading error">DWG 샘플 템플릿을 불러오지 못했습니다: ${escapeHtml(error.message)}</div>`;
     });
-    grid.appendChild(card);
-  });
+}
+
+async function loadDwgSampleTemplates() {
+  if (!templateLoadPromise) {
+    templateLoadPromise = Promise.all((templateManifest.templates ?? []).map(async entry => {
+      const templatePath = `./${entry.path.replace(/^src\//, '')}`;
+      const mod = await import(templatePath, { with: { type: 'json' } });
+      return normalizeDwgTemplate(entry, mod.default);
+    })).then(templates => {
+      dwgSampleTemplates = templates;
+      return templates;
+    });
+  }
+  return templateLoadPromise;
+}
+
+function normalizeDwgTemplate(entry, template) {
+  const dimensions = template.defaults?.dimensions ?? {};
+  const options = template.defaults?.options ?? {};
+  const defaultW = Number(dimensions.width ?? template.constraints?.dimensions?.width?.default ?? 600);
+  const defaultH = Number(dimensions.height ?? template.constraints?.dimensions?.height?.default ?? 700);
+  const defaultD = Number(dimensions.depth ?? template.constraints?.dimensions?.depth?.default ?? 300);
+  const family = template.familyDisplayName ?? entry.familyDisplayName ?? template.family ?? '욕실가구';
+  const code = template.templateId ?? entry.templateId;
+  return {
+    code,
+    name: template.displayName ?? entry.displayName ?? code,
+    family,
+    familyId: template.familyId ?? entry.familyId,
+    defaultW,
+    defaultH,
+    defaultD,
+    description: buildTemplateDescription(family, options, template),
+    internals: buildTemplateInternals(family, options),
+    reviewStatus: template.reviewStatus ?? entry.reviewStatus ?? 'needs_review',
+    dwgExtractionStatus: template.dwgExtractionStatus ?? entry.dwgExtractionStatus ?? 'unknown',
+    entityCount: entry.entityCount ?? template.sampleReferences?.dwg?.entityCount ?? 0,
+    dimensionCount: entry.dimensionCount ?? template.sampleReferences?.dwg?.dimensionCount ?? 0,
+    sourceFiles: template.sourceFiles ?? entry.sourceFiles ?? {},
+    mountType: options.mountType,
+    legSupportEvidence: findProductSignal(template, 'leg_support_geometry')?.value ?? null,
+    rawTemplate: template,
+  };
+}
+
+function buildTemplateDescription(family, options, template) {
+  const parts = [family];
+  if (Number(options.doorCount) > 0) parts.push(`${options.doorCount}도어`);
+  if (Number(options.flapCount) > 0) parts.push(`${options.flapCount}플랩`);
+  if (options.sliding) parts.push(`${options.slidingPanelCount ?? 2}분할 슬라이딩`);
+  if (options.mountType === 'legged') parts.push('다리형');
+  if (options.mountType === 'wall_mounted') parts.push('벽걸이');
+  const materialSignals = findProductSignal(template, 'mirror_material_labels')?.value ?? [];
+  if (materialSignals.length) parts.push(materialSignals.slice(0, 2).join('/'));
+  return parts.join(' · ');
+}
+
+function findProductSignal(template, kind) {
+  return template.drawingInfo?.productSelectionSignals?.find(signal => signal.kind === kind)
+    ?? template.productSelectionSignals?.find(signal => signal.kind === kind);
+}
+
+function buildTemplateInternals(family, options) {
+  if (family === '슬라이징장') {
+    const panels = Number(options.slidingPanelCount || 2);
+    return Array.from({ length: Math.max(0, panels - 1) }, (_, index) => ({
+      type: 'vertical',
+      mode: 'percent',
+      value: (index + 1) / panels,
+    }));
+  }
+  const doorCount = Number(options.doorCount || 0);
+  if (doorCount > 1) {
+    return Array.from({ length: doorCount - 1 }, (_, index) => ({
+      type: 'vertical',
+      mode: 'percent',
+      value: (index + 1) / doorCount,
+    }));
+  }
+  if (Number(options.flapCount || 0) > 1) {
+    return [{ type: 'horizontal', mode: 'percent', value: 0.5 }];
+  }
+  if (family === '하부장' || family === '상부장') {
+    return [{ type: 'horizontal', mode: 'percent', value: 0.5 }];
+  }
+  return [];
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[char]);
 }
 
 function renderTemplateThumb(tpl) {
@@ -201,12 +269,33 @@ function renderTemplateThumb(tpl) {
     }
   }
 
+  const legs = shouldRenderLegSupports(tpl) ? renderTemplateThumbLegs(tpl, x, y, dw, dh) : '';
+
   return `<svg viewBox="0 0 ${boxW} ${boxH}" preserveAspectRatio="xMidYMid meet">
     <rect x="${x}" y="${y}" width="${dw}" height="${dh}" fill="#fbfaf6" stroke="#1a1815" stroke-width="1.5"/>
     ${internals}
+    ${legs}
     <text x="${x + dw/2}" y="${y - 8}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#807d77">${w}</text>
     <text x="${x - 8}" y="${y + dh/2}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#807d77" transform="rotate(-90 ${x-8} ${y+dh/2})">${h}</text>
   </svg>`;
+}
+
+function shouldRenderLegSupports(tpl) {
+  return Boolean(tpl?.legSupportEvidence) || tpl?.mountType === 'legged';
+}
+
+function legEvidenceLabel(tpl) {
+  return tpl?.legSupportEvidence ? 'DWG leg-support geometry · needs_review' : 'draft legged mount · needs_review';
+}
+
+function renderTemplateThumbLegs(tpl, x, y, width, height) {
+  const legPositions = legCenterRatios(tpl);
+  const legW = 7;
+  const legH = Math.min(18, Math.max(10, height * 0.14));
+  return legPositions.map(ratio => {
+    const cx = x + width * ratio;
+    return `<path d="M ${cx - legW/2} ${y + height} L ${cx - legW} ${y + height + legH} M ${cx + legW/2} ${y + height} L ${cx + legW} ${y + height + legH}" stroke="#1a1815" stroke-width="1.2" stroke-linecap="round"/>`;
+  }).join('');
 }
 
 /* ============================================================
@@ -216,14 +305,17 @@ function renderTemplateThumb(tpl) {
 function enterEditor({ template } = {}) {
   state.items = [];
   state.led = null;
+  state.finishColors = { ...DEFAULT_FINISH_COLORS };
   state.selectedId = null;
   state.itemCounter = 0;
+  state.hingeConfig = { selectedDoor: 1, doors: [] };
 
   if (template) {
     state.mode = 'template';
     state.template = template;
     state.cabinetW = template.defaultW;
     state.cabinetH = template.defaultH;
+    state.cabinetD = template.defaultD;
     document.getElementById('ed-pname').textContent = template.name;
     document.getElementById('ed-pcode').textContent = template.code;
     document.getElementById('wm-code').textContent = template.code;
@@ -232,6 +324,7 @@ function enterEditor({ template } = {}) {
     state.template = null;
     state.cabinetW = 600;
     state.cabinetH = 600;
+    state.cabinetD = 300;
     document.getElementById('ed-pname').textContent = '직접 그리기';
     document.getElementById('ed-pcode').textContent = 'CUSTOM';
     document.getElementById('wm-code').textContent = 'CUSTOM';
@@ -239,6 +332,9 @@ function enterEditor({ template } = {}) {
 
   document.getElementById('in-width').value = state.cabinetW;
   document.getElementById('in-height').value = state.cabinetH;
+  ensureHingeConfig();
+  refreshHingePanel();
+  refreshColorControls();
   refreshLEDPills();
   refreshPlacedList();
   showScreen('editor');
@@ -253,6 +349,8 @@ document.getElementById('in-width').addEventListener('input', e => {
   if (v < MIN_W) return; // allow user to keep typing
   state.cabinetW = clamp(v, MIN_W, MAX_W);
   clampAllItems();
+  ensureHingeConfig();
+  refreshHingePanel();
   render();
 });
 document.getElementById('in-height').addEventListener('input', e => {
@@ -260,20 +358,178 @@ document.getElementById('in-height').addEventListener('input', e => {
   if (v < MIN_H) return;
   state.cabinetH = clamp(v, MIN_H, MAX_H);
   clampAllItems();
+  ensureHingeConfig();
+  refreshHingePanel();
   render();
 });
 document.getElementById('in-width').addEventListener('blur', e => {
   state.cabinetW = clamp(parseInt(e.target.value)||MIN_W, MIN_W, MAX_W);
   e.target.value = state.cabinetW;
   clampAllItems();
+  ensureHingeConfig();
+  refreshHingePanel();
   render();
 });
 document.getElementById('in-height').addEventListener('blur', e => {
   state.cabinetH = clamp(parseInt(e.target.value)||MIN_H, MIN_H, MAX_H);
   e.target.value = state.cabinetH;
   clampAllItems();
+  ensureHingeConfig();
+  refreshHingePanel();
   render();
 });
+
+/* ============================================================
+   HINGE ADJUSTMENT
+   ============================================================ */
+
+const hingeEls = {
+  panel: document.getElementById('hinge-panel'),
+  door: document.getElementById('hinge-door'),
+  side: document.getElementById('hinge-side'),
+  top: document.getElementById('hinge-top'),
+  bottom: document.getElementById('hinge-bottom'),
+  reset: document.getElementById('hinge-reset'),
+};
+
+function hingedDoorCount() {
+  const options = state.template?.rawTemplate?.defaults?.options ?? {};
+  if (options.sliding || state.template?.family === '슬라이징장') return 0;
+  if (Number(options.flapCount ?? 0) > 0 || state.template?.family === '플랩장') return 0;
+  return Math.max(0, Number(options.doorCount ?? 0));
+}
+
+function defaultHingeSide(index, doorCount) {
+  if (doorCount <= 1) return 'right';
+  return index % 2 === 0 ? 'left' : 'right';
+}
+
+function defaultHingeDoor(index, doorCount) {
+  return {
+    side: defaultHingeSide(index, doorCount),
+    top: snapStep(Math.max(40, state.cabinetH * 0.28)),
+    bottom: snapStep(Math.min(state.cabinetH - 40, state.cabinetH * 0.72)),
+  };
+}
+
+function sanitizeHingeDoor(door, index, doorCount) {
+  const minGap = Math.min(140, Math.max(60, state.cabinetH * 0.16));
+  const minY = 20;
+  const maxY = Math.max(minY + minGap, state.cabinetH - 20);
+  const side = door?.side === 'right' ? 'right' : door?.side === 'left' ? 'left' : defaultHingeSide(index, doorCount);
+  let top = snapStep(clamp(Number(door?.top ?? state.cabinetH * 0.28), minY, maxY - minGap));
+  let bottom = snapStep(clamp(Number(door?.bottom ?? state.cabinetH * 0.72), top + minGap, maxY));
+  if (bottom <= top) {
+    bottom = snapStep(clamp(top + minGap, minY + minGap, maxY));
+  }
+  return { side, top, bottom };
+}
+
+function ensureHingeConfig({ reset = false } = {}) {
+  const doorCount = hingedDoorCount();
+  if (!doorCount) {
+    state.hingeConfig = { selectedDoor: 1, doors: [] };
+    return;
+  }
+  const current = reset ? [] : state.hingeConfig?.doors ?? [];
+  state.hingeConfig = {
+    selectedDoor: clamp(Number(state.hingeConfig?.selectedDoor ?? 1), 1, doorCount),
+    doors: Array.from({ length: doorCount }, (_, index) => sanitizeHingeDoor(current[index] ?? defaultHingeDoor(index, doorCount), index, doorCount)),
+  };
+}
+
+function selectedHingeDoor() {
+  ensureHingeConfig();
+  return state.hingeConfig.doors[state.hingeConfig.selectedDoor - 1];
+}
+
+function refreshHingePanel() {
+  if (!hingeEls.panel) return;
+  const doorCount = hingedDoorCount();
+  if (!doorCount) {
+    hingeEls.panel.hidden = true;
+    return;
+  }
+  ensureHingeConfig();
+  hingeEls.panel.hidden = false;
+  const selected = state.hingeConfig.selectedDoor;
+  if (hingeEls.door.options.length !== doorCount) {
+    hingeEls.door.innerHTML = Array.from({ length: doorCount }, (_, index) => `<option value="${index + 1}">${index + 1}번 도어</option>`).join('');
+  }
+  hingeEls.door.value = String(selected);
+  const door = selectedHingeDoor();
+  hingeEls.side.value = door.side;
+  hingeEls.top.max = Math.max(20, state.cabinetH - 40);
+  hingeEls.bottom.max = Math.max(40, state.cabinetH - 20);
+  hingeEls.top.value = Math.round(door.top);
+  hingeEls.bottom.value = Math.round(door.bottom);
+}
+
+function updateSelectedHingeDoor(patch) {
+  ensureHingeConfig();
+  const index = state.hingeConfig.selectedDoor - 1;
+  state.hingeConfig.doors[index] = sanitizeHingeDoor({ ...state.hingeConfig.doors[index], ...patch }, index, hingedDoorCount());
+  refreshHingePanel();
+  render();
+}
+
+hingeEls.door?.addEventListener('change', e => {
+  state.hingeConfig.selectedDoor = Number(e.target.value) || 1;
+  refreshHingePanel();
+  render();
+});
+hingeEls.side?.addEventListener('change', e => updateSelectedHingeDoor({ side: e.target.value }));
+hingeEls.top?.addEventListener('input', e => updateSelectedHingeDoor({ top: Number(e.target.value) }));
+hingeEls.bottom?.addEventListener('input', e => updateSelectedHingeDoor({ bottom: Number(e.target.value) }));
+hingeEls.reset?.addEventListener('click', () => {
+  ensureHingeConfig({ reset: true });
+  refreshHingePanel();
+  render();
+});
+
+/* ============================================================
+   COLOR / FINISH
+   ============================================================ */
+
+const colorEls = {
+  exteriorPreset: document.getElementById('color-exterior-preset'),
+  interiorPreset: document.getElementById('color-interior-preset'),
+  exterior: document.getElementById('color-exterior'),
+  interior: document.getElementById('color-interior'),
+};
+
+function normalizeHexColor(value, fallback) {
+  const text = String(value ?? '').trim();
+  return /^#[0-9a-f]{6}$/i.test(text) ? text.toLowerCase() : fallback;
+}
+
+function colorLabel(kind) {
+  const value = state.finishColors[kind];
+  const select = kind === 'exterior' ? colorEls.exteriorPreset : colorEls.interiorPreset;
+  const match = [...(select?.options ?? [])].find(option => option.value.toLowerCase() === value.toLowerCase());
+  return match ? `${match.textContent} (${value})` : `직접 선택 (${value})`;
+}
+
+function refreshColorControls() {
+  if (!colorEls.exterior || !colorEls.interior) return;
+  state.finishColors.exterior = normalizeHexColor(state.finishColors.exterior, DEFAULT_FINISH_COLORS.exterior);
+  state.finishColors.interior = normalizeHexColor(state.finishColors.interior, DEFAULT_FINISH_COLORS.interior);
+  colorEls.exterior.value = state.finishColors.exterior;
+  colorEls.interior.value = state.finishColors.interior;
+  if (colorEls.exteriorPreset) colorEls.exteriorPreset.value = [...colorEls.exteriorPreset.options].some(option => option.value.toLowerCase() === state.finishColors.exterior) ? state.finishColors.exterior : DEFAULT_FINISH_COLORS.exterior;
+  if (colorEls.interiorPreset) colorEls.interiorPreset.value = [...colorEls.interiorPreset.options].some(option => option.value.toLowerCase() === state.finishColors.interior) ? state.finishColors.interior : DEFAULT_FINISH_COLORS.interior;
+}
+
+function updateFinishColor(kind, value) {
+  state.finishColors[kind] = normalizeHexColor(value, DEFAULT_FINISH_COLORS[kind]);
+  refreshColorControls();
+  render();
+}
+
+colorEls.exteriorPreset?.addEventListener('change', e => updateFinishColor('exterior', e.target.value));
+colorEls.interiorPreset?.addEventListener('change', e => updateFinishColor('interior', e.target.value));
+colorEls.exterior?.addEventListener('input', e => updateFinishColor('exterior', e.target.value));
+colorEls.interior?.addEventListener('input', e => updateFinishColor('interior', e.target.value));
 
 /* ============================================================
    ADD OPTIONS
@@ -396,7 +652,7 @@ const svg = document.getElementById('canvas');
 svg.addEventListener('pointerdown', svgEmptyDown);
 
 // margins around cabinet within viewBox (in mm) for dimensions and labels
-const PAD_TOP = 100, PAD_BOTTOM = 80, PAD_LEFT = 100, PAD_RIGHT = 80;
+const PAD_TOP = 100, PAD_BOTTOM = 150, PAD_LEFT = 100, PAD_RIGHT = 80;
 
 function render() {
   if (state.screen !== 'editor') return;
@@ -445,8 +701,11 @@ function render() {
   // Background grid (every 50 mm)
   parts.push(buildGrid());
 
-  // Cabinet frame
-  parts.push(`<rect class="cabinet-rect" x="0" y="0" width="${state.cabinetW}" height="${state.cabinetH}"/>`);
+  // Cabinet frame and finish colors
+  parts.push(buildCabinetSurfaces());
+  if (state.mode === 'template' && shouldRenderLegSupports(state.template)) {
+    parts.push(buildLegSupports());
+  }
 
   // Internal template lines
   if (state.mode === 'template' && state.template) {
@@ -464,6 +723,9 @@ function render() {
         parts.push(`<line class="internal-line" x1="${x}" y1="0" x2="${x}" y2="${state.cabinetH}"/>`);
       }
     }
+  }
+  if (hingedDoorCount()) {
+    parts.push(buildDoorHingeOverlay());
   }
 
   // Items
@@ -505,6 +767,14 @@ function render() {
   if (state.mode === 'custom') {
     svg.querySelectorAll('[data-corner]').forEach(h => attachCornerPointer(h));
   }
+  svg.querySelectorAll('[data-door-hinge]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      state.hingeConfig.selectedDoor = Number(el.dataset.doorHinge) || 1;
+      refreshHingePanel();
+      render();
+    });
+  });
 
 }
 
@@ -534,6 +804,53 @@ function buildGrid() {
     }
   }
   return `<g class="svg-grid">${gridLines}</g><g class="svg-grid-strong">${strongLines}</g>`;
+}
+
+function buildCabinetSurfaces() {
+  const exterior = normalizeHexColor(state.finishColors.exterior, DEFAULT_FINISH_COLORS.exterior);
+  const interior = normalizeHexColor(state.finishColors.interior, DEFAULT_FINISH_COLORS.interior);
+  const inset = Math.min(28, Math.max(12, Math.min(state.cabinetW, state.cabinetH) * 0.035));
+  const innerW = Math.max(0, state.cabinetW - inset * 2);
+  const innerH = Math.max(0, state.cabinetH - inset * 2);
+  return `<g class="cabinet-finish" data-exterior-color="${exterior}" data-interior-color="${interior}">
+    <rect class="cabinet-rect" x="0" y="0" width="${state.cabinetW}" height="${state.cabinetH}" fill="${exterior}"/>
+    <rect class="cabinet-interior-surface" x="${inset}" y="${inset}" width="${innerW}" height="${innerH}" fill="${interior}" opacity="0.78"/>
+    <text class="finish-label" x="${Math.min(12, state.cabinetW / 4)}" y="${Math.max(16, inset - 4)}">EXT ${exterior}</text>
+    <text class="finish-label" x="${state.cabinetW - 12}" y="${Math.max(16, inset - 4)}" text-anchor="end">INT ${interior}</text>
+  </g>`;
+}
+
+function buildDoorHingeOverlay() {
+  const doorCount = hingedDoorCount();
+  if (!doorCount) return '';
+  ensureHingeConfig();
+  const doorW = state.cabinetW / doorCount;
+  const markW = Math.min(24, Math.max(14, doorW * 0.06));
+  const markH = 18;
+  const parts = [];
+  for (let index = 0; index < doorCount; index += 1) {
+    const door = state.hingeConfig.doors[index];
+    const x = doorW * index;
+    const side = door.side;
+    const hingeX = side === 'left' ? x : x + doorW;
+    const targetX = side === 'left' ? x + doorW : x;
+    const hingeY = (door.top + door.bottom) / 2;
+    const selected = state.hingeConfig.selectedDoor === index + 1;
+    const markX = side === 'left' ? hingeX - markW / 2 : hingeX - markW / 2;
+    const labelX = side === 'left' ? hingeX + 10 : hingeX - 10;
+    const labelAnchor = side === 'left' ? 'start' : 'end';
+    parts.push(`<g class="door-hinge-overlay" data-door-hinge="${index + 1}">
+      <rect class="door-hinge-panel${selected ? ' selected' : ''}" x="${x}" y="0" width="${doorW}" height="${state.cabinetH}"/>
+      <line class="door-opening-guide solid" x1="${hingeX}" y1="${hingeY}" x2="${targetX}" y2="0"/>
+      <line class="door-opening-guide dashed" x1="${hingeX}" y1="${hingeY}" x2="${targetX}" y2="${state.cabinetH}"/>
+      ${[door.top, door.bottom].map((y, hingeIndex) => `<g class="hinge-position-mark">
+        <rect x="${markX}" y="${y - markH / 2}" width="${markW}" height="${markH}" rx="2"/>
+        <text x="${hingeX}" y="${y + 3}" text-anchor="middle">H${hingeIndex + 1}</text>
+      </g>`).join('')}
+      <text class="hinge-label" x="${labelX}" y="${Math.max(16, door.top - 8)}" text-anchor="${labelAnchor}">D${index + 1} ${side === 'left' ? '좌경첩' : '우경첩'}</text>
+    </g>`);
+  }
+  return `<g class="door-hinge-system" data-hinge-adjustable="true">${parts.join('')}</g>`;
 }
 
 function buildItem(item, selected) {
@@ -575,6 +892,29 @@ function buildItem(item, selected) {
     </g>`;
   }
   return '';
+}
+
+function buildLegSupports() {
+  const legH = Math.min(90, Math.max(55, state.cabinetH * 0.11));
+  const legW = Math.min(34, Math.max(22, state.cabinetW * 0.035));
+  return `<g class="template-leg-supports" data-dwg-leg-support="${state.template?.legSupportEvidence ? 'true' : 'false'}" data-leg-source="${state.template?.legSupportEvidence ? 'dwg_entity' : 'draft_template'}">
+    ${legCenterRatios(state.template).map((ratio, index) => {
+      const cx = state.cabinetW * ratio;
+      const footY = state.cabinetH + legH;
+      return `<g class="template-leg" data-leg-index="${index + 1}">
+        <line x1="${cx - legW / 2}" y1="${state.cabinetH}" x2="${cx - legW}" y2="${footY}"/>
+        <line x1="${cx + legW / 2}" y1="${state.cabinetH}" x2="${cx + legW}" y2="${footY}"/>
+        <line x1="${cx - legW * 1.25}" y1="${footY}" x2="${cx + legW * 1.25}" y2="${footY}"/>
+      </g>`;
+    }).join('')}
+    <text class="leg-evidence-label" x="${state.cabinetW / 2}" y="${state.cabinetH + legH + 24}" text-anchor="middle">${legEvidenceLabel(state.template)}</text>
+  </g>`;
+}
+
+function legCenterRatios(tpl) {
+  const pairCount = Number(tpl?.legSupportEvidence?.legLikePairCount ?? 0);
+  if (pairCount >= 8 || Number(tpl?.rawTemplate?.defaults?.options?.doorCount ?? 0) >= 4) return [0.08, 0.38, 0.62, 0.92];
+  return [0.12, 0.88];
 }
 
 function buildLEDIndicator(led) {
@@ -683,7 +1023,7 @@ function svgClientToMM(clientX, clientY) {
 
 function svgEmptyDown(e) {
   // If clicked on item or handle, ignore
-  if (e.target.closest('[data-item]') || e.target.closest('[data-handle]') || e.target.closest('[data-corner]')) return;
+  if (e.target.closest('[data-item]') || e.target.closest('[data-handle]') || e.target.closest('[data-corner]') || e.target.closest('[data-door-hinge]')) return;
   state.selectedId = null;
   refreshPlacedList();
   render();
@@ -821,6 +1161,8 @@ function attachCornerPointer(el) {
       document.getElementById('in-width').value = nW;
       document.getElementById('in-height').value = nH;
       clampAllItems();
+      ensureHingeConfig();
+      refreshHingePanel();
       render();
     };
     const onUp = () => {
@@ -869,9 +1211,17 @@ document.getElementById('btn-summary').addEventListener('click', () => {
   const lines = [];
   lines.push(`<div class="summary-grp">
     <h5>Product</h5>
-    <div class="summary-row"><span class="lbl">제품명</span><span class="val">${state.template ? state.template.name : '직접 그리기 (Custom)'}</span></div>
-    <div class="summary-row"><span class="lbl">제품코드</span><span class="val">${state.template ? state.template.code : 'CUSTOM'}</span></div>
-    <div class="summary-row"><span class="lbl">치수 (W × H)</span><span class="val">${state.cabinetW} × ${state.cabinetH} mm</span></div>
+    <div class="summary-row"><span class="lbl">제품명</span><span class="val">${state.template ? escapeHtml(state.template.name) : '직접 그리기 (Custom)'}</span></div>
+    <div class="summary-row"><span class="lbl">제품코드</span><span class="val">${state.template ? escapeHtml(state.template.code) : 'CUSTOM'}</span></div>
+    ${state.template ? `<div class="summary-row"><span class="lbl">제품군</span><span class="val">${escapeHtml(state.template.family)}</span></div>` : ''}
+    <div class="summary-row"><span class="lbl">치수 (W × H × D)</span><span class="val">${state.cabinetW} × ${state.cabinetH} × ${state.cabinetD} mm</span></div>
+    ${state.template ? `<div class="summary-row"><span class="lbl">DWG 근거</span><span class="val">${escapeHtml(state.template.dwgExtractionStatus)} · entity ${escapeHtml(state.template.entityCount)} · dim ${escapeHtml(state.template.dimensionCount)}</span></div>` : ''}
+    ${state.template?.sourceFiles?.dwg ? `<div class="summary-row"><span class="lbl">샘플 DWG</span><span class="val">${escapeHtml(state.template.sourceFiles.dwg)}</span></div>` : ''}
+  </div>`);
+
+  lines.push(`<div class="summary-grp"><h5>Finish Colors</h5>
+    <div class="summary-row"><span class="lbl">외부 색상</span><span class="val">${escapeHtml(colorLabel('exterior'))}</span></div>
+    <div class="summary-row"><span class="lbl">내부 색상</span><span class="val">${escapeHtml(colorLabel('interior'))}</span></div>
   </div>`);
 
   if (state.items.length) {
@@ -882,6 +1232,18 @@ document.getElementById('btn-summary').addEventListener('click', () => {
       lines.push(`<div class="summary-row">
         <span class="lbl">${idx+1}. ${def.name}</span>
         <span class="val">위치 (${Math.round(it.x)}, ${Math.round(it.y)}) · 크기 ${sizeStr}</span>
+      </div>`);
+    });
+    lines.push(`</div>`);
+  }
+
+  if (hingedDoorCount()) {
+    lines.push(`<div class="summary-grp"><h5>Door Hinges</h5>`);
+    ensureHingeConfig();
+    state.hingeConfig.doors.forEach((door, index) => {
+      lines.push(`<div class="summary-row">
+        <span class="lbl">${index + 1}. ${index + 1}번 도어</span>
+        <span class="val">${door.side === 'left' ? '좌경첩' : '우경첩'} · 상부 ${Math.round(door.top)}mm · 하부 ${Math.round(door.bottom)}mm · needs_review</span>
       </div>`);
     });
     lines.push(`</div>`);
@@ -921,13 +1283,25 @@ document.addEventListener('keydown', e => {
 document.getElementById('btn-copy').addEventListener('click', async () => {
   let txt = '[비규격 발주서]\n';
   txt += `제품: ${state.template ? state.template.name + ' (' + state.template.code + ')' : '직접 그리기 (CUSTOM)'}\n`;
-  txt += `치수: ${state.cabinetW} × ${state.cabinetH} mm\n`;
+  if (state.template) txt += `제품군: ${state.template.family}\n`;
+  txt += `치수: ${state.cabinetW} × ${state.cabinetH} × ${state.cabinetD} mm\n`;
+  if (state.template?.sourceFiles?.dwg) txt += `샘플 DWG: ${state.template.sourceFiles.dwg}\n`;
+  if (state.template?.dwgExtractionStatus) txt += `DWG 근거: ${state.template.dwgExtractionStatus}, entity ${state.template.entityCount}, dim ${state.template.dimensionCount}\n`;
+  txt += `외부 색상: ${colorLabel('exterior')}\n`;
+  txt += `내부 색상: ${colorLabel('interior')}\n`;
   if (state.items.length) {
     txt += `\n[옵션]\n`;
     state.items.forEach((it, idx) => {
       const def = OPT_DEFS[it.type];
       const sizeStr = it.type === 'shelf' ? `${Math.round(it.w)}mm` : `${Math.round(it.w)}×${Math.round(it.h)}mm`;
       txt += `${idx+1}. ${def.name} - 위치(${Math.round(it.x)},${Math.round(it.y)}), 크기 ${sizeStr}\n`;
+    });
+  }
+  if (hingedDoorCount()) {
+    ensureHingeConfig();
+    txt += `\n[도어 경첩]\n`;
+    state.hingeConfig.doors.forEach((door, idx) => {
+      txt += `${idx + 1}. ${idx + 1}번 도어 - ${door.side === 'left' ? '좌경첩' : '우경첩'}, 상부 ${Math.round(door.top)}mm, 하부 ${Math.round(door.bottom)}mm (needs_review)\n`;
     });
   }
   if (state.led) txt += `\nLED: ${LED_NAMES[state.led]}\n`;
@@ -979,4 +1353,7 @@ document.head.appendChild(printStyle);
 /* ============================================================
    INIT
    ============================================================ */
+loadDwgSampleTemplates().catch(error => {
+  console.error('Failed to preload DWG sample templates', error);
+});
 showScreen('home');

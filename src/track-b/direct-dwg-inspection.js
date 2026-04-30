@@ -69,6 +69,7 @@ export function createBlockedTemplateFromInspection(inspection, assets, toolProb
       dimensions: inspection.semanticExtraction.dimensions,
       bounds: inspection.semanticExtraction.bounds,
       viewLabels: inspection.semanticExtraction.viewLabels,
+      supportGeometry: inspection.semanticExtraction.supportGeometry,
       productSelectionSignals: inspection.semanticExtraction.productSelectionSignals,
     } : null,
     filenameOnlyInferenceForbidden: true,
@@ -93,6 +94,7 @@ export function extractDwgSemanticInfo(buffer) {
     const entityCounts = countBy(entities, (entity) => entity.constructor.name);
     const bounds = calculateBounds(entities);
     const viewLabels = texts.filter((item) => /\b(FRONT|INNER|SIDE)\s+VIEW\b/i.test(item.value));
+    const supportGeometry = detectSupportGeometry(entities);
     return {
       status: DWG_ENTITY_EXTRACTION_STATUS.ENTITY_EXTRACTED,
       directInspection: true,
@@ -118,7 +120,8 @@ export function extractDwgSemanticInfo(buffer) {
       texts,
       viewLabels,
       dimensions,
-      productSelectionSignals: buildProductSelectionSignals({ entityCounts, texts, dimensions, viewLabels }),
+      supportGeometry,
+      productSelectionSignals: buildProductSelectionSignals({ entityCounts, texts, dimensions, viewLabels, supportGeometry }),
     };
   } catch (error) {
     return {
@@ -243,7 +246,7 @@ function entityPoints(entity) {
   return points;
 }
 
-function buildProductSelectionSignals({ entityCounts, texts, dimensions, viewLabels }) {
+function buildProductSelectionSignals({ entityCounts, texts, dimensions, viewLabels, supportGeometry }) {
   const textValues = texts.map((item) => item.value);
   const signals = [];
   if (viewLabels.length) {
@@ -261,6 +264,13 @@ function buildProductSelectionSignals({ entityCounts, texts, dimensions, viewLab
   if (handleLabels.length) {
     signals.push(signal('handle_labels', unique(handleLabels), 'DWG text includes handle option labels.'));
   }
+  if (supportGeometry?.legLikePairCount > 0) {
+    signals.push(signal('leg_support_geometry', {
+      legLikePairCount: supportGeometry.legLikePairCount,
+      legLikeSegmentCount: supportGeometry.legLikeSegmentCount,
+      candidates: supportGeometry.candidates,
+    }, 'DWG line entities include repeated short mirrored slanted support pairs consistent with cabinet legs.'));
+  }
   if ((entityCounts.DimensionLinear ?? 0) + (entityCounts.DimensionAligned ?? 0) > 0) {
     signals.push(signal('dimension_entities', {
       count: dimensions.count,
@@ -268,6 +278,65 @@ function buildProductSelectionSignals({ entityCounts, texts, dimensions, viewLab
     }, 'DWG dimension entities provide candidate width/height/depth values for selection defaults.'));
   }
   return signals;
+}
+
+function detectSupportGeometry(entities) {
+  const segments = [];
+  for (const entity of entities) {
+    if (entity.constructor.name !== 'Line') continue;
+    const start = point(entity.startPoint);
+    const end = point(entity.endPoint);
+    if (!start || !end) continue;
+    const dx = Math.abs(end.x - start.x);
+    const dy = Math.abs(end.y - start.y);
+    const length = Math.sqrt(dx ** 2 + dy ** 2);
+    if (dx < 8 || dx > 30 || dy < 70 || dy > 140 || length < 75 || length > 145) continue;
+    segments.push({
+      type: entity.constructor.name,
+      handle: entity.handle,
+      layer: layerName(entity),
+      startPoint: start,
+      endPoint: end,
+      dx: roundNumber(dx),
+      dy: roundNumber(dy),
+      length: roundNumber(length),
+      midX: roundNumber((start.x + end.x) / 2),
+      midY: roundNumber((start.y + end.y) / 2),
+      slopeSign: Math.sign((end.y - start.y) / (end.x - start.x)),
+      sourceKind: SOURCE_KIND.DWG_ENTITY,
+      reviewStatus: REVIEW_STATUS.NEEDS_REVIEW,
+    });
+  }
+
+  const pairs = [];
+  for (let i = 0; i < segments.length; i += 1) {
+    for (let j = i + 1; j < segments.length; j += 1) {
+      const first = segments[i];
+      const second = segments[j];
+      if (first.slopeSign === second.slopeSign) continue;
+      if (Math.abs(first.midY - second.midY) > 5) continue;
+      const gap = Math.abs(first.midX - second.midX);
+      if (gap < 20 || gap > 80) continue;
+      if (Math.abs(first.dy - second.dy) > 5) continue;
+      pairs.push({
+        segmentHandles: [first.handle, second.handle].filter(Boolean),
+        centerX: roundNumber((first.midX + second.midX) / 2),
+        centerY: roundNumber((first.midY + second.midY) / 2),
+        gap: roundNumber(gap),
+      });
+    }
+  }
+
+  return {
+    legLikeSegmentCount: segments.length,
+    legLikePairCount: pairs.length,
+    candidates: pairs.slice(0, 12),
+    sourceKind: SOURCE_KIND.DWG_ENTITY,
+    reviewStatus: pairs.length > 0 ? REVIEW_STATUS.NEEDS_REVIEW : REVIEW_STATUS.MECHANICALLY_CERTAIN,
+    note: pairs.length > 0
+      ? 'Repeated mirrored short slanted line pairs were detected from DWG entities. This is direct geometry evidence for leg-like supports, but semantic assignment remains needs_review.'
+      : 'No repeated mirrored short slanted support-pair geometry detected in DWG entities.',
+  };
 }
 
 function signal(kind, value, note) {

@@ -1174,6 +1174,69 @@
         },
         "evidenceNote": "Dimension entity values are read directly from DWG entities. Width/height/depth role assignment remains a candidate unless separately reviewed."
       },
+      "supportGeometry": {
+        "legLikeSegmentCount": 12,
+        "legLikePairCount": 6,
+        "candidates": [
+          {
+            "segmentHandles": [
+              517,
+              519
+            ],
+            "centerX": 932845.455,
+            "centerY": -533637.499,
+            "gap": 45
+          },
+          {
+            "segmentHandles": [
+              524,
+              526
+            ],
+            "centerX": 933297.476,
+            "centerY": -533637.499,
+            "gap": 45
+          },
+          {
+            "segmentHandles": [
+              531,
+              533
+            ],
+            "centerX": 934127.193,
+            "centerY": -533637.499,
+            "gap": 45
+          },
+          {
+            "segmentHandles": [
+              538,
+              540
+            ],
+            "centerX": 934579.213,
+            "centerY": -533637.499,
+            "gap": 45
+          },
+          {
+            "segmentHandles": [
+              545,
+              547
+            ],
+            "centerX": 935551.005,
+            "centerY": -533637.499,
+            "gap": 45
+          },
+          {
+            "segmentHandles": [
+              552,
+              554
+            ],
+            "centerX": 935861.359,
+            "centerY": -533637.499,
+            "gap": 45
+          }
+        ],
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "note": "Repeated mirrored short slanted line pairs were detected from DWG entities. This is direct geometry evidence for leg-like supports, but semantic assignment remains needs_review."
+      },
       "productSelectionSignals": [
         {
           "kind": "multi_view_labels",
@@ -1183,6 +1246,72 @@
             "SIDE VIEW"
           ],
           "note": "DWG contains explicit FRONT/INNER/SIDE VIEW labels.",
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "kind": "leg_support_geometry",
+          "value": {
+            "legLikePairCount": 6,
+            "legLikeSegmentCount": 12,
+            "candidates": [
+              {
+                "segmentHandles": [
+                  517,
+                  519
+                ],
+                "centerX": 932845.455,
+                "centerY": -533637.499,
+                "gap": 45
+              },
+              {
+                "segmentHandles": [
+                  524,
+                  526
+                ],
+                "centerX": 933297.476,
+                "centerY": -533637.499,
+                "gap": 45
+              },
+              {
+                "segmentHandles": [
+                  531,
+                  533
+                ],
+                "centerX": 934127.193,
+                "centerY": -533637.499,
+                "gap": 45
+              },
+              {
+                "segmentHandles": [
+                  538,
+                  540
+                ],
+                "centerX": 934579.213,
+                "centerY": -533637.499,
+                "gap": 45
+              },
+              {
+                "segmentHandles": [
+                  545,
+                  547
+                ],
+                "centerX": 935551.005,
+                "centerY": -533637.499,
+                "gap": 45
+              },
+              {
+                "segmentHandles": [
+                  552,
+                  554
+                ],
+                "centerX": 935861.359,
+                "centerY": -533637.499,
+                "gap": 45
+              }
+            ]
+          },
+          "note": "DWG line entities include repeated short mirrored slanted support pairs consistent with cabinet legs.",
           "sourceKind": "dwg_entity",
           "reviewStatus": "mechanically_certain"
         },
@@ -2237,6 +2366,69 @@
         "reviewStatus": "mechanically_certain"
       }
     ],
+    "supportGeometry": {
+      "legLikeSegmentCount": 12,
+      "legLikePairCount": 6,
+      "candidates": [
+        {
+          "segmentHandles": [
+            517,
+            519
+          ],
+          "centerX": 932845.455,
+          "centerY": -533637.499,
+          "gap": 45
+        },
+        {
+          "segmentHandles": [
+            524,
+            526
+          ],
+          "centerX": 933297.476,
+          "centerY": -533637.499,
+          "gap": 45
+        },
+        {
+          "segmentHandles": [
+            531,
+            533
+          ],
+          "centerX": 934127.193,
+          "centerY": -533637.499,
+          "gap": 45
+        },
+        {
+          "segmentHandles": [
+            538,
+            540
+          ],
+          "centerX": 934579.213,
+          "centerY": -533637.499,
+          "gap": 45
+        },
+        {
+          "segmentHandles": [
+            545,
+            547
+          ],
+          "centerX": 935551.005,
+          "centerY": -533637.499,
+          "gap": 45
+        },
+        {
+          "segmentHandles": [
+            552,
+            554
+          ],
+          "centerX": 935861.359,
+          "centerY": -533637.499,
+          "gap": 45
+        }
+      ],
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "needs_review",
+      "note": "Repeated mirrored short slanted line pairs were detected from DWG entities. This is direct geometry evidence for leg-like supports, but semantic assignment remains needs_review."
+    },
     "productSelectionSignals": [
       {
         "kind": "multi_view_labels",
@@ -2246,6 +2438,72 @@
           "SIDE VIEW"
         ],
         "note": "DWG contains explicit FRONT/INNER/SIDE VIEW labels.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "leg_support_geometry",
+        "value": {
+          "legLikePairCount": 6,
+          "legLikeSegmentCount": 12,
+          "candidates": [
+            {
+              "segmentHandles": [
+                517,
+                519
+              ],
+              "centerX": 932845.455,
+              "centerY": -533637.499,
+              "gap": 45
+            },
+            {
+              "segmentHandles": [
+                524,
+                526
+              ],
+              "centerX": 933297.476,
+              "centerY": -533637.499,
+              "gap": 45
+            },
+            {
+              "segmentHandles": [
+                531,
+                533
+              ],
+              "centerX": 934127.193,
+              "centerY": -533637.499,
+              "gap": 45
+            },
+            {
+              "segmentHandles": [
+                538,
+                540
+              ],
+              "centerX": 934579.213,
+              "centerY": -533637.499,
+              "gap": 45
+            },
+            {
+              "segmentHandles": [
+                545,
+                547
+              ],
+              "centerX": 935551.005,
+              "centerY": -533637.499,
+              "gap": 45
+            },
+            {
+              "segmentHandles": [
+                552,
+                554
+              ],
+              "centerX": 935861.359,
+              "centerY": -533637.499,
+              "gap": 45
+            }
+          ]
+        },
+        "note": "DWG line entities include repeated short mirrored slanted support pairs consistent with cabinet legs.",
         "sourceKind": "dwg_entity",
         "reviewStatus": "mechanically_certain"
       },
@@ -2305,7 +2563,7 @@
     ]
   },
   "toolProbe": {
-    "checkedAt": "2026-04-29T22:09:24.875Z",
+    "checkedAt": "2026-04-30T00:37:47.109Z",
     "tools": {
       "dwgread": {
         "available": false

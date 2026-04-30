@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedBy": "tools/cad-extract/inspect-dwg-samples.mjs",
-  "generatedAt": "2026-04-29T22:09:25.473Z",
+  "generatedAt": "2026-04-30T00:37:47.533Z",
   "consultationGradeOnly": true,
   "productionCadReady": false,
   "sampleCount": 18,
@@ -317,7 +317,7 @@
     "data/cad-evidence/하부장-w1200-4도어-벽걸이.json"
   ],
   "toolProbe": {
-    "checkedAt": "2026-04-29T22:09:24.875Z",
+    "checkedAt": "2026-04-30T00:37:47.109Z",
     "tools": {
       "dwgread": {
         "available": false

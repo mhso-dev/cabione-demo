@@ -1109,6 +1109,14 @@
         },
         "evidenceNote": "Dimension entity values are read directly from DWG entities. Width/height/depth role assignment remains a candidate unless separately reviewed."
       },
+      "supportGeometry": {
+        "legLikeSegmentCount": 0,
+        "legLikePairCount": 0,
+        "candidates": [],
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain",
+        "note": "No repeated mirrored short slanted support-pair geometry detected in DWG entities."
+      },
       "productSelectionSignals": [
         {
           "kind": "mirror_material_labels",
@@ -2107,6 +2115,14 @@
       "reviewStatus": "mechanically_certain"
     },
     "viewLabels": [],
+    "supportGeometry": {
+      "legLikeSegmentCount": 0,
+      "legLikePairCount": 0,
+      "candidates": [],
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain",
+      "note": "No repeated mirrored short slanted support-pair geometry detected in DWG entities."
+    },
     "productSelectionSignals": [
       {
         "kind": "mirror_material_labels",
@@ -2170,7 +2186,7 @@
     ]
   },
   "toolProbe": {
-    "checkedAt": "2026-04-29T22:09:24.875Z",
+    "checkedAt": "2026-04-30T00:37:47.109Z",
     "tools": {
       "dwgread": {
         "available": false

@@ -1511,6 +1511,69 @@
         },
         "evidenceNote": "Dimension entity values are read directly from DWG entities. Width/height/depth role assignment remains a candidate unless separately reviewed."
       },
+      "supportGeometry": {
+        "legLikeSegmentCount": 12,
+        "legLikePairCount": 6,
+        "candidates": [
+          {
+            "segmentHandles": [
+              187,
+              188
+            ],
+            "centerX": 937664.727,
+            "centerY": -533632.594,
+            "gap": 50
+          },
+          {
+            "segmentHandles": [
+              193,
+              194
+            ],
+            "centerX": 937240.082,
+            "centerY": -533632.594,
+            "gap": 50
+          },
+          {
+            "segmentHandles": [
+              345,
+              346
+            ],
+            "centerX": 939138.974,
+            "centerY": -533632.594,
+            "gap": 50
+          },
+          {
+            "segmentHandles": [
+              351,
+              352
+            ],
+            "centerX": 938714.33,
+            "centerY": -533632.594,
+            "gap": 50
+          },
+          {
+            "segmentHandles": [
+              357,
+              358
+            ],
+            "centerX": 940170.867,
+            "centerY": -533632.594,
+            "gap": 50
+          },
+          {
+            "segmentHandles": [
+              363,
+              364
+            ],
+            "centerX": 940421.001,
+            "centerY": -533632.594,
+            "gap": 50
+          }
+        ],
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "needs_review",
+        "note": "Repeated mirrored short slanted line pairs were detected from DWG entities. This is direct geometry evidence for leg-like supports, but semantic assignment remains needs_review."
+      },
       "productSelectionSignals": [
         {
           "kind": "multi_view_labels",
@@ -1529,6 +1592,72 @@
             "육각 골드 손잡이"
           ],
           "note": "DWG text includes handle option labels.",
+          "sourceKind": "dwg_entity",
+          "reviewStatus": "mechanically_certain"
+        },
+        {
+          "kind": "leg_support_geometry",
+          "value": {
+            "legLikePairCount": 6,
+            "legLikeSegmentCount": 12,
+            "candidates": [
+              {
+                "segmentHandles": [
+                  187,
+                  188
+                ],
+                "centerX": 937664.727,
+                "centerY": -533632.594,
+                "gap": 50
+              },
+              {
+                "segmentHandles": [
+                  193,
+                  194
+                ],
+                "centerX": 937240.082,
+                "centerY": -533632.594,
+                "gap": 50
+              },
+              {
+                "segmentHandles": [
+                  345,
+                  346
+                ],
+                "centerX": 939138.974,
+                "centerY": -533632.594,
+                "gap": 50
+              },
+              {
+                "segmentHandles": [
+                  351,
+                  352
+                ],
+                "centerX": 938714.33,
+                "centerY": -533632.594,
+                "gap": 50
+              },
+              {
+                "segmentHandles": [
+                  357,
+                  358
+                ],
+                "centerX": 940170.867,
+                "centerY": -533632.594,
+                "gap": 50
+              },
+              {
+                "segmentHandles": [
+                  363,
+                  364
+                ],
+                "centerX": 940421.001,
+                "centerY": -533632.594,
+                "gap": 50
+              }
+            ]
+          },
+          "note": "DWG line entities include repeated short mirrored slanted support pairs consistent with cabinet legs.",
           "sourceKind": "dwg_entity",
           "reviewStatus": "mechanically_certain"
         },
@@ -2890,6 +3019,69 @@
         "reviewStatus": "mechanically_certain"
       }
     ],
+    "supportGeometry": {
+      "legLikeSegmentCount": 12,
+      "legLikePairCount": 6,
+      "candidates": [
+        {
+          "segmentHandles": [
+            187,
+            188
+          ],
+          "centerX": 937664.727,
+          "centerY": -533632.594,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            193,
+            194
+          ],
+          "centerX": 937240.082,
+          "centerY": -533632.594,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            345,
+            346
+          ],
+          "centerX": 939138.974,
+          "centerY": -533632.594,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            351,
+            352
+          ],
+          "centerX": 938714.33,
+          "centerY": -533632.594,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            357,
+            358
+          ],
+          "centerX": 940170.867,
+          "centerY": -533632.594,
+          "gap": 50
+        },
+        {
+          "segmentHandles": [
+            363,
+            364
+          ],
+          "centerX": 940421.001,
+          "centerY": -533632.594,
+          "gap": 50
+        }
+      ],
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "needs_review",
+      "note": "Repeated mirrored short slanted line pairs were detected from DWG entities. This is direct geometry evidence for leg-like supports, but semantic assignment remains needs_review."
+    },
     "productSelectionSignals": [
       {
         "kind": "multi_view_labels",
@@ -2908,6 +3100,72 @@
           "육각 골드 손잡이"
         ],
         "note": "DWG text includes handle option labels.",
+        "sourceKind": "dwg_entity",
+        "reviewStatus": "mechanically_certain"
+      },
+      {
+        "kind": "leg_support_geometry",
+        "value": {
+          "legLikePairCount": 6,
+          "legLikeSegmentCount": 12,
+          "candidates": [
+            {
+              "segmentHandles": [
+                187,
+                188
+              ],
+              "centerX": 937664.727,
+              "centerY": -533632.594,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                193,
+                194
+              ],
+              "centerX": 937240.082,
+              "centerY": -533632.594,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                345,
+                346
+              ],
+              "centerX": 939138.974,
+              "centerY": -533632.594,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                351,
+                352
+              ],
+              "centerX": 938714.33,
+              "centerY": -533632.594,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                357,
+                358
+              ],
+              "centerX": 940170.867,
+              "centerY": -533632.594,
+              "gap": 50
+            },
+            {
+              "segmentHandles": [
+                363,
+                364
+              ],
+              "centerX": 940421.001,
+              "centerY": -533632.594,
+              "gap": 50
+            }
+          ]
+        },
+        "note": "DWG line entities include repeated short mirrored slanted support pairs consistent with cabinet legs.",
         "sourceKind": "dwg_entity",
         "reviewStatus": "mechanically_certain"
       },
@@ -2974,7 +3232,7 @@
     ]
   },
   "toolProbe": {
-    "checkedAt": "2026-04-29T22:09:24.875Z",
+    "checkedAt": "2026-04-30T00:37:47.109Z",
     "tools": {
       "dwgread": {
         "available": false

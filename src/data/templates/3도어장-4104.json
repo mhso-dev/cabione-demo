@@ -140,7 +140,7 @@
     "manifest": "data/cad-evidence/3도어장-4104.json",
     "dwgExtractionStatus": "entity_extracted",
     "toolProbe": {
-      "checkedAt": "2026-04-29T22:09:24.875Z",
+      "checkedAt": "2026-04-30T00:37:47.109Z",
       "tools": {
         "dwgread": {
           "available": false
@@ -261,6 +261,14 @@
       "3T 은경"
     ],
     "viewLabels": [],
+    "supportGeometry": {
+      "legLikeSegmentCount": 0,
+      "legLikePairCount": 0,
+      "candidates": [],
+      "sourceKind": "dwg_entity",
+      "reviewStatus": "mechanically_certain",
+      "note": "No repeated mirrored short slanted support-pair geometry detected in DWG entities."
+    },
     "productSelectionSignals": [
       {
         "kind": "mirror_material_labels",
