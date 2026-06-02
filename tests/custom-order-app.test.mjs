@@ -92,3 +92,11 @@ test('main script loads DWG sample templates and preserves interactive order act
   }
   assert.equal(js.includes("code: 'BMC-A1'"), false, 'legacy hard-coded example catalog should not drive the live selector');
 });
+
+test('DWG template manifest uses Vercel-stable NFC asset paths', async () => {
+  const manifest = JSON.parse(await readFile('src/data/templateManifest.json', 'utf8'));
+  for (const entry of manifest.templates ?? []) {
+    assert.equal(entry.path, entry.path.normalize('NFC'), `${entry.templateId} path must be NFC-normalized`);
+    await readFile(entry.path, 'utf8');
+  }
+});
