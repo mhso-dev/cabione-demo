@@ -1,4 +1,10 @@
 import templateManifest from './data/templateManifest.json' with { type: 'json' };
+import {
+  buildDashboardModel,
+  formatAssetSubtitle,
+  formatThreadMessages,
+  statusLabel,
+} from './workflow.js';
 
 /* ============================================================
    STATE & CONFIG
@@ -29,6 +35,31 @@ const DEFAULT_FINISH_COLORS = {
   interior: '#f7efe2',
 };
 
+const STORAGE_KEY = 'cabione:drawing-assets:v1';
+const ROLE_LABELS = {
+  sales: '영업 사원',
+  admin: '관리자',
+};
+const REVIEW_STATUS = {
+  draft: '작성중',
+  in_review: '검토중',
+  approved: '승인',
+  rejected: '반려',
+};
+const REVIEW_STATUS_CLASS = {
+  draft: 'draft',
+  in_review: 'in-review',
+  approved: 'approved',
+  rejected: 'rejected',
+};
+const GENERIC_CONSTRAINTS = {
+  edgeClearance: 20,
+  outletClearance: 40,
+  optionGap: 10,
+  minLedCabinetHeight: 350,
+  ledReservedBottom: 56,
+};
+
 const state = {
   screen: 'home',
   mode: null, // 'template' | 'custom'
@@ -51,7 +82,14 @@ const state = {
   // drag state
   drag: null, // { id, mode: 'move'|'resize-l'|'resize-r'|'corner', startX, startY, origItem }
   // canvas resize (for custom mode root rect)
-  cabinetDrag: null
+  cabinetDrag: null,
+  role: 'sales',
+  dashboardFilter: 'all',
+  assets: loadStoredAssets(),
+  currentAssetId: null,
+  reviewStatus: 'draft',
+  comments: [],
+  constraintNotice: '',
 };
 
 /* ============================================================
@@ -61,6 +99,7 @@ const state = {
 const screens = {
   home: document.getElementById('home-screen'),
   template: document.getElementById('template-screen'),
+  dashboard: document.getElementById('dashboard-screen'),
   editor: document.getElementById('editor-screen')
 };
 
@@ -73,6 +112,8 @@ function showScreen(name) {
     requestAnimationFrame(() => {
       requestAnimationFrame(render);
     });
+  } else if (name === 'dashboard') {
+    renderDashboard();
   }
 }
 
@@ -84,6 +125,11 @@ document.querySelectorAll('[data-action]').forEach(btn => {
       showScreen('template');
     } else if (act === 'custom') {
       enterEditor({ custom: true });
+    } else if (act === 'dashboard') {
+      state.role = 'admin';
+      state.dashboardFilter = 'all';
+      renderDashboard();
+      showScreen('dashboard');
     }
   });
 });
@@ -242,6 +288,159 @@ function escapeHtml(value) {
   })[char]);
 }
 
+function loadStoredAssets() {
+  try {
+    const raw = window.localStorage?.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter(isStoredAsset) : [];
+  } catch (_error) {
+    return [];
+  }
+}
+
+function isStoredAsset(asset) {
+  return Boolean(asset?.id && asset?.drawing?.dimensions && REVIEW_STATUS[asset.reviewStatus ?? 'draft']);
+}
+
+function persistAssetsLocal() {
+  try {
+    window.localStorage?.setItem(STORAGE_KEY, JSON.stringify(state.assets));
+  } catch (_error) {
+    state.constraintNotice = '브라우저 임시 저장소를 사용할 수 없어 현재 화면에만 도면이 유지됩니다.';
+  }
+}
+
+function upsertAsset(asset) {
+  const index = state.assets.findIndex(item => item.id === asset.id);
+  if (index >= 0) state.assets[index] = asset;
+  else state.assets.unshift(asset);
+  state.currentAssetId = asset.id;
+  state.reviewStatus = asset.reviewStatus;
+  state.comments = asset.comments ?? [];
+  persistAssetsLocal();
+  return asset;
+}
+
+function syncWorkflowSurfaces() {
+  if (state.screen === 'editor') syncWorkflowPanel();
+  if (state.screen === 'dashboard') renderDashboard();
+}
+
+async function requestJson(path, options = {}) {
+  const response = await fetch(path, {
+    ...options,
+    headers: {
+      'content-type': 'application/json',
+      ...(options.headers ?? {}),
+    },
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+  return payload;
+}
+
+async function hydrateAssets() {
+  try {
+    const payload = await requestJson('/api/assets');
+    state.assets = Array.isArray(payload.assets) ? payload.assets.filter(isStoredAsset) : [];
+    persistAssetsLocal();
+    syncWorkflowSurfaces();
+  } catch (_error) {
+    state.constraintNotice = '서버 저장소에 연결할 수 없어 브라우저 임시 저장소를 사용합니다.';
+    syncWorkflowSurfaces();
+  }
+}
+
+function nowIso() {
+  return new Date().toISOString();
+}
+
+function makeAssetId() {
+  return `drawing-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+}
+
+function formatShortTime(value) {
+  if (!value) return '-';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '-';
+  return `${date.getMonth() + 1}/${date.getDate()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
+
+function activeAsset() {
+  return state.assets.find(asset => asset.id === state.currentAssetId) ?? null;
+}
+
+function activeDrawingChanged(asset = activeAsset()) {
+  if (!asset) return false;
+  const titleInput = document.getElementById('asset-title');
+  const nextTitle = titleInput?.value.trim() || asset.title;
+  return asset.title !== nextTitle || JSON.stringify(asset.drawing) !== JSON.stringify(serializeDrawingState());
+}
+
+function defaultAssetTitle() {
+  const base = state.template ? `${state.template.name}` : '직접 그리기 도면';
+  return `${base} ${new Date().toLocaleDateString('ko-KR')}`;
+}
+
+function serializeDrawingState() {
+  return {
+    schemaVersion: 1,
+    mode: state.mode,
+    templateCode: state.template?.code ?? null,
+    templateName: state.template?.name ?? null,
+    family: state.template?.family ?? null,
+    dimensions: {
+      width: state.cabinetW,
+      height: state.cabinetH,
+      depth: state.cabinetD,
+    },
+    items: state.items.map(item => ({ ...item })),
+    led: state.led,
+    finishColors: { ...state.finishColors },
+    hingeConfig: {
+      selectedDoor: state.hingeConfig.selectedDoor,
+      doors: state.hingeConfig.doors.map(door => ({ ...door })),
+    },
+  };
+}
+
+async function restoreDrawingSnapshot(snapshot) {
+  const templates = await loadDwgSampleTemplates();
+  const template = snapshot?.mode === 'template'
+    ? templates.find(tpl => tpl.code === snapshot.templateCode) ?? null
+    : null;
+  state.mode = template ? 'template' : 'custom';
+  state.template = template;
+  state.cabinetW = clamp(Number(snapshot?.dimensions?.width ?? 600), MIN_W, MAX_W);
+  state.cabinetH = clamp(Number(snapshot?.dimensions?.height ?? 600), MIN_H, MAX_H);
+  state.cabinetD = clamp(Number(snapshot?.dimensions?.depth ?? 300), 100, 1200);
+  state.items = Array.isArray(snapshot?.items) ? snapshot.items.map(item => ({ ...item })) : [];
+  state.itemCounter = state.items.reduce((max, item) => {
+    const number = Number(String(item.id ?? '').replace(/^\D+/, ''));
+    return Number.isFinite(number) ? Math.max(max, number) : max;
+  }, state.items.length);
+  state.led = snapshot?.led ?? null;
+  state.finishColors = { ...DEFAULT_FINISH_COLORS, ...(snapshot?.finishColors ?? {}) };
+  state.hingeConfig = {
+    selectedDoor: Number(snapshot?.hingeConfig?.selectedDoor ?? 1),
+    doors: Array.isArray(snapshot?.hingeConfig?.doors) ? snapshot.hingeConfig.doors.map(door => ({ ...door })) : [],
+  };
+  state.selectedId = null;
+  document.getElementById('ed-pname').textContent = template ? template.name : '직접 그리기';
+  document.getElementById('ed-pcode').textContent = template ? template.code : 'CUSTOM';
+  document.getElementById('wm-code').textContent = template ? template.code : 'CUSTOM';
+  document.getElementById('in-width').value = state.cabinetW;
+  document.getElementById('in-height').value = state.cabinetH;
+  state.constraintNotice = validateDrawingState().valid ? '' : '저장된 도면에 제한 검토가 필요한 값이 있습니다.';
+  ensureHingeConfig();
+  refreshHingePanel();
+  refreshColorControls();
+  refreshLEDPills();
+  refreshPlacedList();
+  syncWorkflowPanel();
+  showScreen('editor');
+}
+
 function renderTemplateThumb(tpl) {
   const w = tpl.defaultW, h = tpl.defaultH;
   // fit into 200 x 150 viewBox with padding
@@ -309,6 +508,10 @@ function enterEditor({ template } = {}) {
   state.selectedId = null;
   state.itemCounter = 0;
   state.hingeConfig = { selectedDoor: 1, doors: [] };
+  state.currentAssetId = null;
+  state.reviewStatus = 'draft';
+  state.comments = [];
+  state.constraintNotice = '';
 
   if (template) {
     state.mode = 'template';
@@ -332,12 +535,497 @@ function enterEditor({ template } = {}) {
 
   document.getElementById('in-width').value = state.cabinetW;
   document.getElementById('in-height').value = state.cabinetH;
+  if (workflowEls.title) {
+    workflowEls.title.dataset.assetId = '';
+    workflowEls.title.value = defaultAssetTitle();
+  }
   ensureHingeConfig();
   refreshHingePanel();
   refreshColorControls();
   refreshLEDPills();
   refreshPlacedList();
+  syncWorkflowPanel();
   showScreen('editor');
+}
+
+/* ============================================================
+   DRAWING ASSET / REVIEW WORKFLOW
+   ============================================================ */
+
+const workflowEls = {
+  roleSelect: document.getElementById('role-select'),
+  roleLabel: document.getElementById('role-label'),
+  status: document.getElementById('asset-status'),
+  title: document.getElementById('asset-title'),
+  list: document.getElementById('asset-list'),
+  commentInput: document.getElementById('comment-input'),
+  commentList: document.getElementById('comment-list'),
+  adminActions: document.getElementById('admin-actions'),
+  save: document.getElementById('btn-save-asset'),
+  share: document.getElementById('btn-share-asset'),
+  addComment: document.getElementById('btn-add-comment'),
+  approve: document.getElementById('btn-approve'),
+  reject: document.getElementById('btn-reject'),
+  constraintStatus: document.getElementById('constraint-status'),
+  constraintList: document.getElementById('constraint-list'),
+};
+
+const dashboardEls = {
+  roleSelect: document.getElementById('ops-role-select'),
+  roleLabel: document.getElementById('ops-role-label'),
+  summary: document.getElementById('ops-summary'),
+  notificationMeta: document.getElementById('ops-notification-meta'),
+  notificationList: document.getElementById('ops-notification-list'),
+  queueCount: document.getElementById('ops-queue-count'),
+  filter: document.getElementById('ops-filter'),
+  queue: document.getElementById('ops-queue'),
+  detailHead: document.getElementById('ops-detail-head'),
+  thread: document.getElementById('ops-thread'),
+  commentInput: document.getElementById('ops-comment-input'),
+  sendComment: document.getElementById('ops-comment-send'),
+  openEditor: document.getElementById('ops-open-editor'),
+  approve: document.getElementById('ops-approve'),
+  reject: document.getElementById('ops-reject'),
+};
+
+workflowEls.roleSelect?.addEventListener('change', e => {
+  state.role = e.target.value === 'admin' ? 'admin' : 'sales';
+  syncWorkflowSurfaces();
+});
+
+workflowEls.title?.addEventListener('input', syncWorkflowPanel);
+
+workflowEls.save?.addEventListener('click', async () => {
+  await saveCurrentAsset({ share: false });
+});
+
+workflowEls.share?.addEventListener('click', async () => {
+  await saveCurrentAsset({ share: true });
+});
+
+workflowEls.addComment?.addEventListener('click', async () => {
+  await addWorkflowComment();
+});
+
+workflowEls.commentInput?.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') addWorkflowComment();
+});
+
+workflowEls.approve?.addEventListener('click', async () => setReviewDecision('approved'));
+workflowEls.reject?.addEventListener('click', async () => setReviewDecision('rejected'));
+
+dashboardEls.roleSelect?.addEventListener('change', e => {
+  state.role = e.target.value === 'admin' ? 'admin' : 'sales';
+  state.dashboardFilter = 'all';
+  syncWorkflowSurfaces();
+});
+
+dashboardEls.filter?.addEventListener('click', e => {
+  const button = e.target.closest('[data-dashboard-filter]');
+  if (!button) return;
+  state.dashboardFilter = button.dataset.dashboardFilter || 'all';
+  renderDashboard();
+});
+
+dashboardEls.summary?.addEventListener('click', e => {
+  const button = e.target.closest('[data-dashboard-filter]');
+  if (!button) return;
+  state.dashboardFilter = button.dataset.dashboardFilter || 'all';
+  renderDashboard();
+});
+
+dashboardEls.notificationList?.addEventListener('click', e => {
+  const button = e.target.closest('[data-asset-id]');
+  if (!button?.dataset.assetId) return;
+  selectDashboardAsset(button.dataset.assetId);
+});
+
+dashboardEls.queue?.addEventListener('click', e => {
+  const button = e.target.closest('[data-asset-id]');
+  if (!button?.dataset.assetId) return;
+  selectDashboardAsset(button.dataset.assetId);
+});
+
+dashboardEls.sendComment?.addEventListener('click', async () => {
+  await addDashboardComment();
+});
+
+dashboardEls.commentInput?.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') addDashboardComment();
+});
+
+dashboardEls.openEditor?.addEventListener('click', async () => {
+  const asset = activeAsset();
+  if (!asset) return;
+  await loadAsset(asset.id);
+});
+
+dashboardEls.approve?.addEventListener('click', async () => setReviewDecision('approved'));
+dashboardEls.reject?.addEventListener('click', async () => setReviewDecision('rejected'));
+
+async function saveCurrentAsset({ share = false } = {}) {
+  if (state.role !== 'sales') {
+    state.constraintNotice = '도면 저장과 공유는 영업 사원 역할에서만 가능합니다.';
+    syncWorkflowSurfaces();
+    return null;
+  }
+  const validation = validateDrawingState();
+  if (!validation.valid) {
+    state.constraintNotice = '제한 규칙을 벗어난 도면은 저장할 수 없습니다.';
+    syncWorkflowSurfaces();
+    return null;
+  }
+
+  const now = nowIso();
+  const existing = activeAsset();
+  const drawing = serializeDrawingState();
+  const title = workflowEls.title?.value.trim() || existing?.title || defaultAssetTitle();
+  const drawingChanged = existing ? JSON.stringify(existing.drawing) !== JSON.stringify(drawing) : false;
+  const titleChanged = existing ? existing.title !== title : false;
+  const reviewedStatusChanged = (drawingChanged || titleChanged) && ['approved', 'rejected'].includes(existing?.reviewStatus);
+  const nextStatus = share
+    ? 'in_review'
+    : reviewedStatusChanged
+      ? 'draft'
+      : (existing?.reviewStatus ?? state.reviewStatus ?? 'draft');
+  const comments = existing?.comments ?? state.comments ?? [];
+  const asset = {
+    id: existing?.id ?? makeAssetId(),
+    title,
+    reviewStatus: nextStatus,
+    createdAt: existing?.createdAt ?? now,
+    updatedAt: now,
+    sharedAt: share ? now : existing?.sharedAt ?? null,
+    createdBy: existing?.createdBy ?? 'sales',
+    drawing,
+    comments: reviewedStatusChanged
+      ? [...comments, {
+          id: `comment-${Date.now()}`,
+          role: state.role,
+          author: ROLE_LABELS[state.role],
+          text: share
+            ? '검토 완료 후 도면이 수정되어 검토중으로 다시 공유되었습니다.'
+            : '검토 완료 후 도면이 수정되어 상태가 작성중으로 변경되었습니다.',
+          createdAt: now,
+          system: true,
+        }]
+      : comments,
+  };
+
+  try {
+    const payload = await requestJson('/api/assets', {
+      method: 'POST',
+      body: JSON.stringify({ role: state.role, action: share ? 'share' : 'save', asset }),
+    });
+    if (Array.isArray(payload.assets)) state.assets = payload.assets.filter(isStoredAsset);
+    upsertAsset(payload.asset);
+  } catch (_error) {
+    upsertAsset(asset);
+    state.constraintNotice = '서버 저장소에 연결할 수 없어 브라우저 임시 저장소에만 반영했습니다.';
+    syncWorkflowSurfaces();
+    return asset;
+  }
+  state.constraintNotice = share ? '관리자 검토 목록으로 공유했습니다.' : '편집 가능한 도면 데이터로 저장했습니다.';
+  syncWorkflowSurfaces();
+  return activeAsset();
+}
+
+async function loadAsset(assetId) {
+  const asset = state.assets.find(item => item.id === assetId);
+  if (!asset) return;
+  state.currentAssetId = asset.id;
+  state.reviewStatus = asset.reviewStatus;
+  state.comments = asset.comments ?? [];
+  await restoreDrawingSnapshot(asset.drawing);
+  state.constraintNotice = '저장된 도면 데이터를 다시 열었습니다.';
+  syncWorkflowPanel();
+}
+
+async function persistAssetComment(asset, text) {
+  if (!asset) return;
+  try {
+    const payload = await requestJson(`/api/assets/${encodeURIComponent(asset.id)}/comments`, {
+      method: 'POST',
+      body: JSON.stringify({ role: state.role, text }),
+    });
+    if (Array.isArray(payload.assets)) state.assets = payload.assets.filter(isStoredAsset);
+    upsertAsset(payload.asset);
+  } catch (_error) {
+    const comment = {
+      id: `comment-${Date.now()}`,
+      role: state.role,
+      author: ROLE_LABELS[state.role],
+      text,
+      createdAt: nowIso(),
+    };
+    asset.comments = [...(asset.comments ?? []), comment];
+    asset.updatedAt = nowIso();
+    upsertAsset(asset);
+    state.constraintNotice = '서버 저장소에 연결할 수 없어 댓글을 브라우저 임시 저장소에만 남겼습니다.';
+  }
+  return activeAsset();
+}
+
+async function addWorkflowComment() {
+  const text = workflowEls.commentInput?.value.trim();
+  if (!text) return;
+  let asset = activeAsset();
+  if (!asset) asset = await saveCurrentAsset({ share: false });
+  if (!asset) return;
+  await persistAssetComment(asset, text);
+  workflowEls.commentInput.value = '';
+  syncWorkflowSurfaces();
+}
+
+async function addDashboardComment() {
+  const text = dashboardEls.commentInput?.value.trim();
+  if (!text) return;
+  const asset = activeAsset();
+  if (!asset) return;
+  await persistAssetComment(asset, text);
+  dashboardEls.commentInput.value = '';
+  syncWorkflowSurfaces();
+}
+
+async function setReviewDecision(reviewStatus) {
+  if (state.role !== 'admin') return;
+  const asset = activeAsset();
+  if (!asset || asset.reviewStatus !== 'in_review') return;
+  try {
+    const payload = await requestJson(`/api/assets/${encodeURIComponent(asset.id)}/decision`, {
+      method: 'POST',
+      body: JSON.stringify({ role: state.role, reviewStatus }),
+    });
+    if (Array.isArray(payload.assets)) state.assets = payload.assets.filter(isStoredAsset);
+    upsertAsset(payload.asset);
+    state.constraintNotice = '';
+  } catch (_error) {
+    asset.reviewStatus = reviewStatus;
+    asset.updatedAt = nowIso();
+    state.reviewStatus = reviewStatus;
+    const decisionText = reviewStatus === 'approved' ? '관리자가 도면을 승인했습니다.' : '관리자가 도면을 반려했습니다.';
+    asset.comments = [...(asset.comments ?? []), {
+      id: `comment-${Date.now()}`,
+      role: 'admin',
+      author: ROLE_LABELS.admin,
+      text: decisionText,
+      createdAt: nowIso(),
+      system: true,
+    }];
+    upsertAsset(asset);
+    state.constraintNotice = '서버 저장소에 연결할 수 없어 승인 상태를 브라우저 임시 저장소에만 반영했습니다.';
+  }
+  if (state.screen === 'dashboard') state.dashboardFilter = reviewStatus;
+  syncWorkflowSurfaces();
+}
+
+function syncWorkflowTitleInput(asset) {
+  if (!workflowEls.title) return;
+  const nextAssetId = asset?.id ?? '';
+  if (nextAssetId && workflowEls.title.dataset.assetId !== nextAssetId) {
+    workflowEls.title.value = asset.title ?? '';
+  } else if (!nextAssetId && !workflowEls.title.value.trim()) {
+    workflowEls.title.value = defaultAssetTitle();
+  }
+  workflowEls.title.dataset.assetId = nextAssetId;
+}
+
+function syncWorkflowPanel() {
+  if (!workflowEls.status) return;
+  workflowEls.roleSelect.value = state.role;
+  workflowEls.roleLabel.textContent = ROLE_LABELS[state.role];
+  const asset = activeAsset();
+  const drawingChanged = activeDrawingChanged(asset);
+  const reviewStatus = drawingChanged && ['approved', 'rejected'].includes(asset?.reviewStatus)
+    ? 'draft'
+    : asset?.reviewStatus ?? state.reviewStatus ?? 'draft';
+  workflowEls.status.textContent = asset
+    ? drawingChanged && ['approved', 'rejected'].includes(asset.reviewStatus)
+      ? '수정됨'
+      : REVIEW_STATUS[reviewStatus]
+    : '새 도면';
+  workflowEls.status.className = `status-chip ${REVIEW_STATUS_CLASS[reviewStatus] ?? 'draft'}`;
+  syncWorkflowTitleInput(asset);
+  const validation = validateDrawingState();
+  workflowEls.save.disabled = !validation.valid || state.role !== 'sales';
+  workflowEls.share.disabled = !validation.valid || state.role !== 'sales';
+  workflowEls.share.textContent = asset?.reviewStatus === 'in_review' ? '공유 갱신' : '관리자 공유';
+  workflowEls.adminActions.hidden = state.role !== 'admin';
+  const adminReviewable = state.role === 'admin' && asset?.reviewStatus === 'in_review';
+  workflowEls.approve.disabled = !adminReviewable || !validation.valid;
+  workflowEls.reject.disabled = !adminReviewable;
+  updateConstraintPanel(validation);
+  renderAssetList();
+  renderCommentList(asset?.comments ?? state.comments ?? []);
+}
+
+function renderAssetList() {
+  if (!workflowEls.list) return;
+  if (!state.assets.length) {
+    workflowEls.list.innerHTML = '<div class="empty-hint">저장된 도면이 없습니다.</div>';
+    return;
+  }
+  workflowEls.list.innerHTML = '';
+  state.assets.slice(0, 8).forEach(asset => {
+    const row = document.createElement('button');
+    row.type = 'button';
+    row.className = `asset-row${asset.id === state.currentAssetId ? ' active' : ''}`;
+    row.innerHTML = `
+      <span class="asset-row-title">${escapeHtml(asset.title)}</span>
+      <span class="asset-row-status">${escapeHtml(REVIEW_STATUS[asset.reviewStatus] ?? asset.reviewStatus)}</span>
+      <span class="asset-row-meta">${escapeHtml(asset.drawing?.templateName ?? '직접 그리기')} · ${escapeHtml(formatShortTime(asset.updatedAt))}</span>
+    `;
+    row.addEventListener('click', () => loadAsset(asset.id));
+    workflowEls.list.appendChild(row);
+  });
+}
+
+function renderCommentList(comments) {
+  if (!workflowEls.commentList) return;
+  workflowEls.commentList.innerHTML = renderThreadMessages(formatThreadMessages(comments), '아직 댓글이 없습니다.');
+}
+
+function selectDashboardAsset(assetId) {
+  const asset = state.assets.find(item => item.id === assetId);
+  if (!asset) return;
+  if (state.dashboardFilter !== 'all' && asset.reviewStatus !== state.dashboardFilter) {
+    state.dashboardFilter = 'all';
+  }
+  state.currentAssetId = assetId;
+  renderDashboard();
+}
+
+function renderDashboard() {
+  if (!dashboardEls.summary) return;
+  dashboardEls.roleSelect.value = state.role;
+  dashboardEls.roleLabel.textContent = ROLE_LABELS[state.role];
+
+  let model = buildDashboardModel(state.assets, {
+    role: state.role,
+    filter: state.dashboardFilter,
+    activeAssetId: state.currentAssetId,
+  });
+  const queueHasActive = model.queue.some(asset => asset.id === state.currentAssetId);
+  if (model.queue.length && !queueHasActive) {
+    state.currentAssetId = model.queue[0].id;
+    model = buildDashboardModel(state.assets, {
+      role: state.role,
+      filter: state.dashboardFilter,
+      activeAssetId: state.currentAssetId,
+    });
+  } else if (!model.queue.length && state.dashboardFilter !== 'all') {
+    model = { ...model, activeAsset: null, thread: [] };
+  } else if (model.activeAsset) {
+    state.currentAssetId = model.activeAsset.id;
+  }
+
+  renderDashboardSummary(model);
+  renderDashboardNotifications(model);
+  renderDashboardQueue(model);
+  renderDashboardDetail(model);
+}
+
+function renderDashboardSummary(model) {
+  const counts = model.counts;
+  const items = [
+    { filter: 'in_review', label: '검토중', count: counts.in_review, meta: '승인 대기' },
+    { filter: 'rejected', label: '반려', count: counts.rejected, meta: '수정 필요' },
+    { filter: 'approved', label: '승인', count: counts.approved, meta: '완료' },
+    { filter: 'draft', label: '작성중', count: counts.draft, meta: '영업 보관' },
+  ];
+  dashboardEls.summary.innerHTML = items.map(item => `
+    <button type="button" class="ops-summary-tile ${state.dashboardFilter === item.filter ? 'active' : ''}" data-dashboard-filter="${item.filter}">
+      <span>${escapeHtml(item.label)}</span>
+      <strong>${escapeHtml(item.count)}</strong>
+      <small>${escapeHtml(item.meta)}</small>
+    </button>
+  `).join('');
+}
+
+function renderDashboardNotifications(model) {
+  const actionable = model.notifications.filter(item => item.assetId).length;
+  dashboardEls.notificationMeta.textContent = `${actionable}개`;
+  dashboardEls.notificationList.innerHTML = model.notifications.map(notification => `
+    <button type="button" class="ops-notification ${escapeHtml(notification.tone)}" ${notification.assetId ? `data-asset-id="${escapeHtml(notification.assetId)}"` : 'disabled'}>
+      <span class="ops-notification-dot"></span>
+      <span class="ops-notification-body">
+        <strong>${escapeHtml(notification.title)}</strong>
+        <span>${escapeHtml(notification.text)}</span>
+      </span>
+      <time>${escapeHtml(formatShortTime(notification.createdAt))}</time>
+    </button>
+  `).join('');
+}
+
+function renderDashboardQueue(model) {
+  dashboardEls.queueCount.textContent = `${model.queue.length}건`;
+  dashboardEls.filter.querySelectorAll('[data-dashboard-filter]').forEach(button => {
+    button.classList.toggle('active', button.dataset.dashboardFilter === state.dashboardFilter);
+  });
+  if (!model.queue.length) {
+    dashboardEls.queue.innerHTML = '<div class="empty-hint">표시할 도면이 없습니다.</div>';
+    return;
+  }
+  dashboardEls.queue.innerHTML = model.queue.map(asset => `
+    <button type="button" class="ops-queue-row ${asset.id === model.activeAsset?.id ? 'active' : ''}" data-asset-id="${escapeHtml(asset.id)}">
+      <span class="ops-queue-title">${escapeHtml(asset.title)}</span>
+      <span class="status-chip ${REVIEW_STATUS_CLASS[asset.reviewStatus] ?? 'draft'}">${escapeHtml(statusLabel(asset.reviewStatus))}</span>
+      <span class="ops-queue-sub">${escapeHtml(formatAssetSubtitle(asset))}</span>
+      <span class="ops-queue-time">${escapeHtml(formatShortTime(asset.updatedAt))}</span>
+    </button>
+  `).join('');
+}
+
+function renderDashboardDetail(model) {
+  const asset = model.activeAsset;
+  const hasAsset = Boolean(asset);
+  dashboardEls.openEditor.disabled = !hasAsset;
+  dashboardEls.sendComment.disabled = !hasAsset;
+  dashboardEls.commentInput.disabled = !hasAsset;
+  const adminReviewable = state.role === 'admin' && asset?.reviewStatus === 'in_review';
+  dashboardEls.approve.disabled = !adminReviewable;
+  dashboardEls.reject.disabled = !adminReviewable;
+
+  if (!asset) {
+    dashboardEls.detailHead.innerHTML = `
+      <div>
+        <span class="ops-kicker">THREAD</span>
+        <h3>선택된 도면 없음</h3>
+      </div>
+      <span class="status-chip draft">대기</span>
+    `;
+    dashboardEls.thread.innerHTML = '<div class="empty-hint">승인 요청 또는 댓글 알림을 선택하세요.</div>';
+    return;
+  }
+
+  dashboardEls.detailHead.innerHTML = `
+    <div>
+      <span class="ops-kicker">THREAD</span>
+      <h3>${escapeHtml(asset.title)}</h3>
+      <p>${escapeHtml(formatAssetSubtitle(asset))} · 댓글 ${escapeHtml((asset.comments ?? []).length)}개</p>
+    </div>
+    <span class="status-chip ${REVIEW_STATUS_CLASS[asset.reviewStatus] ?? 'draft'}">${escapeHtml(statusLabel(asset.reviewStatus))}</span>
+  `;
+  dashboardEls.thread.innerHTML = renderThreadMessages(model.thread, '아직 댓글이 없습니다.');
+}
+
+function renderThreadMessages(messages, emptyText) {
+  if (!messages.length) return `<div class="empty-hint">${escapeHtml(emptyText)}</div>`;
+  return `
+    <div class="thread-list">
+      ${messages.map(message => `
+        <div class="thread-message ${escapeHtml(message.side)}">
+          <div class="thread-bubble">
+            <div class="comment-meta">
+              <span>${escapeHtml(message.system ? '상태' : message.author)}</span>
+              <span>${escapeHtml(formatShortTime(message.createdAt))}</span>
+            </div>
+            <div class="comment-text">${escapeHtml(message.text)}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
 /* ============================================================
@@ -347,36 +1035,30 @@ function enterEditor({ template } = {}) {
 document.getElementById('in-width').addEventListener('input', e => {
   let v = parseInt(e.target.value) || 0;
   if (v < MIN_W) return; // allow user to keep typing
-  state.cabinetW = clamp(v, MIN_W, MAX_W);
-  clampAllItems();
-  ensureHingeConfig();
-  refreshHingePanel();
-  render();
+  commitDimensionCandidate({ width: v });
 });
 document.getElementById('in-height').addEventListener('input', e => {
   let v = parseInt(e.target.value) || 0;
   if (v < MIN_H) return;
-  state.cabinetH = clamp(v, MIN_H, MAX_H);
-  clampAllItems();
-  ensureHingeConfig();
-  refreshHingePanel();
-  render();
+  commitDimensionCandidate({ height: v });
 });
 document.getElementById('in-width').addEventListener('blur', e => {
-  state.cabinetW = clamp(parseInt(e.target.value)||MIN_W, MIN_W, MAX_W);
-  e.target.value = state.cabinetW;
-  clampAllItems();
-  ensureHingeConfig();
-  refreshHingePanel();
-  render();
+  const value = parseInt(e.target.value) || MIN_W;
+  if (value === state.cabinetW) {
+    e.target.value = state.cabinetW;
+    syncWorkflowPanel();
+    return;
+  }
+  commitDimensionCandidate({ width: value });
 });
 document.getElementById('in-height').addEventListener('blur', e => {
-  state.cabinetH = clamp(parseInt(e.target.value)||MIN_H, MIN_H, MAX_H);
-  e.target.value = state.cabinetH;
-  clampAllItems();
-  ensureHingeConfig();
-  refreshHingePanel();
-  render();
+  const value = parseInt(e.target.value) || MIN_H;
+  if (value === state.cabinetH) {
+    e.target.value = state.cabinetH;
+    syncWorkflowPanel();
+    return;
+  }
+  commitDimensionCandidate({ height: value });
 });
 
 /* ============================================================
@@ -563,9 +1245,17 @@ function addItem(type) {
     y = clamp(Math.round((state.cabinetH * 0.4 + offset)/STEP)*STEP, 0, state.cabinetH - h);
   }
 
-  state.items.push({ id, type, x, y, w, h });
+  const item = findValidItemPlacement({ id, type, x, y, w, h }, state.items);
+  if (!item) {
+    state.constraintNotice = `${def.name}을 현재 도면에 유효하게 배치할 공간이 없습니다.`;
+    syncWorkflowPanel();
+    return;
+  }
+  state.items.push(item);
   state.selectedId = id;
+  state.constraintNotice = '';
   refreshPlacedList();
+  syncWorkflowPanel();
   render();
   // open panel might be open on mobile, leave it
 }
@@ -603,6 +1293,7 @@ function refreshPlacedList() {
       state.items = state.items.filter(x => x.id !== id);
       if (state.selectedId === id) state.selectedId = null;
       refreshPlacedList();
+      syncWorkflowPanel();
       render();
     });
   });
@@ -615,8 +1306,18 @@ function refreshPlacedList() {
 document.querySelectorAll('.led-pill').forEach(pill => {
   pill.addEventListener('click', () => {
     const v = pill.dataset.led;
-    state.led = (state.led === v) ? null : v;
+    const next = (state.led === v) ? null : v;
+    const previous = state.led;
+    state.led = next;
+    const validation = validateDrawingState();
+    if (!validation.valid) {
+      state.led = previous;
+      state.constraintNotice = validation.errors[0] ?? 'LED 배치 제한을 벗어났습니다.';
+    } else {
+      state.constraintNotice = '';
+    }
     refreshLEDPills();
+    syncWorkflowPanel();
     render();
   });
 });
@@ -634,14 +1335,192 @@ function refreshLEDPills() {
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 function snapStep(v) { return Math.round(v / STEP) * STEP; }
 
-function clampItem(item) {
-  item.w = clamp(item.w, OPT_DEFS[item.type].minW || 20, state.cabinetW);
-  item.h = clamp(item.h, 1, state.cabinetH);
-  item.x = clamp(item.x, 0, state.cabinetW - item.w);
-  item.y = clamp(item.y, 0, state.cabinetH - item.h);
+function itemClearance(item) {
+  if (item.type === 'outlet1' || item.type === 'outlet2') return GENERIC_CONSTRAINTS.outletClearance;
+  if (item.type === 'shelf' || item.type === 'guidebar') return GENERIC_CONSTRAINTS.edgeClearance;
+  return GENERIC_CONSTRAINTS.edgeClearance;
 }
-function clampAllItems() {
-  state.items.forEach(clampItem);
+
+function itemRect(item, gap = 0) {
+  return {
+    left: item.x - gap,
+    top: item.y - gap,
+    right: item.x + item.w + gap,
+    bottom: item.y + item.h + gap,
+  };
+}
+
+function rectsOverlap(a, b) {
+  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+}
+
+function normalizeItemSize(item, bounds = cabinetBounds()) {
+  const def = OPT_DEFS[item.type];
+  const minW = def?.minW || 20;
+  return {
+    ...item,
+    w: snapStep(clamp(Number(item.w ?? def?.w ?? minW), minW, bounds.width)),
+    h: clamp(Number(item.h ?? def?.h ?? 20), 1, bounds.height),
+  };
+}
+
+function cabinetBounds(overrides = {}) {
+  return {
+    width: overrides.width ?? state.cabinetW,
+    height: overrides.height ?? state.cabinetH,
+    depth: overrides.depth ?? state.cabinetD,
+  };
+}
+
+function placementErrors(item, others = state.items, bounds = cabinetBounds(), led = state.led) {
+  const errors = [];
+  const def = OPT_DEFS[item.type];
+  if (!def) return ['알 수 없는 옵션입니다.'];
+  const clearance = itemClearance(item);
+  if (item.w < (def.minW || 20)) errors.push(`${def.name} 폭은 최소 ${(def.minW || 20)}mm 이상이어야 합니다.`);
+  if (item.x < clearance) errors.push(`${def.name}은 좌측에서 ${clearance}mm 이상 떨어져야 합니다.`);
+  if (item.y < clearance) errors.push(`${def.name}은 상단에서 ${clearance}mm 이상 떨어져야 합니다.`);
+  if (item.x + item.w > bounds.width - clearance) errors.push(`${def.name}은 우측에서 ${clearance}mm 이상 떨어져야 합니다.`);
+  if (item.y + item.h > bounds.height - clearance) errors.push(`${def.name}은 하단에서 ${clearance}mm 이상 떨어져야 합니다.`);
+  if ((item.type === 'outlet1' || item.type === 'outlet2') && led && item.y + item.h > bounds.height - GENERIC_CONSTRAINTS.ledReservedBottom) {
+    errors.push('콘센트는 LED 하단 예약 영역과 겹칠 수 없습니다.');
+  }
+  const rect = itemRect(item, GENERIC_CONSTRAINTS.optionGap);
+  for (const other of others) {
+    if (other.id === item.id) continue;
+    if (rectsOverlap(rect, itemRect(other, 0))) {
+      errors.push(`${def.name}은 ${OPT_DEFS[other.type]?.name ?? '다른 옵션'}과 겹칠 수 없습니다.`);
+      break;
+    }
+  }
+  return errors;
+}
+
+function fitItemInsideCabinet(item, bounds = cabinetBounds()) {
+  const sized = normalizeItemSize(item, bounds);
+  const clearance = itemClearance(sized);
+  const maxX = Math.max(clearance, bounds.width - clearance - sized.w);
+  const maxY = Math.max(clearance, bounds.height - clearance - sized.h);
+  return {
+    ...sized,
+    x: snapStep(clamp(Number(sized.x ?? clearance), clearance, maxX)),
+    y: snapStep(clamp(Number(sized.y ?? clearance), clearance, maxY)),
+  };
+}
+
+function findValidItemPlacement(item, others = state.items, bounds = cabinetBounds()) {
+  const base = fitItemInsideCabinet(item, bounds);
+  if (!placementErrors(base, others, bounds).length) return base;
+  const clearance = itemClearance(base);
+  const maxX = Math.max(clearance, bounds.width - clearance - base.w);
+  const maxY = Math.max(clearance, bounds.height - clearance - base.h);
+  for (let y = clearance; y <= maxY; y += STEP) {
+    for (let x = clearance; x <= maxX; x += STEP) {
+      const candidate = { ...base, x, y };
+      if (!placementErrors(candidate, others, bounds).length) return candidate;
+    }
+  }
+  return null;
+}
+
+function commitItemCandidate(id, patch) {
+  const item = state.items.find(entry => entry.id === id);
+  if (!item) return false;
+  const candidate = fitItemInsideCabinet({ ...item, ...patch });
+  const errors = placementErrors(candidate, state.items);
+  if (errors.length) {
+    state.constraintNotice = errors[0];
+    syncWorkflowPanel();
+    return false;
+  }
+  Object.assign(item, candidate);
+  state.constraintNotice = '';
+  return true;
+}
+
+function templateDimensionErrors(bounds = cabinetBounds()) {
+  if (!state.template) return [];
+  const rules = state.template.rawTemplate?.constraints?.dimensions ?? {};
+  const labels = { width: '가로', height: '세로', depth: '깊이' };
+  const values = { width: bounds.width, height: bounds.height, depth: bounds.depth };
+  const errors = [];
+  for (const [key, rule] of Object.entries(rules)) {
+    const value = Number(values[key]);
+    if (!Number.isFinite(value)) continue;
+    const label = labels[key] ?? key;
+    if (Number.isFinite(rule.min) && value < rule.min) errors.push(`${state.template.family} ${label}는 최소 ${rule.min}mm 이상이어야 합니다.`);
+    if (Number.isFinite(rule.max) && value > rule.max) errors.push(`${state.template.family} ${label}는 최대 ${rule.max}mm 이하여야 합니다.`);
+    if (Number.isFinite(rule.step) && rule.step > 0 && (value - (rule.min ?? 0)) % rule.step !== 0) {
+      errors.push(`${state.template.family} ${label}는 ${rule.step}mm 단위로만 조정할 수 있습니다.`);
+    }
+  }
+  return errors;
+}
+
+function validateDrawingState(candidate = {}) {
+  const bounds = cabinetBounds(candidate);
+  const items = candidate.items ?? state.items;
+  const led = candidate.led ?? state.led;
+  const errors = [];
+  if (state.mode) {
+    if (bounds.width < MIN_W || bounds.width > MAX_W) errors.push(`가로는 ${MIN_W}-${MAX_W}mm 범위여야 합니다.`);
+    if (bounds.height < MIN_H || bounds.height > MAX_H) errors.push(`세로는 ${MIN_H}-${MAX_H}mm 범위여야 합니다.`);
+    errors.push(...templateDimensionErrors(bounds));
+    if (led && bounds.height < GENERIC_CONSTRAINTS.minLedCabinetHeight) {
+      errors.push(`LED는 세로 ${GENERIC_CONSTRAINTS.minLedCabinetHeight}mm 이상 도면에서만 배치할 수 있습니다.`);
+    }
+    for (const item of items) {
+      errors.push(...placementErrors(item, items, bounds, led));
+    }
+  }
+  const uniqueErrors = [...new Set(errors)];
+  const notices = state.constraintNotice ? [state.constraintNotice] : [];
+  return {
+    valid: uniqueErrors.length === 0,
+    errors: uniqueErrors,
+    notices,
+  };
+}
+
+function commitDimensionCandidate(patch) {
+  const width = snapStep(clamp(Number(patch.width ?? state.cabinetW), MIN_W, MAX_W));
+  const height = snapStep(clamp(Number(patch.height ?? state.cabinetH), MIN_H, MAX_H));
+  const depth = clamp(Number(patch.depth ?? state.cabinetD), 100, 1200);
+  const validation = validateDrawingState({ width, height, depth });
+  if (!validation.valid) {
+    state.constraintNotice = validation.errors[0] ?? '현재 도면을 유지해야 하는 제한 규칙이 있습니다.';
+    syncWorkflowPanel();
+    document.getElementById('in-width').value = state.cabinetW;
+    document.getElementById('in-height').value = state.cabinetH;
+    render();
+    return false;
+  }
+  state.cabinetW = width;
+  state.cabinetH = height;
+  state.cabinetD = depth;
+  state.constraintNotice = '';
+  document.getElementById('in-width').value = state.cabinetW;
+  document.getElementById('in-height').value = state.cabinetH;
+  ensureHingeConfig();
+  refreshHingePanel();
+  syncWorkflowPanel();
+  render();
+  return true;
+}
+
+function updateConstraintPanel(validation = validateDrawingState()) {
+  if (!workflowEls.constraintStatus || !workflowEls.constraintList) return;
+  if (validation.valid) {
+    workflowEls.constraintStatus.className = 'constraint-status valid';
+    workflowEls.constraintStatus.textContent = '유효한 도면입니다. 저장과 공유가 가능합니다.';
+  } else {
+    workflowEls.constraintStatus.className = 'constraint-status blocked';
+    workflowEls.constraintStatus.textContent = '제한 규칙 때문에 현재 도면은 저장할 수 없습니다.';
+  }
+  const messages = [...validation.errors, ...validation.notices];
+  workflowEls.constraintList.innerHTML = messages.length
+    ? messages.map(message => `<li>${escapeHtml(message)}</li>`).join('')
+    : '<li>치수, 옵션 배치, 콘센트/LED 위치가 범용 제한 안에 있습니다.</li>';
 }
 
 /* ============================================================
@@ -1064,10 +1943,7 @@ function rebindAfterRender(_oldEl, id) {
       let ny = state.drag.origY + (cur.y - state.drag.startY);
       nx = snapStep(nx);
       ny = snapStep(ny);
-      nx = clamp(nx, 0, state.cabinetW - item.w);
-      ny = clamp(ny, 0, state.cabinetH - item.h);
-      item.x = nx;
-      item.y = ny;
+      commitItemCandidate(item.id, { x: nx, y: ny });
     } else if (state.drag.mode === 'resize-l') {
       const dx = cur.x - state.drag.startX;
       let newX = state.drag.origX + dx;
@@ -1083,7 +1959,7 @@ function rebindAfterRender(_oldEl, id) {
         newW = newW + newX;
         newX = 0;
       }
-      item.x = newX; item.w = newW;
+      commitItemCandidate(item.id, { x: newX, w: newW });
     } else if (state.drag.mode === 'resize-r') {
       const dx = cur.x - state.drag.startX;
       let newW = state.drag.origW + dx;
@@ -1091,17 +1967,14 @@ function rebindAfterRender(_oldEl, id) {
       const minW = OPT_DEFS[item.type].minW || 50;
       if (newW < minW) newW = minW;
       if (item.x + newW > state.cabinetW) newW = state.cabinetW - item.x;
-      item.w = newW;
+      commitItemCandidate(item.id, { w: newW });
     }
     render();
   };
   const onUp = e => {
-    if (state.drag) {
-      const item = state.items.find(x => x.id === state.drag.id);
-      if (item) clampItem(item);
-    }
     state.drag = null;
     refreshPlacedList();
+    syncWorkflowPanel();
     document.removeEventListener('pointermove', onMove);
     document.removeEventListener('pointerup', onUp);
     document.removeEventListener('pointercancel', onUp);
@@ -1156,14 +2029,7 @@ function attachCornerPointer(el) {
       if (corner === 'tr' || corner === 'tl') nH = state.cabinetDrag.origH - dy;
       nW = snapStep(clamp(nW, MIN_W, MAX_W));
       nH = snapStep(clamp(nH, MIN_H, MAX_H));
-      state.cabinetW = nW;
-      state.cabinetH = nH;
-      document.getElementById('in-width').value = nW;
-      document.getElementById('in-height').value = nH;
-      clampAllItems();
-      ensureHingeConfig();
-      refreshHingePanel();
-      render();
+      commitDimensionCandidate({ width: nW, height: nH });
     };
     const onUp = () => {
       state.cabinetDrag = null;
@@ -1209,6 +2075,13 @@ window.addEventListener('resize', () => {
 document.getElementById('btn-summary').addEventListener('click', () => {
   const body = document.getElementById('summary-body');
   const lines = [];
+  const asset = activeAsset();
+  lines.push(`<div class="summary-grp">
+    <h5>Drawing Asset</h5>
+    <div class="summary-row"><span class="lbl">도면명</span><span class="val">${escapeHtml(asset?.title ?? workflowEls.title?.value.trim() ?? defaultAssetTitle())}</span></div>
+    <div class="summary-row"><span class="lbl">검토 상태</span><span class="val">${escapeHtml(REVIEW_STATUS[asset?.reviewStatus ?? state.reviewStatus] ?? '작성중')}</span></div>
+    <div class="summary-row"><span class="lbl">댓글 수</span><span class="val">${escapeHtml((asset?.comments ?? state.comments ?? []).length)}</span></div>
+  </div>`);
   lines.push(`<div class="summary-grp">
     <h5>Product</h5>
     <div class="summary-row"><span class="lbl">제품명</span><span class="val">${state.template ? escapeHtml(state.template.name) : '직접 그리기 (Custom)'}</span></div>
@@ -1255,6 +2128,12 @@ document.getElementById('btn-summary').addEventListener('click', () => {
       <div class="summary-row"><span class="lbl">색온도</span><span class="val">${LED_NAMES[state.led]}</span></div>
     </div>`);
   }
+  const validation = validateDrawingState();
+  lines.push(`<div class="summary-grp">
+    <h5>Validation</h5>
+    <div class="summary-row"><span class="lbl">상태</span><span class="val">${validation.valid ? '유효 · 저장 가능' : '차단 · 수정 필요'}</span></div>
+    ${validation.errors.map(error => `<div class="summary-row"><span class="lbl">제한</span><span class="val">${escapeHtml(error)}</span></div>`).join('')}
+  </div>`);
 
   body.innerHTML = lines.join('');
   openSummaryModal();
@@ -1281,7 +2160,10 @@ document.addEventListener('keydown', e => {
 });
 
 document.getElementById('btn-copy').addEventListener('click', async () => {
-  let txt = '[비규격 발주서]\n';
+  const asset = activeAsset();
+  let txt = '[도면 관리 자산]\n';
+  txt += `도면명: ${asset?.title ?? workflowEls.title?.value.trim() ?? defaultAssetTitle()}\n`;
+  txt += `검토 상태: ${REVIEW_STATUS[asset?.reviewStatus ?? state.reviewStatus] ?? '작성중'}\n`;
   txt += `제품: ${state.template ? state.template.name + ' (' + state.template.code + ')' : '직접 그리기 (CUSTOM)'}\n`;
   if (state.template) txt += `제품군: ${state.template.family}\n`;
   txt += `치수: ${state.cabinetW} × ${state.cabinetH} × ${state.cabinetD} mm\n`;
@@ -1305,6 +2187,13 @@ document.getElementById('btn-copy').addEventListener('click', async () => {
     });
   }
   if (state.led) txt += `\nLED: ${LED_NAMES[state.led]}\n`;
+  const comments = asset?.comments ?? state.comments ?? [];
+  if (comments.length) {
+    txt += `\n[댓글/피드백]\n`;
+    comments.forEach((comment, idx) => {
+      txt += `${idx + 1}. ${comment.author}: ${comment.text}\n`;
+    });
+  }
   await copyText(txt);
   const btn = document.getElementById('btn-copy');
   const old = btn.textContent;
@@ -1356,4 +2245,5 @@ document.head.appendChild(printStyle);
 loadDwgSampleTemplates().catch(error => {
   console.error('Failed to preload DWG sample templates', error);
 });
+hydrateAssets();
 showScreen('home');

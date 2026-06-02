@@ -1,0 +1,19 @@
+services:
+  cabione-web:
+    build:
+      context: .
+    container_name: cabione-web
+    environment:
+      PORT: "4173"
+      DATA_DIR: "/app/.data"
+    ports:
+      - "4173:4173"
+    volumes:
+      - cabione-data:/app/.data
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: unless-stopped
+
+volumes:
+  cabione-data:

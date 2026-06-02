@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>욕실가구 비규격 발주서</title>
+    <link rel="icon" href="data:," />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -17,7 +18,7 @@
   <div class="home-shell">
     <div class="home-eyebrow">CUSTOM ORDER · 비규격 발주서</div>
     <h1 class="home-title">맞춤 도면을<br>직접 <span class="accent">설계하세요</span></h1>
-    <p class="home-sub">기존 모델을 선택하거나 처음부터 직접 그려서 옵션을 자유롭게 추가할 수 있습니다.</p>
+    <p class="home-sub">기존 모델을 선택하거나 처음부터 직접 그려서 유효한 도면 자산으로 저장하고 관리자 검토까지 이어갑니다.</p>
 
     <div class="home-choices">
       <button class="choice-card" data-action="template">
@@ -46,6 +47,20 @@
         <p>빈 도면에서 치수를 조정하며 처음부터 만듭니다.</p>
         <div class="arrow">→</div>
       </button>
+
+      <button class="choice-card" data-action="dashboard">
+        <div class="choice-num">03 / REVIEW</div>
+        <div class="choice-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="5" y="7" width="30" height="26" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 14h12M11 20h18M11 26h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M27 13l2 2 4-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>업무 확인</h3>
+        <p>승인 요청, 반려 피드백, 댓글 알림을 한 번에 확인합니다.</p>
+        <div class="arrow">→</div>
+      </button>
     </div>
   </div>
 </div>
@@ -64,6 +79,71 @@
   </div>
 </div>
 
+<!-- DASHBOARD SCREEN -->
+<div class="screen" id="dashboard-screen">
+  <header class="top-bar ops-top">
+    <button class="back-btn" data-back="home" aria-label="뒤로">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <h2>업무 대시보드</h2>
+    <div class="ops-role-switch">
+      <span id="ops-role-label">관리자</span>
+      <select id="ops-role-select" aria-label="대시보드 역할 선택">
+        <option value="admin">관리자</option>
+        <option value="sales">영업 사원</option>
+      </select>
+    </div>
+  </header>
+  <main class="ops-shell">
+    <section class="ops-summary" id="ops-summary" aria-label="검토 상태 요약"></section>
+
+    <section class="ops-notification-band">
+      <div class="ops-section-head">
+        <div>
+          <span class="ops-kicker">NOTIFICATIONS</span>
+          <h3>댓글 알림</h3>
+        </div>
+        <span class="ops-meta" id="ops-notification-meta">0</span>
+      </div>
+      <div class="ops-notification-list" id="ops-notification-list"></div>
+    </section>
+
+    <section class="ops-workspace">
+      <aside class="ops-queue-panel">
+        <div class="ops-section-head">
+          <div>
+            <span class="ops-kicker">QUEUE</span>
+            <h3>도면 목록</h3>
+          </div>
+          <span class="ops-meta" id="ops-queue-count">0</span>
+        </div>
+        <div class="ops-filter" id="ops-filter" aria-label="검토 상태 필터">
+          <button type="button" data-dashboard-filter="all" class="active">전체</button>
+          <button type="button" data-dashboard-filter="in_review">검토중</button>
+          <button type="button" data-dashboard-filter="rejected">반려</button>
+          <button type="button" data-dashboard-filter="approved">승인</button>
+          <button type="button" data-dashboard-filter="draft">작성중</button>
+        </div>
+        <div class="ops-queue" id="ops-queue"></div>
+      </aside>
+
+      <section class="ops-detail">
+        <div class="ops-detail-head" id="ops-detail-head"></div>
+        <div class="ops-thread" id="ops-thread" aria-live="polite"></div>
+        <div class="ops-composer">
+          <textarea id="ops-comment-input" rows="3" placeholder="댓글 또는 피드백을 입력하세요."></textarea>
+          <div class="ops-actions">
+            <button class="btn-secondary" id="ops-open-editor" type="button">도면 열기</button>
+            <button class="btn-secondary" id="ops-comment-send" type="button">댓글 보내기</button>
+            <button class="btn-approve" id="ops-approve" type="button">승인</button>
+            <button class="btn-reject" id="ops-reject" type="button">반려</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
 <!-- EDITOR SCREEN -->
 <div class="screen" id="editor-screen">
   <aside class="panel" id="left-panel">
@@ -78,8 +158,55 @@
     </div>
 
     <div class="panel-body">
-      <div class="panel-section">
-        <h4>치수 (Dimensions)</h4>
+      <div class="workflow-strip" aria-live="polite">
+        <div>
+          <span class="workflow-label">현재 역할</span>
+          <strong id="role-label">영업 사원</strong>
+        </div>
+        <select id="role-select" aria-label="역할 선택">
+          <option value="sales">영업 사원</option>
+          <option value="admin">관리자</option>
+        </select>
+        <span class="status-chip draft" id="asset-status">새 도면</span>
+      </div>
+
+      <div class="panel-section asset-panel">
+        <h4>도면 자산 / 검토</h4>
+        <div class="field">
+          <label>도면명</label>
+          <div class="field-input">
+            <input type="text" id="asset-title" placeholder="고객명 또는 현장명" />
+          </div>
+        </div>
+        <div class="asset-actions">
+          <button class="btn-secondary" id="btn-save-asset" type="button">도면 저장</button>
+          <button class="btn-primary" id="btn-share-asset" type="button">관리자 공유</button>
+        </div>
+        <div class="asset-list" id="asset-list">
+          <div class="empty-hint">저장된 도면이 없습니다.</div>
+        </div>
+        <div class="comment-box">
+          <label for="comment-input">댓글 / 문의 / 피드백</label>
+          <textarea id="comment-input" rows="3" placeholder="도면에 남길 내용을 입력하세요."></textarea>
+          <button class="btn-secondary" id="btn-add-comment" type="button">댓글 남기기</button>
+        </div>
+        <div class="admin-actions" id="admin-actions" hidden>
+          <button class="btn-approve" id="btn-approve" type="button">승인</button>
+          <button class="btn-reject" id="btn-reject" type="button">반려</button>
+        </div>
+        <div class="comment-list" id="comment-list">
+          <div class="empty-hint">아직 댓글이 없습니다.</div>
+        </div>
+      </div>
+
+      <div class="panel-section constraint-panel">
+        <h4>제한 / 검증</h4>
+        <div class="constraint-status valid" id="constraint-status">유효한 도면입니다.</div>
+        <ul class="constraint-list" id="constraint-list"></ul>
+      </div>
+
+      <div class="panel-section dimension-panel">
+        <h4>치수</h4>
         <div class="field-row">
           <div class="field">
             <label>가로 W</label>
@@ -169,8 +296,8 @@
         </div>
       </div>
 
-      <div class="panel-section">
-        <h4>옵션 추가 (Add)</h4>
+      <div class="panel-section add-options-panel">
+        <h4>옵션 추가</h4>
         <div class="opt-list">
           <div class="opt-add" data-add="shelf">
             <span class="opt-name">
@@ -203,7 +330,7 @@
         </div>
       </div>
 
-      <div class="panel-section">
+      <div class="panel-section led-panel">
         <h4>LED 색온도</h4>
         <div class="led-options">
           <div class="led-pill" data-led="warm">
@@ -221,7 +348,7 @@
         </div>
       </div>
 
-      <div class="panel-section">
+      <div class="panel-section placed-panel">
         <h4>배치된 항목</h4>
         <div class="placed-list" id="placed-list">
           <div class="empty-hint">아직 추가된 옵션이 없습니다.</div>
@@ -230,7 +357,7 @@
     </div>
 
     <div class="panel-foot">
-      <button class="btn-primary" id="btn-summary">발주서 미리보기</button>
+      <button class="btn-primary" id="btn-summary">도면 요약 / 출력</button>
     </div>
   </aside>
 
@@ -262,14 +389,14 @@
 <div class="modal-backdrop" id="summary-modal">
   <div class="modal">
     <div class="modal-head">
-      <h3>발주서 미리보기</h3>
+      <h3>도면 요약</h3>
       <button class="modal-close" id="modal-close">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </button>
     </div>
     <div class="modal-body" id="summary-body"></div>
     <div class="modal-foot">
-      <button class="btn-secondary" id="btn-copy">텍스트 복사</button>
+      <button class="btn-secondary" id="btn-copy">자산 정보 복사</button>
       <button class="btn-primary" id="btn-print">인쇄/PDF 저장</button>
     </div>
   </div>
