@@ -10,7 +10,7 @@
     "typecheck": "npm run check",
     "lint": "node tools/lint-basic.mjs",
     "build": "npm run check && npm run lint && npm test",
-    "vercel:build": "npm run build && rm -rf dist && mkdir -p dist && cp index.html dist/index.html && cp -R src dist/src"
+    "vercel:build": "rm -rf dist && mkdir -p dist && cp index.html dist/index.html && cp -R src dist/src"
   },
   "dependencies": {
     "@node-projects/acad-ts": "^2.3.0"
