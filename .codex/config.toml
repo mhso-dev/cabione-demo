@@ -1,2 +1,3 @@
 [mcp_servers.vercel]
 url = "https://mcp.vercel.com"
+bearer_token_env_var = "VERCEL_TOKEN"

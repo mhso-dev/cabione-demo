@@ -1,6 +1,7 @@
 .codex/*
 !.codex/config.toml
 .omx/
+.vercel/
 AGENTS.md
 node_modules/
 dist/
