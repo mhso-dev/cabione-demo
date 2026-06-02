@@ -9,8 +9,10 @@
     "check": "node --check src/main.js && node --check src/workflow.js && node --check docker/static-server.mjs",
     "typecheck": "npm run check",
     "lint": "node tools/lint-basic.mjs",
-    "build": "npm run check && npm run lint && npm test",
-    "vercel:build": "rm -rf dist && mkdir -p dist && cp index.html dist/index.html && cp -R src dist/src"
+    "verify": "npm run check && npm run lint && npm test",
+    "build": "npm run build:static",
+    "build:static": "rm -rf dist && mkdir -p dist && cp index.html dist/index.html && cp -R src dist/src",
+    "vercel:build": "npm run build:static"
   },
   "dependencies": {
     "@node-projects/acad-ts": "^2.3.0"

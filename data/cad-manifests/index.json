@@ -36,10 +36,10 @@
   },
   "entries": [
     {
-      "id": "3도어장-2104",
-      "displayName": "3도어장_2104",
-      "evidencePath": "data/cad-evidence/3도어장-2104.json",
-      "templatePath": "data/draft-templates/3도어장-2104.json",
+      "id": "3도어장-2104",
+      "displayName": "3도어장_2104",
+      "evidencePath": "data/cad-evidence/3도어장-2104.json",
+      "templatePath": "data/draft-templates/3도어장-2104.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 96,
@@ -47,10 +47,10 @@
       "textCount": 3
     },
     {
-      "id": "3도어장-4104",
-      "displayName": "3도어장_4104",
-      "evidencePath": "data/cad-evidence/3도어장-4104.json",
-      "templatePath": "data/draft-templates/3도어장-4104.json",
+      "id": "3도어장-4104",
+      "displayName": "3도어장_4104",
+      "evidencePath": "data/cad-evidence/3도어장-4104.json",
+      "templatePath": "data/draft-templates/3도어장-4104.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 105,
@@ -58,10 +58,10 @@
       "textCount": 4
     },
     {
-      "id": "상부장-200",
-      "displayName": "상부장_200",
-      "evidencePath": "data/cad-evidence/상부장-200.json",
-      "templatePath": "data/draft-templates/상부장-200.json",
+      "id": "상부장-200",
+      "displayName": "상부장_200",
+      "evidencePath": "data/cad-evidence/상부장-200.json",
+      "templatePath": "data/draft-templates/상부장-200.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 64,
@@ -69,10 +69,10 @@
       "textCount": 0
     },
     {
-      "id": "상부장-230r",
-      "displayName": "상부장_230R",
-      "evidencePath": "data/cad-evidence/상부장-230r.json",
-      "templatePath": "data/draft-templates/상부장-230r.json",
+      "id": "상부장-230r",
+      "displayName": "상부장_230R",
+      "evidencePath": "data/cad-evidence/상부장-230r.json",
+      "templatePath": "data/draft-templates/상부장-230r.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 81,
@@ -80,10 +80,10 @@
       "textCount": 1
     },
     {
-      "id": "상부장-802",
-      "displayName": "상부장_802",
-      "evidencePath": "data/cad-evidence/상부장-802.json",
-      "templatePath": "data/draft-templates/상부장-802.json",
+      "id": "상부장-802",
+      "displayName": "상부장_802",
+      "evidencePath": "data/cad-evidence/상부장-802.json",
+      "templatePath": "data/draft-templates/상부장-802.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 57,
@@ -91,10 +91,10 @@
       "textCount": 0
     },
     {
-      "id": "상부장-808",
-      "displayName": "상부장_808",
-      "evidencePath": "data/cad-evidence/상부장-808.json",
-      "templatePath": "data/draft-templates/상부장-808.json",
+      "id": "상부장-808",
+      "displayName": "상부장_808",
+      "evidencePath": "data/cad-evidence/상부장-808.json",
+      "templatePath": "data/draft-templates/상부장-808.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 79,
@@ -102,10 +102,10 @@
       "textCount": 1
     },
     {
-      "id": "슬라이징장-4001",
-      "displayName": "슬라이징장_4001",
-      "evidencePath": "data/cad-evidence/슬라이징장-4001.json",
-      "templatePath": "data/draft-templates/슬라이징장-4001.json",
+      "id": "슬라이징장-4001",
+      "displayName": "슬라이징장_4001",
+      "evidencePath": "data/cad-evidence/슬라이징장-4001.json",
+      "templatePath": "data/draft-templates/슬라이징장-4001.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 554,
@@ -113,10 +113,10 @@
       "textCount": 4
     },
     {
-      "id": "슬라이징장-4003",
-      "displayName": "슬라이징장_4003",
-      "evidencePath": "data/cad-evidence/슬라이징장-4003.json",
-      "templatePath": "data/draft-templates/슬라이징장-4003.json",
+      "id": "슬라이징장-4003",
+      "displayName": "슬라이징장_4003",
+      "evidencePath": "data/cad-evidence/슬라이징장-4003.json",
+      "templatePath": "data/draft-templates/슬라이징장-4003.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 542,
@@ -124,10 +124,10 @@
       "textCount": 4
     },
     {
-      "id": "슬라이징장-4103",
-      "displayName": "슬라이징장_4103",
-      "evidencePath": "data/cad-evidence/슬라이징장-4103.json",
-      "templatePath": "data/draft-templates/슬라이징장-4103.json",
+      "id": "슬라이징장-4103",
+      "displayName": "슬라이징장_4103",
+      "evidencePath": "data/cad-evidence/슬라이징장-4103.json",
+      "templatePath": "data/draft-templates/슬라이징장-4103.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 541,
@@ -135,10 +135,10 @@
       "textCount": 4
     },
     {
-      "id": "플랩장-5100",
-      "displayName": "플랩장_5100",
-      "evidencePath": "data/cad-evidence/플랩장-5100.json",
-      "templatePath": "data/draft-templates/플랩장-5100.json",
+      "id": "플랩장-5100",
+      "displayName": "플랩장_5100",
+      "evidencePath": "data/cad-evidence/플랩장-5100.json",
+      "templatePath": "data/draft-templates/플랩장-5100.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 66,
@@ -146,10 +146,10 @@
       "textCount": 1
     },
     {
-      "id": "하부장-2000",
-      "displayName": "하부장_2000",
-      "evidencePath": "data/cad-evidence/하부장-2000.json",
-      "templatePath": "data/draft-templates/하부장-2000.json",
+      "id": "하부장-2000",
+      "displayName": "하부장_2000",
+      "evidencePath": "data/cad-evidence/하부장-2000.json",
+      "templatePath": "data/draft-templates/하부장-2000.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 130,
@@ -157,10 +157,10 @@
       "textCount": 5
     },
     {
-      "id": "하부장-2100",
-      "displayName": "하부장_2100",
-      "evidencePath": "data/cad-evidence/하부장-2100.json",
-      "templatePath": "data/draft-templates/하부장-2100.json",
+      "id": "하부장-2100",
+      "displayName": "하부장_2100",
+      "evidencePath": "data/cad-evidence/하부장-2100.json",
+      "templatePath": "data/draft-templates/하부장-2100.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 72,
@@ -168,10 +168,10 @@
       "textCount": 1
     },
     {
-      "id": "하부장-50a",
-      "displayName": "하부장_50A",
-      "evidencePath": "data/cad-evidence/하부장-50a.json",
-      "templatePath": "data/draft-templates/하부장-50a.json",
+      "id": "하부장-50a",
+      "displayName": "하부장_50A",
+      "evidencePath": "data/cad-evidence/하부장-50a.json",
+      "templatePath": "data/draft-templates/하부장-50a.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 77,
@@ -179,10 +179,10 @@
       "textCount": 4
     },
     {
-      "id": "하부장-8008-다리",
-      "displayName": "하부장_8008 다리",
-      "evidencePath": "data/cad-evidence/하부장-8008-다리.json",
-      "templatePath": "data/draft-templates/하부장-8008-다리.json",
+      "id": "하부장-8008-다리",
+      "displayName": "하부장_8008 다리",
+      "evidencePath": "data/cad-evidence/하부장-8008-다리.json",
+      "templatePath": "data/draft-templates/하부장-8008-다리.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 149,
@@ -190,10 +190,10 @@
       "textCount": 6
     },
     {
-      "id": "하부장-8008-벽걸이",
-      "displayName": "하부장_8008 벽걸이",
-      "evidencePath": "data/cad-evidence/하부장-8008-벽걸이.json",
-      "templatePath": "data/draft-templates/하부장-8008-벽걸이.json",
+      "id": "하부장-8008-벽걸이",
+      "displayName": "하부장_8008 벽걸이",
+      "evidencePath": "data/cad-evidence/하부장-8008-벽걸이.json",
+      "templatePath": "data/draft-templates/하부장-8008-벽걸이.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 99,
@@ -201,10 +201,10 @@
       "textCount": 6
     },
     {
-      "id": "하부장-8100",
-      "displayName": "하부장_8100",
-      "evidencePath": "data/cad-evidence/하부장-8100.json",
-      "templatePath": "data/draft-templates/하부장-8100.json",
+      "id": "하부장-8100",
+      "displayName": "하부장_8100",
+      "evidencePath": "data/cad-evidence/하부장-8100.json",
+      "templatePath": "data/draft-templates/하부장-8100.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 143,
@@ -212,10 +212,10 @@
       "textCount": 4
     },
     {
-      "id": "하부장-w1200-4도어-다리",
-      "displayName": "하부장_W1200_4도어 다리",
-      "evidencePath": "data/cad-evidence/하부장-w1200-4도어-다리.json",
-      "templatePath": "data/draft-templates/하부장-w1200-4도어-다리.json",
+      "id": "하부장-w1200-4도어-다리",
+      "displayName": "하부장_W1200_4도어 다리",
+      "evidencePath": "data/cad-evidence/하부장-w1200-4도어-다리.json",
+      "templatePath": "data/draft-templates/하부장-w1200-4도어-다리.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 146,
@@ -223,10 +223,10 @@
       "textCount": 4
     },
     {
-      "id": "하부장-w1200-4도어-벽걸이",
-      "displayName": "하부장_W1200_4도어 벽걸이",
-      "evidencePath": "data/cad-evidence/하부장-w1200-4도어-벽걸이.json",
-      "templatePath": "data/draft-templates/하부장-w1200-4도어-벽걸이.json",
+      "id": "하부장-w1200-4도어-벽걸이",
+      "displayName": "하부장_W1200_4도어 벽걸이",
+      "evidencePath": "data/cad-evidence/하부장-w1200-4도어-벽걸이.json",
+      "templatePath": "data/draft-templates/하부장-w1200-4도어-벽걸이.json",
       "dwgExtractionStatus": "entity_extracted",
       "directInspection": true,
       "entityCount": 92,
@@ -449,73 +449,73 @@
   "schema_version": "track-b-index.v1",
   "sample_count": 18,
   "manifests": [
-    "data/cad-evidence/3도어장-2104.json",
-    "data/cad-evidence/3도어장-4104.json",
-    "data/cad-evidence/상부장-200.json",
-    "data/cad-evidence/상부장-230r.json",
-    "data/cad-evidence/상부장-802.json",
-    "data/cad-evidence/상부장-808.json",
-    "data/cad-evidence/슬라이징장-4001.json",
-    "data/cad-evidence/슬라이징장-4003.json",
-    "data/cad-evidence/슬라이징장-4103.json",
-    "data/cad-evidence/플랩장-5100.json",
-    "data/cad-evidence/하부장-2000.json",
-    "data/cad-evidence/하부장-2100.json",
-    "data/cad-evidence/하부장-50a.json",
-    "data/cad-evidence/하부장-8008-다리.json",
-    "data/cad-evidence/하부장-8008-벽걸이.json",
-    "data/cad-evidence/하부장-8100.json",
-    "data/cad-evidence/하부장-w1200-4도어-다리.json",
-    "data/cad-evidence/하부장-w1200-4도어-벽걸이.json"
+    "data/cad-evidence/3도어장-2104.json",
+    "data/cad-evidence/3도어장-4104.json",
+    "data/cad-evidence/상부장-200.json",
+    "data/cad-evidence/상부장-230r.json",
+    "data/cad-evidence/상부장-802.json",
+    "data/cad-evidence/상부장-808.json",
+    "data/cad-evidence/슬라이징장-4001.json",
+    "data/cad-evidence/슬라이징장-4003.json",
+    "data/cad-evidence/슬라이징장-4103.json",
+    "data/cad-evidence/플랩장-5100.json",
+    "data/cad-evidence/하부장-2000.json",
+    "data/cad-evidence/하부장-2100.json",
+    "data/cad-evidence/하부장-50a.json",
+    "data/cad-evidence/하부장-8008-다리.json",
+    "data/cad-evidence/하부장-8008-벽걸이.json",
+    "data/cad-evidence/하부장-8100.json",
+    "data/cad-evidence/하부장-w1200-4도어-다리.json",
+    "data/cad-evidence/하부장-w1200-4도어-벽걸이.json"
   ],
   "draft_templates": [
-    "data/draft-templates/3도어장-2104.json",
-    "data/draft-templates/3도어장-4104.json",
-    "data/draft-templates/상부장-200.json",
-    "data/draft-templates/상부장-230r.json",
-    "data/draft-templates/상부장-802.json",
-    "data/draft-templates/상부장-808.json",
-    "data/draft-templates/슬라이징장-4001.json",
-    "data/draft-templates/슬라이징장-4003.json",
-    "data/draft-templates/슬라이징장-4103.json",
-    "data/draft-templates/플랩장-5100.json",
-    "data/draft-templates/하부장-2000.json",
-    "data/draft-templates/하부장-2100.json",
-    "data/draft-templates/하부장-50a.json",
-    "data/draft-templates/하부장-8008-다리.json",
-    "data/draft-templates/하부장-8008-벽걸이.json",
-    "data/draft-templates/하부장-8100.json",
-    "data/draft-templates/하부장-w1200-4도어-다리.json",
-    "data/draft-templates/하부장-w1200-4도어-벽걸이.json"
+    "data/draft-templates/3도어장-2104.json",
+    "data/draft-templates/3도어장-4104.json",
+    "data/draft-templates/상부장-200.json",
+    "data/draft-templates/상부장-230r.json",
+    "data/draft-templates/상부장-802.json",
+    "data/draft-templates/상부장-808.json",
+    "data/draft-templates/슬라이징장-4001.json",
+    "data/draft-templates/슬라이징장-4003.json",
+    "data/draft-templates/슬라이징장-4103.json",
+    "data/draft-templates/플랩장-5100.json",
+    "data/draft-templates/하부장-2000.json",
+    "data/draft-templates/하부장-2100.json",
+    "data/draft-templates/하부장-50a.json",
+    "data/draft-templates/하부장-8008-다리.json",
+    "data/draft-templates/하부장-8008-벽걸이.json",
+    "data/draft-templates/하부장-8100.json",
+    "data/draft-templates/하부장-w1200-4도어-다리.json",
+    "data/draft-templates/하부장-w1200-4도어-벽걸이.json"
   ],
   "family_templates": {
     "base_cabinet": [
-      "data/draft-templates/하부장-2000.json",
-      "data/draft-templates/하부장-2100.json",
-      "data/draft-templates/하부장-50a.json",
-      "data/draft-templates/하부장-8008-다리.json",
-      "data/draft-templates/하부장-8008-벽걸이.json",
-      "data/draft-templates/하부장-8100.json",
-      "data/draft-templates/하부장-w1200-4도어-다리.json",
-      "data/draft-templates/하부장-w1200-4도어-벽걸이.json"
+      "data/draft-templates/하부장-2000.json",
+      "data/draft-templates/하부장-2100.json",
+      "data/draft-templates/하부장-50a.json",
+      "data/draft-templates/하부장-8008-다리.json",
+      "data/draft-templates/하부장-8008-벽걸이.json",
+      "data/draft-templates/하부장-8100.json",
+      "data/draft-templates/하부장-w1200-4도어-다리.json",
+      "data/draft-templates/하부장-w1200-4도어-벽걸이.json"
     ],
     "wall_cabinet": [
-      "data/draft-templates/상부장-200.json",
-      "data/draft-templates/상부장-230r.json",
-      "data/draft-templates/상부장-802.json",
-      "data/draft-templates/상부장-808.json"
+      "data/draft-templates/상부장-200.json",
+      "data/draft-templates/상부장-230r.json",
+      "data/draft-templates/상부장-802.json",
+      "data/draft-templates/상부장-808.json"
     ],
     "sliding_cabinet": [
-      "data/draft-templates/슬라이징장-4001.json",
-      "data/draft-templates/슬라이징장-4003.json",
-      "data/draft-templates/슬라이징장-4103.json"
+      "data/draft-templates/슬라이징장-4001.json",
+      "data/draft-templates/슬라이징장-4003.json",
+      "data/draft-templates/슬라이징장-4103.json"
     ],
     "three_door_cabinet": [
-      "data/draft-templates/3도어장-2104.json",
-      "data/draft-templates/3도어장-4104.json"
+      "data/draft-templates/3도어장-2104.json",
+      "data/draft-templates/3도어장-4104.json"
     ],
     "flap_cabinet": [
-      "data/draft-templates/플랩장-5100.json"
+      "data/draft-templates/플랩장-5100.json"
     ]
   }
 }
